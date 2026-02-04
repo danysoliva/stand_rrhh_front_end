@@ -1,0 +1,52 @@
+<h1 style="text-align:center;">Noticias</h1>
+<!-- <p>home works!</p> -->
+<!-- <dx-gallery #gallery id="gallery" [dataSource]="filesDataSource" width="100%" style="display: inline;"
+    [loop]="true" [swipeEnabled]="true" [showNavButtons]="true"
+    [showIndicator]="true">
+</dx-gallery> -->
+
+
+<!-- <swiper
+[spaceBetween]="30"
+[centeredSlides]="true"
+[centeredSlidesBounds]="true"
+[autoplay]="{
+  delay: 2500,
+  disableOnInteraction: false
+}"
+[pagination]="{
+  clickable: true
+}"
+[navigation]="true"
+class="mySwiper"
+>
+<ng-template swiperSlide><img style="width: 100%;" src="assets/images/camera1.jpg" alt="First slide"></ng-template>
+<ng-template swiperSlide><img style="width: 100%;" src="assets/images/camera2.jpg" alt="First slide"></ng-template>
+<ng-template swiperSlide><img style="width: 100%;" src="assets/images/camera3.jpg" alt="First slide"></ng-template>
+<ng-template swiperSlide><img style="width: 100%;" src="assets/images/camera4.jpg" alt="First slide"></ng-template>
+</swiper> -->
+<div >
+
+  <!-- <swiper effect="fade" [spaceBetween]="30" [centeredSlides]="true" *ngFor="let url of noticias"
+    [autoplay]="{ delay: 8000, disableOnInteraction: false}" class="mySwiper">
+    <ng-template swiperSlide><img *ngFor="let img of noticias" style="width: 100%;" [src]= img.fullPath /></ng-template>
+     <ng-template swiperSlide><img style="width: 100%;" src="assets/images/camera1.jpg" /></ng-template>
+    <ng-template swiperSlide><img style="width: 100%;" src="assets/images/camera2.jpg" /></ng-template>
+    <ng-template swiperSlide><img style="width: 100%;" rc="assets/images/camera3.jpg" /></ng-template>  
+  </swiper> -->
+
+
+   <!-- <swiper [config]="config" >
+    <div class="swiper-wrapper">
+      <img style="height: 800px; width: auto; object-fit: cover;" class="swiper-slide" *ngFor="let img of noticias" [src]="img.fullPath" />
+    </div>  
+  </swiper>   -->
+
+  <div id="swiper" class="mySwiper">
+    <div class="swiper-wrapper">
+       
+        <img style="height: 800px; width: auto; object-fit: cover;" class="swiper-slide" *ngFor="let img of noticias" [src]="img.fullPath" />
+    </div>
+  </div>
+
+</div>

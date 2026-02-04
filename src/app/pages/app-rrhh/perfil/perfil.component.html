@@ -1,0 +1,223 @@
+<!-- <p>perfil works!</p> -->
+
+<div class="row">
+    <!-- <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3"> -->
+    <div class="col-lg-6 col-md-6">
+        <nb-card class="inline-form-card card-rounded">
+            <!-- <nb-card-header>Inline form</nb-card-header> -->
+            <nb-card-body>
+                <div class="d-flex">
+                    <img [src]="perfil.pictureProfile" style="border-radius: 52px">
+                    <span class="name">{{perfil.name}}</span>
+                </div>
+                <hr>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">Cumpleaños</span>
+                        <span class="value">{{perfil.birthday}}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">Departamento</span>
+                        <span class="value">{{perfil.department}}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">Puesto</span>
+                        <span class="value">{{perfil.jobName}}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">No. Celular</span>
+                        <span class="value">{{perfil.mobilePhone}}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">Correo Electrónico</span>
+                        <span class="value">{{perfil.workEmail}}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">Género</span>
+                        <span class="value">{{perfil.gender}}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">Altura</span>
+                        <span class="value">{{perfil.height}}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">Peso</span>
+                        <span class="value">{{perfil.weigth}}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">Talla de Camisa</span>
+                        <span class="value">{{perfil.shirtSize}}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">Talla de Pantalon</span>
+                        <span class="value">{{perfil.pantSize}}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="d-flex">
+                        <span class="title">Talla de Zapato</span>
+                        <span class="value">{{perfil.shoeSize}}</span>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <nb-card class="inline-form-card card-rounded">
+
+            <nb-card-body>
+                <div class="d-flex">
+                    <span style="font-size: 18px;font-weight:bold;">Planilla</span>
+                </div>
+                <hr>
+                <div style="    display: flex;   align-items: center; justify-content: center">
+
+                    <dx-select-box [dataSource]="nominasEncabezado" displayExpr="name" valueExpr="id"
+                        [searchMode]="searchModeOption" [searchExpr]="searchExprOption"
+                        [searchTimeout]="searchTimeoutOption" [minSearchLength]="minSearchLengthOption"
+                        [searchEnabled]="true" [showDataBeforeSearch]="showDataBeforeSearchOption"
+                        placeholder="Seleccione una planilla" width="500" [formControl]="planilla"></dx-select-box>
+
+                    <dx-button icon="check" type="success" text="Ver" style="min-width: 80px;"
+                        (click)="solicitarPlanilla()">
+                    </dx-button>
+
+                    <dx-button icon="check" type="success" text="Enviar Correo" style="min-width: 80px;"
+                    (click)="enviarVoucher()">
+                </dx-button>
+                    <!-- <button nbButton outline type="button" status="warning" icon="email-outline" pack="eva"
+                            style="padding-left: 10px; padding-right: 10px; white-space: break-spaces;"
+                            class="float-r m-r-5" (click)="enviarVoucher()">Enviar Correo
+                            <nb-icon icon="email" pack="eva"></nb-icon>
+                        </button> -->
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card class="inline-form-card card-rounded">
+            <nb-card-body>
+                <div class="d-flex">
+                    <span style="font-size: 18px;font-weight:bold;">Detalle de Horarios</span>
+                </div>
+                <hr>
+
+                <form class="form-group row" [formGroup]="rangoFechasForm" (submit)="filtrar()" style="margin: 0px;">
+                    <div style="text-align:center; display: flex; margin-right: 10px;">
+                        <div style="display: grid; margin-right: 10px;">
+                            <span style="margin-right: 10px;line-height: 18px; text-align: left;">Fecha Inicio:</span>
+                            <dx-date-box formControlName="fechai" [value]="now" type="date" displayFormat="dd/MM/yyyy"
+                                pickerType="rollers" style="max-width: 130px;"> </dx-date-box>
+                        </div>
+                        <div style="display: grid;">
+                            <span style="margin-right: 10px; line-height: 18px; text-align: left;">Fecha Fin:</span>
+                            <dx-date-box formControlName="fechaf" [value]="now" type="date" displayFormat="dd/MM/yyyy"
+                                pickerType="rollers" style="max-width: 130px;"> </dx-date-box>
+                        </div>
+                    </div>
+                    <div style="display: flex;margin-top: 10px;">
+                        <button nbButton outline status="success" class="float-r m-l-5"
+                            style="margin-right: 8px; margin-left: 0px; padding-left: 10px; padding-right: 10px;">Filtrar
+                            <nb-icon icon="funnel" pack="eva"></nb-icon>
+                        </button>
+
+                        <button nbButton outline type="button" status="info" icon="email-outline" pack="eva"
+                            style="padding-left: 10px; padding-right: 10px; white-space: break-spaces;"
+                            class="float-r m-r-5" (click)="enviar()">Enviar Correo
+                            <nb-icon icon="email" pack="eva"></nb-icon>
+                        </button>
+                        <button nbButton outline type="button" status="warning" icon="email-outline" pack="eva"
+                            style="padding-left: 10px; padding-right: 10px; white-space: break-spaces;"
+                            class="float-r m-r-5" (click)="print()">Imprimir
+                            <nb-icon icon="printer" pack="eva"></nb-icon>
+                        </button>
+                    </div>
+                </form>
+
+                <dx-data-grid [dataSource]="detalleHorasEmpleado" rowAlternationEnabled="true" showColumnLines="false"
+                    showRowLines="true" showBorders="true" wordWrapEnabled="true" columnAutoWidth="true"
+                    columnMinWidth="50" keyExpr="serial" hoverStateEnabled="true"
+                    noDataText="No hay datos para mostrar">
+                    <dxo-export [enabled]="true"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-paging [pageSize]="10"> </dxo-paging>
+
+                    <dxi-column dataField="serial" caption="Serial">
+                    </dxi-column>
+                    <dxi-column dataField="code" caption="Barcode">
+                    </dxi-column>
+                    <dxi-column dataField="employeeName" caption="Nombre">
+                    </dxi-column>
+                    <dxi-column dataField="normalHour" caption="Horas Normales">
+                    </dxi-column>
+                    <dxi-column dataField="extraHours" caption="Horas Extras">
+                    </dxi-column>
+                    <dxi-column dataField="fecha" caption="Fecha">
+                    </dxi-column>
+                    <dxi-column dataField="fechaI" caption="Hora Inicial" dataType="date" format="dd/MM/yyyy HH:mm:ss">
+                    </dxi-column>
+                    <dxi-column dataField="fechaF" caption="Hora Final" dataType="date" format="dd/MM/yyyy HH:mm:ss">
+                    </dxi-column>
+                    <dxo-summary>
+                        <dxi-total-item column="normalHour" summaryType="sum">
+                        </dxi-total-item>
+                        <dxi-total-item column="extraHours" summaryType="sum">
+                        </dxi-total-item>
+                    </dxo-summary>
+                </dx-data-grid>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+
+<dx-popup [width]="400" height="auto" [showTitle]="true" title="Confirmación" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <span class="confirmation-title">¿Está completamente seguro(a) de solicitar una nueva constancia?</span>
+
+            <div class="container-bottom">
+                <!-- <button nbButton outline status="success" class="float-r m-l-5" >Confirmar</button> -->
+                <button nbButton outline status="danger" class="float-r m-r-5">Salir</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<app-doc-base [isVisible]="reporteEsVisible" (closed)="reporteEsVisible = $event" [filename]="filename">
+    <app-voucher-doc [reporteEsVisible]="reporteEsVisible" [voucherDoc]="voucher"></app-voucher-doc>
+</app-doc-base>
+
+<app-doc-base [isVisible]="reporteVoucerHorasExtrasEsVisible" (closed)="reporteVoucerHorasExtrasEsVisible = $event"
+    [filename]="filenameHE">
+    <app-voucher-he-doc [reporteVoucerHorasExtrasEsVisible]="reporteVoucerHorasExtrasEsVisible"
+        [voucherHorasExtrasDoc]="voucherHorasExtras"></app-voucher-he-doc>
+</app-doc-base>
+
+
+<app-doc-base [isVisible]="reporteDetalleHorasEsVisible" (closed)="reporteDetalleHorasEsVisible = $event" [filename]="filenameDE">
+    <doc-detalle-horas-trabajadas [reporteEsVisible]="reporteDetalleHorasEsVisible" [horasTrabajadasDoc]="detalleHorasEmpleado">
+    </doc-detalle-horas-trabajadas>
+</app-doc-base>

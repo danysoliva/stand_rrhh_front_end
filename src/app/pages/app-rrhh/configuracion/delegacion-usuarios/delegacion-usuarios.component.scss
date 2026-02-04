@@ -1,0 +1,60 @@
+::ng-deep {
+    .dx-template-wrapper {
+        text-align: center;
+    }
+}
+
+.validate-container {
+    display: flex;
+
+    i {
+        margin: auto;
+        font-size: 19px;
+    }
+
+    .icon-red {
+        color: #e13131;
+    }
+
+    .icon-green {
+        color: #38b094;
+    }
+}
+
+.validate-text span {
+    color: #e13131;
+    font-size: 12px;
+}
+
+.hide-inputs {
+    display: flex;
+
+    dx-number-box{
+        height: 0px !important;
+        max-height: 0px !important;
+    }
+
+    input {
+        height: 0px !important;
+        border: 0px !important;
+        cursor: default !important;
+        pointer-events: none !important;
+        color: white !important;
+        background: white !important;
+    }
+
+    .dx-texteditor-input {
+        color: white !important;
+        pointer-events: none !important;
+    }
+
+    .dx-texteditor.dx-editor-filled {
+        background-color: white !important;
+        pointer-events: none !important;
+    }
+
+    .dx-texteditor.dx-editor-filled::after {
+        border: 0px !important;
+        pointer-events: none !important;
+    }
+}

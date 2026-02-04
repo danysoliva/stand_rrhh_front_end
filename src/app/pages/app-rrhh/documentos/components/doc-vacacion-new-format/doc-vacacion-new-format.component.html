@@ -1,0 +1,226 @@
+<div id="documento">
+    <div class="page" style="margin: 0px;">
+        <div class="text-center" style="margin-left: 5px;  margin-right: 5px;margin-top: 10px;">
+            <table class="border-left border-right border-top border-bottom-encabezado"  style="width: 86%;margin: auto;">
+                <tr class="border-top">
+                    <td rowspan="4" style="width: 24%;"><img src="./assets/images/aquafeed.png" width="100" /><br><b>Version:</b> 2</td>
+                    <td rowspan="4" class="border-left width-150">
+                        <h6>FORMATO SOLICITUD DE VACACIONES</h6>
+                    </td>
+                    <td class="width-150 border-left border-bottom border-top" style="width: 217px">
+                        <span style="display: block;font-size: 15px;"><b>Codigo:</b></span>
+                        <span style="display: block;font-size: 15px;">RRHH-BNF-SV-FOR-05</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="width-120 border-left border-bottom">
+                        <span class="display-block font-size-8"><b>Elaborado Por:</b>  Depto. RRHH</span>
+                        <span class="display-block font-size-8"><b>Autorizado por:</b> Gerente de RRHH</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border-left border-bottom ">
+                        <span class="display-block font-size-15"><b>Fecha de Elab:</b> 01/09/2019</span>
+                    </td>
+                   
+                </tr>
+                <tr>
+                    <td class="border-left">
+                        <span class="font-size-15" style="display: block;"><b>Fecha de Rev(3):</b> {{now | date:'dd/MM/yyyy'}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="text-center segmento1" >DATOS DEL SOLICITANTE</div>
+        
+        <div class="text-center"  style="width: 85%; margin: auto;  ">
+            <table style="width: 100%;border-color: black;width: 100%;border-top-style: solid;border-left-style: solid;border-right-style: solid; border-width: 2px;">
+                <tr class="texto-encabezado-tabla ">
+                    <td  style="width: 70%;">Nombre Completo</td>
+                    <td class="border-left">Código de empleado</td>
+                </tr>
+                <tr  class="texto-fila-tabla" style="border-width: 2px !important;">
+                    <td>{{vacacion.employee}}</td>
+                    <td class="border-left">{{vacacion.barcode}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="text-center"  style="width: 85%; margin: auto;  ">
+            <table style="width: 100%;border-color: black;width: 100%;border-left-style: solid; border-right-style: solid; border-width: 2px;">
+                <tr class="texto-encabezado-tabla">
+                    <td  style="width: 50%;">Cargo que ocupa</td>
+                    <td class="border-left">Departamento</td>
+                </tr>
+                <tr class="texto-fila-tabla">
+                    <td>{{vacacion.job}}</td>
+                    <td class="border-left">{{vacacion.department}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="text-center"  style="width: 85%; margin: auto;  ">
+            <table class="border-bottom" style="width: 100%;border-color: black;width: 100%;border-left-style: solid; border-right-style: solid; border-width: 2px;">
+                <tr class="texto-encabezado-tabla ">
+                    <td  style="width: 50%;">Fecha de Ingreso a la compañía</td>
+                    <td class="border-left border-bottom " style="border-width: 2px; border-left-width: 2px !important">Número de días solicitados (en letras)</td>
+                </tr>
+                <tr class="texto-fila-tabla">
+                    <td>{{vacacion.fechaIngreso}}</td>
+                    <td  class="border-left">{{vacacion.cantidadDiasVacacionEnLetras}}</td>
+                </tr>
+            </table>
+        </div>
+        <div style="margin: auto;width: 85%;" class="segmento2">DATOS DE LA SOLICITUD DE VACACIONES      </div>
+
+        <div style="width: 85%; margin: auto;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 35%;"></td>
+                    <td style="width: 7%;"></td>
+                    <td ></td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="texto-negrita" style="background-color: #E7E6E6; margin-bottom: auto;">1. Tipo de vacaciones</p>
+                        <div style="border-style: solid; border-width: 2px;">
+                            <div style="margin-left: 15px; margin-top: 15px;">
+                                <div class="row">
+                                    <div class="circulo">
+                                        <div  [ngClass]="{'circulo2-checked':vacacion.tipoVacacionId===1, 
+                                                        'circulo2-unchecked':vacacion.tipoVacacionId===2}">
+                                        </div>
+                                    </div>
+                                    <p class="texto-regular"> Reglamentarias</p>
+                                </div>
+                                <div class="row">
+                                    <div class="circulo">
+                                        <div [ngClass]="{'circulo2-checked':vacacion.tipoVacacionId===2, 
+                                                        'circulo2-unchecked':vacacion.tipoVacacionId===1}">
+                                        </div>
+                                    </div>
+                                    <p class="texto-regular">Adelantadas</p>
+                                </div>
+            
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <p class="texto-negrita" style="background-color: #E7E6E6; margin-bottom: auto;">2. Periodo de vacaciones</p>
+                        <table style="border-width: 2px;border-style: solid; border-color: black;width: 100%;">
+                            <tr>
+                                <td style="width: 54%;">
+                                    <div>
+                                        <div>
+                                            <pre style="border-style: none;font-size: 11px; margin-left: 124px;    margin-bottom: auto;font-weight: bold;">Dia Mes Anio</pre>
+                                            <p style="display: inline-block;margin-bottom: auto; margin-left: 47px;">
+                                               <span class="texto-regular"> Desde:</span> 
+                                               <span class="texto-negrita"  style="border-style: solid;   background-color: #E7E6E6; border-width: 2px;">  {{vacacion.fechaInicio}}  </span>
+                                            </p>
+                                            <p style="margin-left: 48px;margin-top: 8px;">
+                                               <span class="texto-regular">Hasta:</span>
+                                               <span class="texto-negrita" style="margin-left: 4px;border-style: solid;   background-color: #E7E6E6; border-width: 2px;">  {{vacacion.fechaFin}}   </span> 
+                                           </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td rowspan="2">
+                                    <p style="font-weight: bold; text-align: center;margin-left: 30px; width: 87%;">DÍAS SOLICITADOS</p>
+                                    <div style="background-color: #1F4E78;   height: 65px; display: flex;margin-left: 40px;">
+                                        <p style="color: white; font-weight: bold; font-size: 23px;margin: auto;display: inline-flex;">
+                                            {{vacacion.cantidadDiasVacacion}} {{vacacion.cantidadDiasVacacion==1? 'día' : 'días'}}
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre style="border-style: none;font-size: 11px; margin-left: 124px;    margin-bottom: auto;font-weight: bold;">Dia Mes Anio</pre>
+                                    <p style="margin-left: 15px">
+                                        <span class="texto-regular">
+                                            Reintegro:
+                                        </span>
+                                        <span class="texto-negrita" style="margin-left: 4px;border-style: solid;   background-color: #E7E6E6;  border-width: 2px;">   {{vacacion.fechaReintegro}}
+                                        </span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    
+        <div style="margin: auto;width: 85%;" class="segmento2">3. Actividades pendientes a tener en cuenta en su ausencia:</div>
+
+        <div  style="width: 85%; margin: auto;  ">
+        <table style="width: 100%;">
+                <tr style="height: 70px; vertical-align: top; font-size: 18px;">
+                    <td style="word-wrap: break-word;">
+                          <p style="text-align: justify;" class="texto-regular">  {{vacacion.actividadesPendientes}}</p>
+                    </td>
+                </tr>
+        </table>
+        </div>
+
+         <div style="margin: auto;width: 85%;" class="segmento2">4. Indique el o los nombres de las personas que le cubrirá durante su descanso:</div>
+         
+         <div  style="width: 85%; margin: auto;">
+            <table style="width: 100%;">
+                <tr style="height: 70px; vertical-align: top; font-size: 18px;">
+                    <td style="word-wrap: break-word;">
+                          <p style="text-align: justify;" class="texto-regular">  {{vacacion.cubreVacaciones}}</p>
+                    </td>
+                </tr>
+        </table>
+        </div>
+         
+         <div style="margin: auto;width: 85%;" class="segmento3">FIRMAS PARA APROBACIÓN DE SOLICITUD</div>
+         <div style="margin: auto;width: 85%;">
+                <table style="width: 100%;margin-bottom: 15px;">
+                    <tr>
+                        <td rowspan="3" style="width: 45%;border-style: solid;border-width: 2px; height: 100px;vertical-align: top;">
+                            <p style="font-size: 10px;">FIRMA</p></td>
+                        <td rowspan="5" style="width: 10%;"></td>
+                        <td style="border-style: solid;border-width: 2px; height: 100px;vertical-align: top;" colspan="2" rowspan="3"><p style="font-size: 10px;">FIRMA Y NOMBRE</p>  </td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                      <td style="background-color: #D5DCE3; border-width: 2px;height: 23px;border-left-style: solid; border-right-style: solid;
+                      border-bottom-style: solid;">
+                        
+                    </td>
+                      <td style="background-color: #D5DCE3;border-style: solid; border-width: 2px;width: 14%;font-weight: bold;font-size: 14px;">Cargo</td>
+                      <td style="border-style: solid; border-width: 2px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-style: italic;font-weight: bold;font-size: 14px;">Solicitante</td>
+                        <td style="text-align: center;font-style: italic;font-weight: bold;font-size: 14px;" colspan="2">Jefe Inmediato</td>
+                      </tr>
+                </table>
+         </div>
+        <div style="margin: auto;width: 85%;">        
+            <table style="margin-left: auto; margin-right: auto;width: 45%;">
+                <tr style="vertical-align: top;">
+                    <td colspan="2" style="height: 100px;border-style: solid; border-width: 2px;">
+                        <p style="font-size: 10px;">FIRMA Y NOMBRE</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #D5DCE3;border-style: solid; border-width: 2px;width: 17%;font-weight: bold;font-size: 14px;">Cargo</td>
+                    <td style="border-style: solid; border-width: 2px;"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center; font-style: italic;font-weight: bold;font-size: 14px;">Gestión Recursos Humanos</td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+
+    </div>
+</div>

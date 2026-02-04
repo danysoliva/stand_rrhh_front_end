@@ -1,0 +1,76 @@
+<dx-popup class="popup" width="850px" height="600px" [showTitle]="false" [dragEnabled]="false"
+  [closeOnOutsideClick]="false" [(visible)]="isVisible">
+  <div *dxTemplate="let data of 'content'" class="popup-document">
+
+    <div class="line">
+      <hr>
+    </div>
+
+    <div class="print-menu">
+      <div class="row" style="display: flex">
+        <div class="control-header" [hidden]="showPaperSizeControl === false">
+          <label>Tamaño de papel</label>
+          <dx-select-box [items]="paperSizes" class="reduce-input" [value]="customPaperSize" #size>
+          </dx-select-box>
+        </div>
+        <div class="control-header" [hidden]="showMarginControl === false">
+          <label>Margen</label>
+          <dx-number-box [value]="customMargin" class="reduce-input" [showSpinButtons]="true" [showClearButton]="true"
+            [min]="0" [max]="3" #margin>
+          </dx-number-box>
+        </div>
+        <div class="control-header" [hidden]="showScaleControl === false">
+          <label>Escala</label>
+          <dx-number-box [value]="customScale" class="reduce-input" [showSpinButtons]="true" [showClearButton]="true"
+            [min]="0.5" [max]="1.5" #scale>
+          </dx-number-box>
+        </div>
+        <!-- <div class="export-pdf-button">
+          <button class="btn green-button " [disabled]="margin.value === null || scale.value === null"
+            (click)="pdf.saveAs(filename)">
+            <i class="material-icons">
+              save_alt
+            </i>
+            <span>Guardar como PDF</span>
+          </button>
+        </div> -->
+        <div class="export-pdf-button">
+          <button class="btn green-button " [disabled]="margin.value === null || scale.value === null"
+            (click)="openPrint()">
+            <i class="material-icons">
+              print
+            </i>
+            <span>Imprimir</span>
+          </button>
+        </div>
+        <div class="close-button">
+          <button class="btn red-button" (click)="onClose()">
+            <i class="material-icons">
+              exit_to_app
+            </i>
+            <span>Cerrar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line">
+      <hr>
+    </div>
+
+    <dx-scroll-view>
+      <kendo-pdf-export  #pdf [autoPrint]="autoPrint" [landscape]="landscape" [paperSize]="customPaperSize" [margin]="customMargin+'cm'"
+        [scale]="customScale" [repeatHeaders]="true">
+
+        <ng-template kendoPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+          <div class="pageNum">
+            {{ pageNum }}/{{ totalPages }}
+          </div>
+        </ng-template>
+
+        <ng-content></ng-content>
+      </kendo-pdf-export>
+    </dx-scroll-view>
+
+  </div>
+</dx-popup>

@@ -1,0 +1,180 @@
+section {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+th {
+  text-align: center!important;
+  font-weight: bolder!important;
+}
+  
+.observation {
+  padding-bottom: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.empty {
+  border: none;
+}
+.company-logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  padding-bottom: 10px;
+  color: #283E6E;
+}
+.print-legend {
+  font-size: x-large;
+  font-weight: bolder;
+  color: #FF0000;
+  padding-right: 20px;
+}
+
+/* Todo esto viene del otro proyecto */
+
+.page {
+  margin: 0;
+  /* zoom: 0.75; */
+  background: white;
+  color: black;
+  font-size: 12px;
+  font-family: sans-serif;
+  /* height: 3000px; */
+}
+
+
+html {
+  margin: 0;
+  zoom: 0.75;
+}
+
+body{
+  background: white;
+  color: black;
+  font-size: 14px;
+}
+h1{
+  margin: 0px;
+  font-size: 2.5rem;
+  font-weight: bolder;
+}
+
+h3{
+  margin: 0px;
+  font-size: 1.75rem;
+  font-weight: bolder;
+}
+
+.report-section{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  overflow: auto;
+}
+
+.report-section-comment{
+  padding-bottom: 20px;
+  padding-left: 90px;
+  padding-right: 90px;
+}
+
+.report-row {
+  display: table;
+  border-collapse: separate;
+  width: 100%;
+}
+
+.report-column-25 {
+  width: 25%;
+  display: table-cell;
+  vertical-align: inherit;
+}
+
+.report-column-50 {
+  width: 50%;
+  display: table-cell;
+  vertical-align: inherit;
+}
+
+.report-column-75 {
+  width: 75%;
+  display: table-cell;
+  vertical-align: inherit;
+}
+
+.report-column-80 {
+  width: 80%;
+  display: table-cell;
+  vertical-align: inherit;
+}
+
+.report-column-60 {
+  width: 60%;
+  display: table-cell;
+  vertical-align: inherit;
+}
+
+.report-column-100{
+  width: 100%;
+  display: table-cell;
+  vertical-align: inherit;
+}
+
+.text-left {
+  text-align:left!important;
+}
+
+.text-right {
+  text-align:right!important;
+}
+
+.text-center {
+  text-align:center!important;
+}
+
+.text-justify {
+  text-align: justify!important;
+}
+
+table {
+      border-collapse: collapse;
+      width: 100%;
+}
+
+th {
+      background-color: #ccd4dd !important;
+      text-align:center!important;
+      border: 1px solid black;
+      font-size: 10px;
+      padding: 1px 3px;
+}
+   
+td {
+  border: 1px solid black;
+  padding: 1px 3px;
+}
+
+.td-empty {
+  border: none;
+}
+
+.print-legend {
+  font-size: x-large;
+  font-weight: bolder;
+  color: #708090;
+  padding-right: 20px;
+}
+
+.report-signatures {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+}
+
+.carta-claro .report-section span{
+  text-align: justify;
+  font-size: 14px;
+}

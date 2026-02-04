@@ -1,0 +1,99 @@
+kendo-pdf-export {
+  font-family: "DejaVu Sans", "Arial", sans-serif!important;
+  font-size: 12px;
+}
+
+.print-menu {
+  width: 100%;
+  text-align: -webkit-center;
+}
+
+.pageNum {
+  font-family: "DejaVu Sans", "Arial", sans-serif;
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  margin-right: 10px;
+}
+
+.line hr {
+  margin: 3px 0px;
+  background: #cfcfcf;
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
+}
+
+.green-button {
+  background-color: #378d3b;
+  color: white;
+}
+
+.red-button{
+  background-color: #d22e2e;
+  color: white;  
+}
+
+.export-pdf-button {
+  padding: 0px 10px;
+}
+
+.export-pdf-button button {
+  margin: 6px 0px;
+  height: 39px;
+  padding: 0px 11px;
+  display: flex;
+}
+
+.export-pdf-button button i, .export-pdf-button button span{
+  margin: auto;
+}
+
+.close-button {
+  padding: 0px 30px 0px 10px;
+  right: 0;
+  position: absolute;
+}
+
+.close-button button {
+  margin: 6px 0px;
+  height: 39px;
+  padding: 0px 11px;
+  display: flex;
+}
+
+.close-button button i, .close-button button span{
+  margin: auto;
+}
+
+.control-header{
+  padding: 0px 10px;
+}
+
+.control-header label{
+  color: #5a5a5a;
+          margin: -1px;
+          font-size: 12px;
+          font-weight: bold;
+}
+
+.reduce-input {
+  width: 110px;
+}
+
+::ng-deep .reduce-input .dx-texteditor-input {
+  padding: 0px 0px 0px 9px;
+  min-height: 25px;
+}
+
+::ng-deep .reduce-input .dx-icon-clear {
+  font-size: 16px;
+}
+
+::ng-deep .popup-document .dx-scrollview-content{
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+::ng-deep .popup-document .dx-scrollable-wrapper {
+  height: 88% !important;
+}

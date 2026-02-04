@@ -1,0 +1,29 @@
+.section-button-container {
+    max-width: fit-content;
+    background: #3D4EAE;
+    color: white;
+    font-size: 12.5px;
+    border-radius: 0px 0px 0px 0px;
+    padding: 0px 20px;
+    margin: 0px 20px 0px 20px;
+}
+
+.section-button {
+    background: #3D4EAE;
+    display: flex;
+    border-style: none;
+    border-color: transparent;
+    font-size: 1.825em;
+    line-height: 1.4em;
+}
+
+.section-collapse-icon {
+    margin: auto 0 auto 5px;
+}
+
+.section-content {
+    border-style: solid;
+    border-color: #3D4EAE;
+    padding: 20px 0px;
+    margin: 0px 20px 20px 20px;
+}

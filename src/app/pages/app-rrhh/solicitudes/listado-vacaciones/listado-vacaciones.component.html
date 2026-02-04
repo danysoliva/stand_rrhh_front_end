@@ -1,0 +1,175 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card class="inline-form-card">
+            <nb-card-header>Solicitudes de Vacación</nb-card-header>
+            <nb-card-body>
+
+                <span><strong>Estado:</strong> </span>
+                <dx-select-box labelMode="floating" [dataSource]="estadosFiltro" width="250px" (onValueChanged)="filtroValueChanged($event)"
+                    displayExpr="nombre" valueExpr="id" placeholder="Seleccione una opción" [formControl]="fcEstadoFiltro">
+                </dx-select-box>
+
+                <dx-data-grid [dataSource]="solicitudesDeVacacion" rowAlternationEnabled="true" showColumnLines="false"
+                    showRowLines="true" showBorders="true" wordWrapEnabled="true" columnAutoWidth="true"
+                    columnMinWidth="50" keyExpr="id" hoverStateEnabled="true" noDataText="No hay datos para mostrar">
+
+                    <dxo-export [enabled]="true"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-paging [pageSize]="10"> </dxo-paging>
+
+                    <dxi-column dataField="id" caption="ID" width="60">
+                    </dxi-column>
+                    <dxi-column dataField="employee" caption="Empleado">
+                    </dxi-column>
+                    <dxi-column dataField="requestState" caption="Estado" width="150">
+                    </dxi-column>
+                    <dxi-column dataField="fechaInicio" caption="Fecha Inicio" dataType="date" format="dd/MM/yyyy"
+                        width="100">
+                    </dxi-column>
+                    <dxi-column dataField="fechaFin" caption="Fecha Fin" dataType="date" format="dd/MM/yyyy"
+                        width="100">
+                    </dxi-column>
+                    <dxi-column dataField="fechaReintegro" caption="Fecha Reintegro" dataType="date" format="dd/MM/yyyy"
+                        width="100">
+                    </dxi-column>
+                    <dxi-column dataField="cantidadDiasVacacion" caption="Días" width="70">
+                    </dxi-column>
+                    <dxi-column dataField="cubreVacaciones" caption="Cubre Vacaciones">
+                    </dxi-column>
+                    <dxi-column dataField="createdDate" caption="Fecha" dataType="date" format="dd/MM/yyyy HH:mm:ss"
+                        width="100">
+                    </dxi-column>
+                   
+
+                    <dxi-column cellTemplate="cellTemplateAprobar" caption="Aprobar" width="72">
+                    </dxi-column>
+                    <dxi-column cellTemplate="cellTemplateDenegar" caption="Denegar" width="72">
+                    </dxi-column>
+                    <dxi-column cellTemplate="cellTemplateImprimir" caption="Imprimir" width="72">
+                    </dxi-column>
+                    <dxi-column cellTemplate="cellTemplateOdoo" caption="Subir a Odoo" width="72">
+                    </dxi-column>
+                    <dxi-column cellTemplate="cellTemplateDelete" caption="Eliminar" width="72">
+                    </dxi-column>
+                    <!-- *ngIf="data.data.esVistaJefatura && data.data.requestStateId === estadoSolicitudEnum.EnProceso" -->
+                    <div *dxTemplate="let data of 'cellTemplateAprobar'">
+                        <button style="display: block; margin: auto;"
+                            nbButton outline status="success" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="abrirPopup(tipoAutorizacionEnum.Jefatura, accionEnum.Aprobar, data.data.id, data.data.employee)">
+                            <!-- <span style="font-size: 12px;">Aprobar</span> -->
+                            <nb-icon icon="checkmark-circle" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                        <button style="display: block; margin: auto;"
+                            *ngIf="data.data.esVistaRRHHAdministrador && data.data.requestStateId === estadoSolicitudEnum.AprobadoPorJefeInmediato"
+                            nbButton outline status="success" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="abrirPopup(tipoAutorizacionEnum.RecursosHumanos, accionEnum.Aprobar, data.data.id, data.data.employee)">
+                            <!-- <span style="font-size: 12px;">Aprobar</span> -->
+                            <nb-icon icon="checkmark-circle" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                    <!-- *ngIf="data.data.esVistaJefatura && data.data.requestStateId === estadoSolicitudEnum.EnProceso" -->
+                    
+                    <div *dxTemplate="let data of 'cellTemplateDenegar'">
+                        <button style="display: block; margin: auto;"
+                            nbButton outline status="danger" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="abrirPopup(tipoAutorizacionEnum.Jefatura, accionEnum.Denegar, data.data.id, data.data.employee)">
+                            <!-- <span style="font-size: 12px;">Denegar</span> -->
+                            <nb-icon icon="close" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                        <button style="display: block; margin: auto;"
+                            *ngIf="data.data.esVistaRRHHAdministrador && data.data.requestStateId === estadoSolicitudEnum.AprobadoPorJefeInmediato"
+                            nbButton outline status="danger" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="abrirPopup(tipoAutorizacionEnum.RecursosHumanos, accionEnum.Denegar, data.data.id, data.data.employee)">
+                            <!-- <span style="font-size: 12px;">Denegar</span> -->
+                            <nb-icon icon="close" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                    <div *dxTemplate="let data of 'cellTemplateImprimir'">
+                        <button style="display: block; margin: auto;"
+                            *ngIf="(data.data.esVistaRRHHAdministrador || data.data.esVistaJefatura) && (data.data.requestStateId === estadoSolicitudEnum.AprobadoPorJefeInmediato || data.data.requestStateId === estadoSolicitudEnum.AprobadoPorRRHH)"
+                            nbButton outline status="primary" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="imprimir(data.data.id)">
+                            <nb-icon icon="printer" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                    <div *dxTemplate="let data of 'cellTemplateOdoo'">
+                        <button style="display: block; margin: auto;"
+                            *ngIf="data.data.esVistaRRHHAdministrador && data.data.requestStateId === estadoSolicitudEnum.AprobadoPorRRHH"
+                            nbButton outline status="primary" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="abrirPopupSubirOdoo(data.data.id)">
+                            <nb-icon icon="upload" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                    <div *dxTemplate="let data of 'cellTemplateDelete'">
+                        <button style="display: block; margin: auto;"
+                            *ngIf="data.data.esVistaRRHHAdministrador && (data.data.requestStateId === estadoSolicitudEnum.AprobadoPorJefeInmediato || data.data.requestStateId === estadoSolicitudEnum.AprobadoPorRRHH)"
+                            nbButton outline status="primary" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="abrirPopupEliminarSolicitud(data.data.id)">
+                            <nb-icon icon="trash" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                </dx-data-grid>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+
+<dx-popup [width]="400" height="auto" [showTitle]="true" title="Confirmación" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupAprobarDenegarVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <span class="confirmation-title">¿Está completamente seguro(a) de <b>{{(accionSeleccionada ===
+                    accionEnum.Aprobar) ?
+                    'APROBAR' : 'DENEGAR'}}</b> la solicitud de vacación(#{{solicitudVacacionIdSeleccionado}}) de
+                <b><i>{{empleadoSeleccionado}}</i></b>?</span>
+
+            <div *ngIf="accionSeleccionada === accionEnum.Denegar">
+                <span style="font-size: 15px;margin-top: 20px;display: block;"><strong>Escriba un comentario</strong>
+                </span>
+                <dx-text-area [height]="60" [formControl]="fcComentario" (onKeyUp)="keyUpComentario($event)">
+                </dx-text-area>
+            </div>
+
+            <div class="container-bottom">
+                <button nbButton outline status="success" class="float-r m-l-5" [disabled]="comentarioValido === false && accionSeleccionada === accionEnum.Denegar"
+                    (click)="confirmar()">Confirmar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5" (click)="cancelar()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<app-doc-base [isVisible]="reporteEsVisible" (closed)="reporteEsVisible = $event" [filename]="filename"
+    customMargin="3">
+    <doc-vacacion-new-format [reporteEsVisible]="reporteEsVisible" [vacacion]="vacacion"></doc-vacacion-new-format>
+</app-doc-base>
+
+<dx-popup [width]="400" height="auto" [showTitle]="true" title="Confirmación" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupSubirOdoo">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <span class="confirmation-title">¿Está completamente seguro(a) de subir este dato a Odoo? ya que no podrá revertir esta acción</span>
+
+            <div class="container-bottom">
+                <button nbButton outline status="success" class="float-r m-l-5" (click)="confirmarOdoo()">Confirmar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5" (click)="cerrarPopupSubirOdoo()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+
+<dx-popup [width]="400" height="auto" [showTitle]="true" title="Confirmación" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupEliminarOdoo">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <span class="confirmation-title">¿Está completamente seguro(a) de eliminar este registro</span>
+
+            <div class="container-bottom">
+                <button nbButton outline status="success" class="float-r m-l-5" (click)="confirmarEliminarSolicitud()">Confirmar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5" (click)="cerrarPopupEliminarSolicitud()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>

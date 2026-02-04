@@ -1,0 +1,25 @@
+<dx-popup [minWidth]="customMinWidth" [width]="customWidth" [minHeight]="customMinHeight" [maxHeight]="customMaxHeight" [height]="customHeight"
+    [position]="position" [dragEnabled]="dragEnabled" [resizeEnabled]="true" [closeOnOutsideClick]="false"
+    [(visible)]="isVisible" titleTemplate="title" [fullScreen]="isFullScreen">
+    <div *dxTemplate="let data of 'title'">
+        <div class="popup-title-row">
+            <div class="popup-title-column text-left">
+                <span class="popup-title">{{title}}</span>
+            </div>
+            <div class="popup-title-column text-right">
+                <button mat-icon-button (click)="minimizePopup()" *ngIf="enableMinimizeButton">
+                    <mat-icon>minimize</mat-icon>
+                </button>
+                <button mat-icon-button (click)="isFullScreen = !isFullScreen" *ngIf="enableResizeButton">
+                    <mat-icon *ngIf="!isFullScreen">fullscreen</mat-icon>
+                    <mat-icon *ngIf="isFullScreen">fullscreen_exit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="closePopup()" *ngIf="enableExitButton">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <ng-content></ng-content>
+</dx-popup>

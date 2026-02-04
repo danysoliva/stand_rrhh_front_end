@@ -1,0 +1,35 @@
+<nb-card>
+    <nb-card-header>Repositorio de Formatos</nb-card-header>
+    <nb-card-body>
+
+
+
+
+
+        <dx-data-grid [dataSource]="formatos" rowAlternationEnabled="true" showColumnLines="false" showRowLines="true"
+            showBorders="true" wordWrapEnabled="true" columnAutoWidth="true" columnMinWidth="50" keyExpr="id"
+            hoverStateEnabled="true">
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-paging [pageSize]="10"> </dxo-paging>
+
+            <dxi-column dataField="fileName" caption="Imagen" [visible]="false">
+            </dxi-column>
+            <dxi-column dataField="referenceFileName" caption="Formato">
+            </dxi-column>
+            <dxi-column dataField="grupoDocumento" [groupIndex]="0" caption="Grupo"></dxi-column>
+            <dxi-column style="text-align: center !important;" cellTemplate="cellVer" width="200"
+                [formItem]="{visible: false}"></dxi-column>
+
+            <div *dxTemplate="let data of 'cellVer'" style="text-align: center;">
+                <a [href]="data.data.fullPath" target="_blank">
+                    <button outline style="text-align: center;" nbButton status="primary" type="success">
+                        Ver
+                        <nb-icon icon="eye-outline" pack="eva"></nb-icon>
+                    </button>
+                </a>
+            </div>
+            <dxo-group-panel [visible]="false"></dxo-group-panel>
+            <dxo-grouping #expand [autoExpandAll]="false"></dxo-grouping>
+        </dx-data-grid>
+    </nb-card-body>
+</nb-card>

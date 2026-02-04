@@ -1,0 +1,75 @@
+hr.new1 {
+    border-top: 1px solid #cbc0c0;
+  }
+
+  .sub-title{
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .margin-page{
+        margin-left: 30PX;
+    margin-right: 30px
+  }
+
+  .row-conf{
+        font-size: 19px;
+        font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .subraya{
+    border-bottom-width: 1px;
+    border-bottom-style: groove;
+  }
+
+
+  .tg-header {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+    .tg-header td {
+      border-color: black;
+      border-style: solid;
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+                        .tg {
+                          border-collapse: collapse;
+                          border-spacing: 0;
+                          border-color: white
+                        }
+          
+    .tg td {
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 19px;
+      overflow: hidden;
+      padding: 10px 8px;
+      word-break: normal;
+      border-color: white
+    }
+            
+                        /* .tg th {
+                          border-style: solid;
+                          border-width: 1px;
+                          font-family: Arial, sans-serif;
+                          font-size: 14px;
+                          font-weight: normal;
+                          overflow: hidden;
+                          padding: 10px 8px;
+                          word-break: normal;
+                        }  */
+            
+                        /* .tg .tg-0pky {
+                          border-color: inherit;
+                          text-align: left;
+                          vertical-align: top
+                        }
+            
+                        .tg .tg-0lax {
+                          text-align: left;
+                          vertical-align: top
+                        } */

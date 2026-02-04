@@ -1,0 +1,426 @@
+<div id="documento">
+  <div class="page" style="margin: 0px;">
+    <div class="text-center" style="margin-left: 10px;  margin-right: 10px;margin-top: 10px;">
+      <table class="border-right border-left border-bottom border-top">
+        <tr>
+          <td class="border-right"  rowspan="4" style="width: 25%; text-align: center;border-bottom-width: 10px; border-bottom-color: #1F4E78;"><img src="/assets/images/aquafeed.png" width="100"></td>
+            <td class="border-right" rowspan="4" style="border-bottom-width: 10px; border-bottom-color: #1F4E78;">
+              <p class="Titulos">FORMATO AUTORIZACIÓN DE
+                DEDUCCIÓN POR PLANILLA</p>
+            </td>
+            <td class="border-bottom" style="width: 35%;">
+              <p class="texto-normal" style="margin: auto;"><b>Código:</b></p>
+               <p class="texto-normal" style="margin: auto;">RRHH-NP-ADP-FOR-03</p>
+            </td>
+        </tr>
+        <tr class="border-bottom">
+          <td   style="border-right-style:none">
+              <p class="texto-normal" style="margin: auto;"><b>Elaborado Por:</b> Depto. RRHH</p>
+            <p class="texto-normal" style="margin: auto;"><b>Autorizado Por:</b> Gerente de RRHH</p>
+          </td>
+        </tr>
+        <tr class="border-bottom">
+          <td><p class="texto-normal" style="margin: auto;"><b>Fecha de Elab:</b> 21/09/2017</p></td>
+        </tr>
+        <tr>
+          <td style="border-bottom-width: 10px; border-bottom-color: #1F4E78;"><p class="texto-normal" style="margin: auto;"><b>Fecha de Rev (3):</b> 29/09/2023</p></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="text-center segmento1 border-left border-right">
+      DATOS
+    </div>
+
+    <div style="margin-left: 10px;  margin-right: 10px;">
+      <table style="width: 100%;" class="border-left border-top border-right">
+        <tr>
+          <td class="texto-encabezado-tabla border-bottom" style="width: 71%;">Nombre Completo</td>
+          <td class="texto-encabezado-tabla border-bottom border-left">Código de empleado</td>
+        </tr>
+        <tr>
+          <td class="texto-fila-tabla">{{deduccionPlanillaDoc.nombreEmpleado}}</td>
+          <td class="texto-fila-tabla border-left">{{deduccionPlanillaDoc.barcode}}</td>
+        </tr>
+      </table>
+      <table style="width: 100%;" class="border-bottom border-left border-top border-right">
+        <tr>
+          <td class="texto-encabezado-tabla border-bottom">Número de identidad</td>
+          <td class="texto-encabezado-tabla border-bottom border-left">Fecha de ingreso a la compañía</td>
+        </tr>
+        <tr>
+          <td class="texto-fila-tabla">{{deduccionPlanillaDoc.identidad}}</td>
+          <td class="texto-fila-tabla border-left">{{deduccionPlanillaDoc.fechaIngreso | date: 'dd/MM/yyyy'}} </td>
+        </tr>
+      </table>
+      <table class="border-left border-right border-bottom">
+          <tr>
+            <td class="texto-fila-tabla2 border-bottom" style="width: 590px;">Autorizo por este medio a Aquafeed S.A de C.V. que deduzca de mi salario la cantidad de:</td>
+            <td class="texto-fila-tabla2 border-left border-bottom" style="text-align: right;"><strong>{{deduccionPlanillaDoc.currency}}
+              {{deduccionPlanillaDoc.monto | number : '1.2-2'}}</strong></td>
+          </tr>
+        <tbody>
+          <tr>
+            <td class="texto-fila-tabla border-bottom" style="text-align: justify;" colspan="2"><b>Por concepto de: </b>{{deduccionPlanillaDoc.concepto}}</td>
+          </tr>
+          <tr>
+            <td class="texto-fila-tabla2 border-bottom" style="text-align: center;" colspan="2">(Cuentas por cobrar empleados)</td>
+          </tr>
+          <tr>
+            <td class="texto-fila-tabla" colspan="2" style="text-align: justify!important"><b>A partir de la siguiente fecha: </b>{{deduccionPlanillaDoc.fechaDeduccion | date:
+              'dd/MM/yyyy'}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="border-left border-right border-right">
+          <tr>
+            <td style="border-bottom-style: hidden;" ><p class="texto-fila-tabla2" style="margin-top: 20px; ">FIRMA PARA AUTORIZACIÓN</p></td>
+          </tr>
+          <tr>
+            <td style="height: 30%;"><p class="texto-encabezado-tabla border-top border-bottom border-left border-right" style="width: 257px; margin-left: auto; margin-right: auto;margin-top: 110px;">Firma del colaborador</p></td>
+          </tr>
+      </table>
+    </div>
+
+
+    <!-- <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="font-size: 19px;width: 40px;padding-top: 1px;padding-bottom: 1px;">Yo </td>
+                <td
+                  style="width: 558px;font-size: 19px;border-bottom-color: black;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.nombreEmpleado}}</strong>
+                </td>
+                <td style="font-size: 19px; width: 144px;padding-top: 1px;padding-bottom: 1px;">con número de</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row row-conf">
+          <table class="tg" style="border-color:white">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="width: 95px;font-size: 19px;padding-top: 1px;padding-bottom: 1px;">identidad</td>
+                <td
+                  style="font-size: 19px;width: 304px;border-bottom-color: black;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.identidad}}</strong>
+                </td>
+                <td style="font-size: 19px;width: 347px;padding-top: 1px;padding-bottom: 1px;">Autorizo por este medio a
+                  AQUAFEED</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="font-size: 18px;width: 413px;padding-top: 1px;padding-bottom: 1px;">S.A DE C.V. deduzca de mi
+                  salario la cantidad de</td>
+                <td
+                  style="font-size: 18px;width: 201px;border-bottom-color: black;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.currency}}
+                    {{deduccionPlanillaDoc.monto | number : '1.2-2'}}</strong></td>
+                <td style="font-size: 18px;width: 129px;padding-top: 1px;padding-bottom: 1px;">por concepto:</td>
+              </tr>
+            </thead>
+          </table>
+
+        </div>
+      </div>
+    </div> -->
+
+
+    <!-- <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td colspan="3" style="border-bottom-color: black;width: 742px;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.concepto}}</strong>
+                </td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>- -->
+<!-- 
+    <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table;margin: auto;">
+                <td style="width: 184px;padding-top: 0px;padding-bottom: 1px; margin-left:0px; margin-right:0px;">A
+                  partir de la fecha:</td>
+                <td
+                  style="border-bottom-color: black;width: 561px;padding-top: 1px;padding-bottom: 1px; margin-left:0px; margin-right:0px;">
+                  <strong>{{deduccionPlanillaDoc.fechaDeduccion | date:
+                    'dd/MM/yyyy'}}</strong></td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="width: 742px;">Atentamente,</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div> -->
+
+<!-- 
+    <br>
+    <br>
+    <br>
+    <br>
+    <br> -->
+
+    <!-- <div class="report-section margin-page" style="display: flex; overflow: hidden;">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6 offset-sm-3" style="font-size: 19px;border-top-style: groove;text-align: center;">
+            Firma Colaborador
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+
+
+  <div class="page" style="margin: 0px;">
+    <div class="text-center" style="margin-left: 10px;  margin-right: 10px;margin-top: 10px;">
+      <table class="border-right border-left border-bottom border-top">
+        <tr>
+          <td class="border-right"  rowspan="4" style="width: 25%; text-align: center;border-bottom-width: 10px; border-bottom-color: #1F4E78;"><img src="/assets/images/aquafeed.png" width="100"></td>
+            <td class="border-right" rowspan="4" style="border-bottom-width: 10px; border-bottom-color: #1F4E78;">
+              <p class="Titulos">FORMATO AUTORIZACIÓN DE
+                DEDUCCIÓN POR PLANILLA</p>
+            </td>
+            <td class="border-bottom" style="width: 35%;">
+              <p class="texto-normal" style="margin: auto;"><b>Código:</b></p>
+               <p class="texto-normal" style="margin: auto;">RRHH-NP-ADP-FOR-03</p>
+            </td>
+        </tr>
+        <tr class="border-bottom">
+          <td   style="border-right-style:none">
+              <p class="texto-normal" style="margin: auto;"><b>Elaborado Por:</b> Depto. RRHH</p>
+            <p class="texto-normal" style="margin: auto;"><b>Autorizado Por:</b> Gerente de RRHH</p>
+          </td>
+        </tr>
+        <tr class="border-bottom">
+          <td><p class="texto-normal" style="margin: auto;"><b>Fecha de Elab:</b> 21/09/2017</p></td>
+        </tr>
+        <tr>
+          <td style="border-bottom-width: 10px; border-bottom-color: #1F4E78;"><p class="texto-normal" style="margin: auto;"><b>Fecha de Rev (3):</b> 29/09/2023</p></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="text-center segmento1 border-left border-right">
+      DATOS
+    </div>
+
+    <div style="margin-left: 10px;  margin-right: 10px;">
+      <table style="width: 100%;" class="border-left border-top border-right">
+        <tr>
+          <td class="texto-encabezado-tabla border-bottom" style="width: 71%;">Nombre Completo</td>
+          <td class="texto-encabezado-tabla border-bottom border-left">Código de empleado</td>
+        </tr>
+        <tr>
+          <td class="texto-fila-tabla">{{deduccionPlanillaDoc.nombreEmpleado}}</td>
+          <td class="texto-fila-tabla border-left">{{deduccionPlanillaDoc.barcode}}</td>
+        </tr>
+      </table>
+      <table style="width: 100%;" class="border-bottom border-left border-top border-right">
+        <tr>
+          <td class="texto-encabezado-tabla border-bottom">Número de identidad</td>
+          <td class="texto-encabezado-tabla border-bottom border-left">Fecha de ingreso a la compañía</td>
+        </tr>
+        <tr>
+          <td class="texto-fila-tabla">{{deduccionPlanillaDoc.identidad}}</td>
+          <td class="texto-fila-tabla border-left">{{deduccionPlanillaDoc.fechaIngreso | date: 'dd/MM/yyyy'}} </td>
+        </tr>
+      </table>
+      <table class="border-left border-right border-bottom">
+          <tr>
+            <td class="texto-fila-tabla2 border-bottom" style="width: 590px;">Autorizo por este medio a Aquafeed S.A de C.V. que deduzca de mi salario la cantidad de:</td>
+            <td class="texto-fila-tabla2 border-left border-bottom" style="text-align: right;"><strong>{{deduccionPlanillaDoc.currency}}
+              {{deduccionPlanillaDoc.monto | number : '1.2-2'}}</strong></td>
+          </tr>
+        <tbody>
+          <tr>
+            <td class="texto-fila-tabla border-bottom" style="text-align: justify;" colspan="2"><b>Por concepto de: </b>{{deduccionPlanillaDoc.concepto}}</td>
+          </tr>
+          <tr>
+            <td class="texto-fila-tabla2 border-bottom" style="text-align: center;" colspan="2">(Cuentas por cobrar empleados)</td>
+          </tr>
+          <tr>
+            <td class="texto-fila-tabla" colspan="2" style="text-align: justify!important"><b>A partir de la siguiente fecha: </b>{{deduccionPlanillaDoc.fechaDeduccion | date:
+              'dd/MM/yyyy'}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="border-left border-right border-right">
+          <tr>
+            <td style="border-bottom-style: hidden;" ><p class="texto-fila-tabla2" style="margin-top: 20px; ">FIRMA PARA AUTORIZACIÓN</p></td>
+          </tr>
+          <tr>
+            <td style="height: 30%;"><p class="texto-encabezado-tabla border-top border-bottom border-left border-right" style="width: 257px; margin-left: auto; margin-right: auto;margin-top: 110px;">Firma del colaborador</p></td>
+          </tr>
+      </table>
+    </div>
+
+
+    <!-- <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="font-size: 19px;width: 40px;padding-top: 1px;padding-bottom: 1px;">Yo </td>
+                <td
+                  style="width: 558px;font-size: 19px;border-bottom-color: black;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.nombreEmpleado}}</strong>
+                </td>
+                <td style="font-size: 19px; width: 144px;padding-top: 1px;padding-bottom: 1px;">con número de</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row row-conf">
+          <table class="tg" style="border-color:white">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="width: 95px;font-size: 19px;padding-top: 1px;padding-bottom: 1px;">identidad</td>
+                <td
+                  style="font-size: 19px;width: 304px;border-bottom-color: black;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.identidad}}</strong>
+                </td>
+                <td style="font-size: 19px;width: 347px;padding-top: 1px;padding-bottom: 1px;">Autorizo por este medio a
+                  AQUAFEED</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="font-size: 18px;width: 413px;padding-top: 1px;padding-bottom: 1px;">S.A DE C.V. deduzca de mi
+                  salario la cantidad de</td>
+                <td
+                  style="font-size: 18px;width: 201px;border-bottom-color: black;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.currency}}
+                    {{deduccionPlanillaDoc.monto | number : '1.2-2'}}</strong></td>
+                <td style="font-size: 18px;width: 129px;padding-top: 1px;padding-bottom: 1px;">por concepto:</td>
+              </tr>
+            </thead>
+          </table>
+
+        </div>
+      </div>
+    </div> -->
+
+
+    <!-- <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td colspan="3" style="border-bottom-color: black;width: 742px;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.concepto}}</strong>
+                </td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>- -->
+<!-- 
+    <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table;margin: auto;">
+                <td style="width: 184px;padding-top: 0px;padding-bottom: 1px; margin-left:0px; margin-right:0px;">A
+                  partir de la fecha:</td>
+                <td
+                  style="border-bottom-color: black;width: 561px;padding-top: 1px;padding-bottom: 1px; margin-left:0px; margin-right:0px;">
+                  <strong>{{deduccionPlanillaDoc.fechaDeduccion | date:
+                    'dd/MM/yyyy'}}</strong></td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="width: 742px;">Atentamente,</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div> -->
+
+<!-- 
+    <br>
+    <br>
+    <br>
+    <br>
+    <br> -->
+
+    <!-- <div class="report-section margin-page" style="display: flex; overflow: hidden;">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6 offset-sm-3" style="font-size: 19px;border-top-style: groove;text-align: center;">
+            Firma Colaborador
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>

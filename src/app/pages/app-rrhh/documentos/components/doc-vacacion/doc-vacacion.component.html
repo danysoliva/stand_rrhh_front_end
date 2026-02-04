@@ -1,0 +1,175 @@
+<div id="documento">
+    <div class="page" style="margin: 0px;">
+        <div class="text-center" style="margin-left: 5px;  margin-right: 5px;margin-top: 10px;">
+            <table style="width: 80%;margin: auto;border: 1px solid;">
+                <tr>
+                    <td rowspan="2" class="width-120 border-right padding-10"><img src="./assets/images/aquafeed.png" width="100" /></td>
+                    <td colspan="2" class="full-width">
+                        <h6>SOLICITUD DE VACACIONES</h6>
+                    </td>
+                    <td rowspan="2" class="width-120 border-left">
+                        <span style="display: block;font-size: 13px;">Formato No.</span>
+                        <span style="display: block;font-size: 13px;">RRHH-SV-FOR-01</span>
+                        <span style="display: block;font-size: 13px;">Rev: {{now | date:'dd/MM/yyyy'}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="display-block font-size-13">Elaborado Por:</span>
+                        <span class="display-block font-size-13">Asistente RRHH</span>
+                        <span class="display-block font-size-13">Yazmin Rodas</span>
+                    </td>
+                    <td>
+                        <span class="display-block font-size-13">Revisado Por:</span>
+                        <span class="display-block font-size-13">Gerente RRHH</span>
+                        <span class="display-block font-size-13">Lic. Luis López</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <table class="margin-auto width-85">
+            <tr>
+                <td class="width-140">Nombre: </td>
+                <td class="border-bottom">{{vacacion.employee}}</td>
+            </tr>
+        </table>
+        <table class="margin-auto width-85">
+            <tr>
+                <td class="width-140 vertical-align-bottom">Posición: </td>
+                <td class="border-bottom padding-15">{{vacacion.job}}</td>
+            </tr>
+        </table>
+        <table class="margin-auto width-85">
+            <tr>
+                <td class="width-140 vertical-align-bottom">Departamento: </td>
+                <td class="border-bottom padding-15">{{vacacion.department}}</td>
+            </tr>
+        </table>
+        <table class="margin-auto width-85">
+            <tr>
+                <td class="width-140 vertical-align-bottom">Fecha de Ingreso:</td>
+                <td class="border-bottom padding-15">{{vacacion.fechaIngreso}}</td>
+                <td class="width-160 vertical-align-bottom">Código de empleado:</td>
+                <td class="width-90 border-bottom padding-15">{{vacacion.barcode}}</td>
+            </tr>
+        </table>
+        <table class="margin-auto width-85">
+            <tr>
+                <td class="width-140 vertical-align-bottom">N° (Días): </td>
+                <td class="border-bottom padding-15">{{vacacion.cantidadDiasVacacion}}</td>
+            </tr>
+        </table>
+        <table class="margin-auto width-85">
+            <tr>
+                <td class="width-140 vertical-align-bottom">Fechas solicitadas: </td>
+                <td class="border-bottom padding-15">{{vacacion.fechaInicio}}</td>
+                <td class="width-25 vertical-align-bottom">al: </td>
+                <td class="border-bottom padding-15">{{vacacion.fechaFin}}</td>
+            </tr>
+        </table>
+
+        <br>
+        <br>
+
+        <table class="margin-auto width-85">
+            <tr>
+                <td class="width-100 vertical-align-top">Observaciones:</td>            
+            </tr>
+            <tr>
+                <td colspan="1" class="padding-15" [hidden]="vacacion.observaciones.length < 100"><u><span class="fulljustify">{{vacacion.observaciones}}</span></u></td>
+                <td colspan="1" class="border-bottom padding-15" [hidden]="vacacion.observaciones.length >= 100">{{vacacion.observaciones}}</td>
+            </tr>
+        </table>
+
+        <br>
+        <br>
+        <br>
+
+        <table class="margin-auto width-85">
+            <tr>
+                <td style="width: 295px !important;">Nota: indique el o los nombres de las personas que le cubrirá durante
+                    su descanso</td>
+            </tr>
+            <tr>
+                <td class="border-bottom padding-15">{{vacacion.cubreVacaciones}}</td>
+            </tr>
+        </table>
+
+        <br>
+        <br>
+        <br>
+
+        <table class="margin-auto width-85">
+            <tr>
+                <td class="width-345">Fecha en que se debe de presentar a su trabajo</td>
+                <td class="border-bottom">{{vacacion.fechaReintegro}}</td>
+            </tr>
+        </table>
+
+        <br>
+        <br>
+        <br>
+
+        <div style="display: flex;">
+            <div style="display: flex;margin: auto;">
+                <div style="margin: 0px 15px;" class="report-section">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            _______________________________
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <span>Solicitante</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <span>{{vacacion.employee}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 0px 15px;" class="report-section">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            _______________________________
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <span>Jefe Inmediato</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <span>{{vacacion.jefeInmediato}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+
+        <div class="report-section">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    _________________________________________
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span>Recursos Humanos</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

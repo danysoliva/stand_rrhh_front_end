@@ -1,0 +1,93 @@
+::ng-deep .page {
+    height: 1150px !important;
+}
+
+.width-25{
+    width: 25px;
+}
+
+.width-100{
+    width: 100px;
+}
+
+.width-140{
+    width: 140px;
+}
+
+.width-160{
+    width: 160px;
+}
+
+.width-90{
+    width: 90px;
+}
+
+.width-345{
+    width: 345px;
+}
+
+.full-width{
+    width: 100%;
+}
+
+.width-85{
+    width: 85%;
+}
+
+.border-left{
+    border-left: 1px solid !important;
+}
+
+.border-right{
+    border-right: 1px solid !important;
+}
+
+.border-bottom{
+    border-bottom: 1px solid !important;
+}
+
+.padding-10{
+    padding: 10px;
+}
+
+.padding-15{
+    padding: 15px 0px 0px 0px;
+}
+
+.vertical-align-bottom{
+    vertical-align: bottom;
+}
+
+.vertical-align-top{
+    vertical-align: top;
+}
+
+.margin-auto{
+    margin: auto;
+}
+
+.margin-right-10{
+    margin-right: 10px;
+}
+
+.margin-left-10{
+    margin-left: 10px;
+}
+
+.display-block{
+    display: block !important;
+}
+
+.font-size-13{
+    font-size: 13px !important;
+}
+
+.fulljustify {
+    text-align:justify;
+    display: block;
+}
+.fulljustify:after {
+    content: "";
+    display: inline-block;
+    width: 100%;	
+}

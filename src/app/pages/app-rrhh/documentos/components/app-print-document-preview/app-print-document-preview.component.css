@@ -1,0 +1,19 @@
+kendo-pdf-export {
+    font-family: "DejaVu Sans", "Arial", sans-serif!important;
+    font-size: 12px;
+}
+  
+.print-menu {
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
+  text-align: -webkit-center;
+}
+.pageNum {
+  font-family: "DejaVu Sans", "Arial", sans-serif;
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  margin-right: 10px;
+}

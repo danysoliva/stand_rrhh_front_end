@@ -1,0 +1,84 @@
+::ng-deep{
+    .dx-dropdowneditor-overlay .dx-list-group-header, .dx-dropdowneditor-overlay .dx-list-item-content  {  
+        font-size: 16px;  
+    }  
+
+    .dx-textarea .dx-texteditor-input {
+       
+        font-size: 20px;
+    }
+    
+    .dx-selectbox .dx-texteditor-input {
+        font-size: 20px;
+    }
+    
+    .dx-button-has-icon.dx-button-has-text .dx-icon {
+        font-size: 20px;
+        height: 18px;
+    }
+    .nb-theme-default [nbButton].appearance-outline.status-success[disabled], .nb-theme-default .appearance-outline.status-success[disabled][nbButtonToggle], .nb-theme-default [nbButton].appearance-outline.status-success.btn-disabled, .nb-theme-default .appearance-outline.status-success.btn-disabled[nbButtonToggle] {
+        background-color: rgba(143, 155, 179, 0.16);
+        border-color: rgba(143, 155, 179, 0.24);
+        color: rgba(143, 155, 179, 0.48);
+    }
+
+    .login-button{
+        border-radius: 8px !important;
+        border: 2px solid #1859b7 !important;
+        transition-duration: 0.5s;
+
+        .dx-button-content{
+            color: #1859b7 !important;
+        }
+
+        .dx-icon{
+            color: #1859b7 !important;
+            font-size: 24px !important;
+            margin-right: 16px !important;
+        }
+    }
+
+    .login-button.dx-button-mode-outlined.dx-state-hover{
+        background-color: #1859b7 !important;
+        transition-duration: 0.5s;
+
+        border: 2px solid white !important;
+        
+        .dx-button-content{
+            color: white !important;
+        }
+
+        .dx-icon{
+            color: white !important;
+        }
+    }
+
+
+
+}
+
+.nb-card{
+    background-color: #ffffff;
+    border: 0.0625rem solid #e4e9f2;
+    border-radius: 0.25rem;
+    box-shadow: none;
+    color: #222b45;
+    font-family: Open Sans, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    margin-bottom: 1.875rem;
+    margin-top: 20%;
+}
+
+.nb-card-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #edf1f7;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    color: #222b45;
+    font-family: Open Sans, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+}

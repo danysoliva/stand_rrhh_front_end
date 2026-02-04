@@ -1,0 +1,92 @@
+<nb-card class="inline-form-card">
+    <nb-card-header>Plazas publicadas</nb-card-header>
+    <nb-card-body>
+        <dx-data-grid [dataSource]="plazas" rowAlternationEnabled="true" showColumnLines="false" showRowLines="true"
+            showBorders="true" wordWrapEnabled="true" columnAutoWidth="true" columnMinWidth="50" keyExpr="id"
+            hoverStateEnabled="true">
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-paging [pageSize]="10"> </dxo-paging>
+
+            <dxi-column dataField="titulo" caption="Título">
+            </dxi-column>
+            <dxi-column dataField="fechaCreacion" caption="Fecha Publicación" width="300">
+            </dxi-column>
+            <dxi-column style="text-align: center !important;" cellTemplate="cellRequisitos" 
+                width="200" alignment="center"></dxi-column>
+            <dxi-column alignment="center" style="text-align: center !important;" cellTemplate="cellaplicar"
+                width="200">
+            </dxi-column>
+
+
+            <div *dxTemplate="let data of 'cellRequisitos'" style="text-align: center;">
+                <button style="text-align: center;" nbButton outline status="primary" type="success"
+                    (click)="getRequisitos(data.data)"> Requisitos
+                    <nb-icon icon="info-outline" pack="eva"></nb-icon>
+                </button>
+            </div>
+
+            <div *dxTemplate="let data of 'cellaplicar'" style="text-align: center;">
+                <button style="text-align: center;" nbButton outline status="primary" type="success"
+                    (click)="aplicar(data.data)"> Aplicar
+                    <nb-icon icon="external-link-outline" pack="eva"></nb-icon>
+                </button>
+            </div>
+        </dx-data-grid>
+    </nb-card-body>
+</nb-card>
+
+
+
+<dx-popup [width]="700" [height]="400" [showTitle]="true" title="Aplicar para plaza" [dragEnabled]="false"
+    [showCloseButton]="true" container="body" [(visible)]="popupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <form class="form-group row" [formGroup]="plazaForm" (submit)="guardarPostulante()" style="display:grid ;">
+                <div class="row" style="display: grid">
+
+                    <div style="margin-bottom:10px ;">
+                        <span style="margin-right:10px ;font-size: 16px;"> <strong>Es recomendado</strong></span>
+                        <dx-check-box (onValueChanged)="cambioValor($event)" formControlName="es_recomendado">
+                        </dx-check-box>
+                    </div>
+                    <div style="width: 66%; font-size: 16px;">
+                        <span class="span-class"><strong>Nombre:</strong></span>
+                        <dx-text-box placeHolder="Escriba un nombre" [disabled]="isDisable" formControlName="nombre">
+                        </dx-text-box>
+                        <span class="span-class" style="margin-top: 10px;"><strong>Correo:</strong></span>
+                        <dx-text-box formControlName="correo">
+                            <dx-validator>
+                                <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+                                <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+                            </dx-validator>
+                        </dx-text-box>
+                        <br>
+                        <span class="span-class" style="margin-top: 10px;"><strong>Teléfono:</strong></span>
+                        <dx-text-box formControlName="telefono" mask="00000000" [maskRules]="phoneRules"
+                            maskInvalidMessage="The phone must have a correct USA phone format">
+                        </dx-text-box>
+                    </div>
+
+                    <div class="container-bottom" style="text-align: center;">
+                        <button nbButton outline status="success" class="float-r m-l-5"
+                            [disabled]="plazaForm.invalid===true">Confirmar</button>
+                        <button nbButton outline status="danger" type="reset" class="float-r m-r-5"
+                            (click)="cancelar()">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+
+<dx-popup [width]="700" [height]="600" [showTitle]="true" title="Requisitos" [dragEnabled]="false"
+    [showCloseButton]="true" container="body" [(visible)]="popupVisible2">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="row">
+                <div [innerHTML]="requisitos"></div>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>

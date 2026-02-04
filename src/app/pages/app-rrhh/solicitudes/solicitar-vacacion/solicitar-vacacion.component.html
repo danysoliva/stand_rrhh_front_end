@@ -1,0 +1,179 @@
+<button nbButton outline status="primary" class="m-b-10" (click)="solicitarVacacion()">Solicitar
+    Vacación</button>
+
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card class="inline-form-card">
+            <nb-card-header>Mis Solicitudes de Vacación</nb-card-header>
+            <nb-card-body>
+                <dx-data-grid [dataSource]="solicitudesDeVacacion" rowAlternationEnabled="true" showColumnLines="false"
+                    showRowLines="true" showBorders="true" wordWrapEnabled="true" columnAutoWidth="true"
+                    columnMinWidth="50" keyExpr="id" hoverStateEnabled="true">
+
+                    <dxo-export [enabled]="true"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-paging [pageSize]="10"> </dxo-paging>
+
+                    <dxi-column dataField="id" caption="ID" width="60">
+                    </dxi-column>
+                    <dxi-column dataField="fechaInicio" caption="Fecha Inicio" dataType="date" format="dd/MM/yyyy"
+                        width="100">
+                    </dxi-column>
+                    <dxi-column dataField="fechaFin" caption="Fecha Fin" dataType="date" format="dd/MM/yyyy"
+                        width="100">
+                    </dxi-column>
+                    <dxi-column dataField="fechaReintegro" caption="Fecha Reintegro" dataType="date" format="dd/MM/yyyy"
+                        width="100">
+                    </dxi-column>
+                    <dxi-column dataField="cantidadDiasVacacion" caption="Días" width="70">
+                    </dxi-column>
+                    <dxi-column dataField="cubreVacaciones" caption="Cubre Vacaciones">
+                    </dxi-column>
+                    <dxi-column dataField="requestState" caption="Estado" width="150">
+                    </dxi-column>
+                    <dxi-column dataField="comment" caption="Comentario" width="250">
+                    </dxi-column>
+                    <dxi-column dataField="createdDate" caption="Fecha" dataType="date" format="dd/MM/yyyy HH:mm:ss"
+                        width="100">
+                    </dxi-column>
+                    <dxi-column cellTemplate="cellTemplateEliminar" caption="" width="120">
+                    </dxi-column>
+                    <div *dxTemplate="let data of 'cellTemplateEliminar'">
+                        <button style="display: block; margin: auto;"
+                            *ngIf="data.data.requestStateId === estadoSolicitudEnum.EnProceso" nbButton outline
+                            status="danger" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="abrirPopupConfirmarEliminacion(data.data.id)">
+                            <span style="font-size: 12px;">Eliminar</span>
+                            <nb-icon icon="close" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                </dx-data-grid>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+
+<dx-popup [width]="400" height="auto" [showTitle]="true" title="Solicitud Vacación" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            
+            <div class="container-control-one-no-padding m-b-15">
+                <div class="control-one-no-padding">
+                    <span style="font-size: 14px;text-transform: uppercase;color: #164888;">Días pendientes: {{cantidadDiasPendientes}} días</span>
+                </div>
+            </div>
+
+            <br>
+            
+            
+            <form class="form-group row" [formGroup]="vacacionForm">
+
+
+                <div class="container-control-one">
+                    <div class="control-one">                
+                        <span>
+                            <b>Tipo de Vacación<b style="color:red;">*</b></b>
+                        </span>
+                        <dx-radio-group formControlName="tipoVacacion" [dataSource]="tipoDeVacaciones" [value]="id" displayExpr="descripcion">
+                        </dx-radio-group>
+                    </div>
+                </div>
+
+                <div class="container-control-two">
+                    <div class="control-one">
+                        <span>Fecha Inicio<b style="color:red;">*</b></span>
+                        <dx-date-box formControlName="fechaInicio" width="100%" displayFormat="dd/MM/yyyy"
+                            (onValueChanged)="fechaInicioChanged($event)">
+                        </dx-date-box>
+                    </div>
+
+                    <div class="control-two">
+                        <span>Fecha Fin<b style="color:red;">*</b></span>
+                        <dx-date-box formControlName="fechaFin" width="100%" displayFormat="dd/MM/yyyy"
+                            (onValueChanged)="fechaFinChanged($event)">
+                        </dx-date-box>
+                    </div>
+                </div>
+
+                <div class="container-control-two">
+                    <div class="control-two">
+                        <span>Cantidad Días de Vacación<b style="color:red;">*</b></span>
+                        <dx-number-box formControlName="cantidadDiasVacacion" width="100%" min="0" max="20" step="0"
+                            (onValueChanged)="cantidadDiasVacacionChanged($event)">
+                        </dx-number-box>
+                    </div>
+
+                    <div class="control-two">
+                        <div *ngIf="((this.vacacionForm.get('cantidadDiasVacacion').value % 1) !== 0) && this.vacacionForm.get('jornada').value !== 0">
+                            <span>Jornada<b style="color:red;">*</b></span>
+
+                            <dx-radio-group formControlName="jornada" layout="horizontal" [items]="jornadas"
+                                valueExpr="id" displayExpr="nombre" (onValueChanged)="jornadaChanged()">
+                            </dx-radio-group>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-control-one">
+                    <div class="control-one">
+                        <span>Fecha de Reintegro<b style="color:red;">*</b></span>
+                        <dx-date-box readOnly="true" formControlName="fechaReintegro" width="100%"
+                            displayFormat="dd/MM/yyyy">
+                        </dx-date-box>
+                    </div>
+                </div>
+                
+                <div class="container-control-one">
+                    <div class="control-one">
+                        <span>Actividades Pendientes</span>
+                        <dx-text-area [height]="70" maxLength="300" formControlName="actividadesPendientes" width="100%">
+                        </dx-text-area>
+                    </div>
+                </div>
+                
+                <div class="container-control-one">
+                    <div class="control-one">
+                        <span>Nombre de las personas que le cubrirán durante su descanso<b
+                                style="color:red;">*</b></span>
+                        <dx-text-box formControlName="cubreVacaciones" width="100%"></dx-text-box>
+                    </div>
+                </div>
+
+
+                <div class="container-control-one">
+                    <div class="control-one">
+                        <span>Observaciones</span>
+                        <dx-text-area [height]="70" maxLength="300" formControlName="observaciones" width="100%">
+                        </dx-text-area>
+                    </div>
+                </div>
+
+                <!-- class="container-bottom" -->
+                <div style="display: block; width: 100%; padding: 0px 15px;">
+                    <button nbButton outline status="success" type="submit" [disabled]="vacacionForm.invalid===true"
+                        class="float-r m-l-5" (click)="guardar()">Guardar</button>
+                    <button nbButton outline status="danger" class="float-r m-r-5"
+                        (click)="cerrarPopup()">Cancelar</button>
+                </div>
+            </form>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<dx-popup [width]="520" height="auto" [showTitle]="true" title="Confirmar Eliminación" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupConfirmarEliminacionVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <span class="confirmation-title">¿Está completamente seguro(a) de eliminar la solicitud de vacación?</span>
+
+            <div class="container-bottom p-r-26">
+                <button nbButton outline status="success" class="float-r m-l-5" (click)="eliminar()">Eliminar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5"
+                    (click)="cerrarPopupConfirmarEliminacion()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+

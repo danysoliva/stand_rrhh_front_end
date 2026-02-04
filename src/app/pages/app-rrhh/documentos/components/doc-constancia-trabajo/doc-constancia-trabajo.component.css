@@ -1,0 +1,21 @@
+::ng-deep .page {
+    font-size: 18px !important;
+    height: 3000px !important;
+    height: calc(100vh - 60px) !important;
+    margin: 30px !important;
+}
+
+::ng-deep .report-column-100 span{
+    text-align: justify;
+    display: inline-block;
+}
+
+
+::ng-deep .report-column-100 span u{
+    text-decoration: none !important;
+    border-bottom: 1px solid;
+}
+
+::ng-deep table, th, td  {
+    font-size: 18px !important;
+}

@@ -1,0 +1,147 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card class="inline-form-card">
+            <nb-card-header>Solicitudes de Constancias</nb-card-header>
+            <nb-card-body>
+
+                <span><strong>Estado:</strong> </span>
+                <dx-select-box labelMode="floating" [dataSource]="estadosFiltro" width="250px" (onValueChanged)="filtroValueChanged($event)"
+                    displayExpr="nombre" valueExpr="id" placeholder="Seleccione una opción" [formControl]="fcEstadoFiltro">
+                </dx-select-box>
+
+                <dx-data-grid [dataSource]="solicitudesDeConstancias" rowAlternationEnabled="true"
+                    showColumnLines="false" showRowLines="true" showBorders="true" wordWrapEnabled="true"
+                    columnAutoWidth="true" columnMinWidth="50" keyExpr="id" hoverStateEnabled="true">
+
+                    <dxo-export [enabled]="true"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-paging [pageSize]="10"> </dxo-paging>
+
+                    <dxi-column dataField="id" caption="ID" width="60">
+                    </dxi-column>
+                    <dxi-column dataField="employeeName" caption="Empleado">
+                    </dxi-column>
+                    <dxi-column dataField="requestType" caption="Tipo de Solicitud">
+                    </dxi-column>
+                    <dxi-column dataField="requestState" caption="Estado">
+                    </dxi-column>
+                    <dxi-column dataField="createdDate" caption="Fecha" dataType="date" format="dd/MM/yyyy HH:mm:ss"
+                        width="100">
+                    </dxi-column>
+                    <dxi-column cellTemplate="cellTemplateAprobar" caption="Aprobar" width="72">
+                    </dxi-column>
+                    <dxi-column cellTemplate="cellTemplateDenegar" caption="Denegar" width="72">
+                    </dxi-column>
+                    <dxi-column cellTemplate="cellTemplateImprimir" caption="Imprimir" width="72">
+                    </dxi-column>
+
+                    <div *dxTemplate="let data of 'cellTemplateAprobar'">
+                        <button style="display: block; margin: auto;"
+                            *ngIf="data.data.esVistaRRHHAdministrador && data.data.requestStateId === estadoSolicitudEnum.EnProceso"
+                            nbButton outline status="success" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="abrirPopupAprobar(data.data.id, data.data.employeeName)">
+                            <nb-icon icon="checkmark-circle" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                    <div *dxTemplate="let data of 'cellTemplateDenegar'">
+                        <button style="display: block; margin: auto;"
+                            *ngIf="data.data.esVistaRRHHAdministrador && data.data.requestStateId === estadoSolicitudEnum.EnProceso"
+                            nbButton outline status="danger" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="abrirPopupDenegar(data.data.id, data.data.employeeName)">
+                            <nb-icon icon="close" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                    <div *dxTemplate="let data of 'cellTemplateImprimir'">
+                        <button style="display: block; margin: auto;"
+                            *ngIf="data.data.esVistaRRHHAdministrador && data.data.requestStateId === estadoSolicitudEnum.Aprobado"
+                            nbButton outline status="primary" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="imprimir(data.data.id)">
+                            <nb-icon icon="printer" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+
+                </dx-data-grid>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+
+<dx-popup [width]="520" [height]="520" [showTitle]="true" title="Aprobar" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupAprobarVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <span class="confirmation-title">Solicitud de constancia(#{{solicitudConstanciaIdSeleccionado}}) de
+                <b><i>{{empleadoSeleccionado}}</i></b>?</span>
+
+            <div class="container-control-one m-t-10">
+                <div class="control-one-no-padding">
+                    <span class="p-b-7">Conceptos<b style="color:red;">*</b></span>
+                    <dx-list #list [dataSource]="conceptos" [height]="180" selectionMode="all" selectAllMode="allPages"
+                        showSelectionControls="true" (onSelectionChanged)="onSelectionListChanged($event)"
+                        (onSelectAllValueChanged)="onSelectAllListChanged($event)"
+                        [(selectedItems)]="conceptosSeleccionados"
+                        style="border: 1px solid #d1d1d1; border-radius: 5px;"></dx-list>
+                    <div *ngIf="conceptosSeleccionados.length > 0" class="selected-data m-t-5"
+                        style="text-align: justify;">
+                        <span class="caption dis-block">Seleccionados:</span>
+                        <span *ngFor="let concepto of conceptosSeleccionados"><b style="color:#8f9bb3">
+                                {{concepto.text + ", "}}</b></span>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="depreciacionVisible" class="container-control-two m-t-10">
+                <div class="control-two">
+                    <span>Monto de Depreciación<b style="color:red;">*</b></span>
+                    <dx-number-box [formControl]="fcValorDepreciacion" width="100%" min="0" step="0"
+                        (onKeyUp)="keyUpDepreciacion($event)">
+                    </dx-number-box>
+                </div>
+                <div class="control-two">
+                    <span>Moneda<b style="color:red;">*</b></span>
+                    <dx-radio-group [dataSource]="monedas" displayExpr="nombre" valueExpr="id"
+                    [formControl]="fcMoneda" layout="horizontal">
+                    </dx-radio-group>
+                </div>
+            </div>
+
+            <div class="container-bottom">
+                <button nbButton outline status="success" class="float-r m-l-5" (click)="aprobar()"
+                    [disabled]="(depreciacionVisible===true && depreciacionValida === false)">Aprobar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5"
+                    (click)="cerrarPopupAprobar()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+
+
+<dx-popup [width]="400" height="auto" [showTitle]="true" title="Denegar" [dragEnabled]="false" [showCloseButton]="false"
+    container="body" [(visible)]="popupDenegarVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <span class="confirmation-title">¿Está completamente seguro(a) de <b>DENEGAR</b> la solicitud de
+                constancia(#{{solicitudConstanciaIdSeleccionado}}) de
+                <b><i>{{empleadoSeleccionado}}</i></b>?</span>
+
+            <span style="font-size: 15px;margin-top: 20px;display: block;"><strong>Escriba un comentario</strong> </span>
+            <dx-text-area [height]="60" [formControl]="fcComentario" (onKeyUp)="keyUpComentario($event)">
+            </dx-text-area>
+
+            <div class="container-bottom">
+                <button nbButton outline status="success" class="float-r m-l-5" [disabled]="comentarioValido === false"
+                    (click)="denegar()">Denegar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5"
+                    (click)="cerrarPopupDenegar()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<app-doc-base [isVisible]="reporteEsVisible" (closed)="reporteEsVisible = $event" [filename]="filename"
+    customMargin="3">
+    <doc-constancia-trabajo [reporteEsVisible]="reporteEsVisible" [constanciaTrabajo]="constanciaTrabajo">
+    </doc-constancia-trabajo>
+</app-doc-base>

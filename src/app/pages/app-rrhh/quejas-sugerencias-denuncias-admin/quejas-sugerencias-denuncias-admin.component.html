@@ -1,0 +1,69 @@
+<nb-card class="inline-form-card">
+    <nb-card-header>Quejas, Sugerencias, Denuncias</nb-card-header>
+    <nb-card-body>
+        <!-- <span>Presione sobre la </span> -->
+        <dx-data-grid [dataSource]="datos" rowAlternationEnabled="true"
+        showColumnLines="false" showRowLines="true" showBorders="true" wordWrapEnabled="true"
+        columnAutoWidth="true" columnMinWidth="50" keyExpr="id" hoverStateEnabled="true">
+
+        <dxo-export [enabled]="true"></dxo-export>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-paging [pageSize]="10"> </dxo-paging>
+
+        <!-- <dxi-column dataField="id" caption="ID" width="60">
+        </dxi-column> -->
+        <dxi-column dataField="createDate" caption="Fecha de Creación" dataType="date" format="dd/MM/yyyy HH:mm:ss" width="150">
+        </dxi-column> 
+        <dxi-column dataField="lastModification" caption="Última Modificacion" dataType="date" format="dd/MM/yyyy HH:mm:ss" width="150">
+        </dxi-column>
+        <dxi-column dataField="descripcion" caption="Descripción">
+       </dxi-column>
+         <dxi-column dataField="tipo" caption="Tipo" width="100">
+        </dxi-column>
+         <dxi-column dataField="estado" caption="Estado" width="100">
+        </dxi-column>
+        <!-- <dxi-column dataField="estado" caption="Estado" width="100">
+        </dxi-column> -->
+         <dxi-column style="text-align: center !important;" cellTemplate="cellCambiarEstado" caption="" width="140">
+        </dxi-column> 
+
+        <div *dxTemplate="let data of 'cellCambiarEstado'">
+            <button outline style="text-align: center;" nbButton status="primary" type="success"
+                (click)="abrirPopupCambiarEstado(data.data)">
+                <span style="font-size: 12px; text-wrap: balance;">Cambiar Estado</span>
+                <nb-icon icon="shield-outline" pack="eva"></nb-icon>
+            </button>
+        </div>
+    </dx-data-grid>
+
+    </nb-card-body>
+</nb-card>
+
+
+<dx-popup [width]="700" [height]="300" [showTitle]="true" title="Lectura" [dragEnabled]="false"
+    [showCloseButton]="true" container="body" [(visible)]="popupVisible">
+
+    <span style="font-size: 22px; font-weight: bold;">{{texto}}</span>
+</dx-popup>
+
+
+<dx-popup [width]="400" height="auto" [showTitle]="true" title="Cambiar Estado" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupVisibleCambiarEstado">
+
+    <div class="dx-field">
+        <div class="dx-field-label">Estado</div>
+        <div class="dx-field-value">
+          <dx-select-box
+          [dataSource]="estados"
+          displayExpr="state" valueExpr="id"
+            placeholder="Seleccione un estado..."
+            (onValueChanged)="estadoSeleccionado($event)"
+          ></dx-select-box>
+        </div>
+      </div>
+
+      <div class="container-bottom">
+        <button nbButton outline status="success" class="float-r m-l-5" (click)="confirmar()">Confirmar</button>
+        <button nbButton outline status="danger" class="float-r m-r-5" (click)="cancelar()">Cancelar</button>
+    </div>
+</dx-popup>

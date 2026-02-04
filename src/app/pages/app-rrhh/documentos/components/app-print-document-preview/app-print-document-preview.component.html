@@ -1,0 +1,51 @@
+<app-doc-popup [customMinWidth]="'924px'" [customMinHeight]="'600px'" [customWidth]="'924px'" [customHeight]="'600px'"
+    [enableMinimizeButton]="false" [enableResizeButton]="false" [dragEnabled]="false" #printDocumentPreviewPopup>
+
+    <div [hidden]="disablePrintMenu">
+        <doc-form style="text-align: center; padding-top: 0px!important;">
+            <doc-form-item>
+                <label>Tamaño de papel</label>
+                <dx-select-box class="dx-centered-cmp" [items]="paperSizes" [value]="paperSizes[9]" #size></dx-select-box>
+            </doc-form-item>
+            <doc-form-item>
+                <label>Margen</label>
+                <dx-number-box class="dx-centered-cmp" [value]="1" [showSpinButtons]="true" [showClearButton]="true" [min]="0" [max]="3"
+                    #margin>
+                </dx-number-box>
+            </doc-form-item>
+            <doc-form-item>
+                <label>Escala</label>
+                <dx-number-box class="dx-centered-cmp" [value]="0.6" [showSpinButtons]="true" [showClearButton]="true" [min]="0.5" [max]="1.5"
+                    #scale>
+                </dx-number-box>
+            </doc-form-item>
+        </doc-form>
+    </div>
+
+
+    <dx-scroll-view [height]="disablePrintMenu? '90%' : '70%'">
+        <kendo-pdf-export #pdf [paperSize]="useCustomSettings? customPaperSize : size.value"
+            [margin]="useCustomSettings? customMargin+'cm' : margin.value+'cm'" [repeatHeaders]="true"
+            [scale]="useCustomSettings? customScale : scale.value" forcePageBreak=".page-break">
+
+            <ng-template kendoPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+                <div class="pageNum">
+                    {{ pageNum }}/{{ totalPages }}
+                </div>
+            </ng-template>
+
+            <ng-content></ng-content>
+        </kendo-pdf-export>
+    </dx-scroll-view>
+
+
+    <div class="row">
+        <div class="col-md-12 text-right" style="margin-top: 20px;">
+            <button mat-button mat-raised-button color="primary"
+                [disabled]="margin.value === null || scale.value === null" (click)="print(pdf)">
+                <i class="material-icons">save_alt</i>Guardar como PDF...
+            </button>
+        </div>
+    </div>
+
+</app-doc-popup>

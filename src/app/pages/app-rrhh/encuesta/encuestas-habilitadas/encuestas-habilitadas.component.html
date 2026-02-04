@@ -1,0 +1,54 @@
+<nb-card class="inline-form-card">
+    <nb-card-header>Encuestas Habilitadas</nb-card-header>
+    <nb-card-body>
+        <dx-data-grid [dataSource]="encuestas" rowAlternationEnabled="true" showColumnLines="false" showRowLines="true"
+            showBorders="true" wordWrapEnabled="true" columnAutoWidth="true" columnMinWidth="50" keyExpr="id"
+            hoverStateEnabled="true">
+
+            <dxo-export [enabled]="true"></dxo-export>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-paging pageSize="10"> </dxo-paging>
+
+            <dxi-column dataField="titulo" caption="Título">
+            </dxi-column>
+            <dxi-column dataField="fechaCreacion" dataType="date" caption="FechaCreacion" width="250">
+            </dxi-column>
+            <dxi-column dataField="estado" caption="Estado" width="100">
+            </dxi-column>
+            <dxi-column cellTemplate="cellTemplateLlenarEncuesta" width="200">
+            </dxi-column>
+            <dxi-column cellTemplate="cellTemplateCerrar" width="200" [(visible)]="isVisible">
+            </dxi-column>
+
+            <div *dxTemplate="let data of 'cellTemplateLlenarEncuesta'" style="text-align: center;">
+                <button style="display: block; margin: auto;" nbButton outline status="primary"  (click)="llenarEncuesta(data)"
+                    class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13">Llenar Encuesta
+                    <nb-icon icon="archive-outline" pack="eva" style="margin: auto;">
+                    </nb-icon>
+                </button>
+            </div>
+            <div *dxTemplate="let data of 'cellTemplateCerrar'" style="text-align: center;">
+                <button style="display: block; margin: auto;" status="danger" nbButton outline status="primary"
+                    class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"  (click)="cerrarEncuesta(data)"> Cerrar Encuesta
+                    <nb-icon icon="close-circle-outline" pack="eva" style="margin: auto;"
+                       ></nb-icon>
+                </button>
+            </div>
+        </dx-data-grid>
+    </nb-card-body>
+</nb-card>
+
+
+<dx-popup [width]="400" height="auto" [showTitle]="true" title="Confirmación" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <span class="confirmation-title">¿Está seguro(a) de cerrar esta encuesta?</span>
+
+            <div class="container-bottom">
+                <button nbButton outline status="success" class="float-r m-l-5" (click)="confirmar()">Confirmar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5" (click)="cancelar()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>

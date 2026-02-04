@@ -1,0 +1,9 @@
+<div class="section-button-container">
+    <button class="section-button" (click)="showOrHideSectionContent()">
+        <span>{{sectionName}} </span>
+        <span class="material-icons section-collapse-icon">{{ sectionIsHidden ? 'expand_more' : 'expand_less' }}</span>
+    </button>
+</div>
+<div class="section-content" [hidden]="sectionIsHidden">
+    <ng-content></ng-content>
+</div>

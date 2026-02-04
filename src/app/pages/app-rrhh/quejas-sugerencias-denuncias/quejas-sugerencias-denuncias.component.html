@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <nb-card class="inline-form-card">
+            <nb-card-header>Quejas, Sugerencias, Denuncias</nb-card-header>
+            <nb-card-body>
+                <div style="display: grid;"
+                    [formGroup]="QuejasDenunciasSugerenciasForm">
+                    <span style="font-size: 18px;"><strong>Tipo:</strong> </span>
+                    <dx-select-box labelMode="floating" class="control-width" [dataSource]="tipos"
+                        displayExpr="descripcion" valueExpr="id" [searchMode]="searchModeOption"
+                        [searchExpr]="searchExprOption" [searchTimeout]="searchTimeoutOption" [searchEnabled]="true"
+                        [showClearButton]="true" formControlName="tipo">
+                    </dx-select-box>
+                    <br>
+                    <br>
+                    <br>
+                    <span style="font-size: 18px;"><strong>Escriba su comentario</strong> </span>
+                    <dx-text-area [height]="90" formControlName="descripcion" (onKeyUp)="keyUpComentario($event)">
+                    </dx-text-area>
+                    <br>
+                    <button style="width: 200px"
+                        [disabled]="QuejasDenunciasSugerenciasForm.invalid===true || comentarioValido === false"
+                        nbButton status="success" outline (click)="guardar()">
+                        Guardar
+                        <nb-icon icon="save" pack="eva"></nb-icon>
+                    </button>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+
+
+

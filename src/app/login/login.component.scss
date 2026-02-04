@@ -1,0 +1,109 @@
+.swiper-container {
+	width: 70%;
+	height: 100vh;
+	position: absolute;
+	background: #133371;
+	// display: list-item;
+
+	.swiper-slide {
+		height: 100vh;
+		// width: auto;
+		width: 100%;
+		object-fit: cover;
+	}
+}
+
+.form-container {
+	z-index: 2;
+	height: 100vh;
+	position: absolute;
+	width: 30%;
+	right: 0;
+	display: flex;
+	background: white;
+
+	form {
+		margin: auto;
+		width: 230px;
+	}
+
+	.btn-login {
+		padding: 15px;
+		height: 40px;
+		width: 100% !important;
+		text-transform: uppercase;
+	}
+}
+
+@media (max-width: 950px) {
+	.swiper-container {
+		width: 65% !important;
+	}
+
+	.form-container {
+		width: 35% !important;
+	}
+}
+
+@media (max-width: 750px) {
+	.swiper-container {
+		width: 60% !important;
+	}
+
+	.form-container {
+		width: 40% !important;
+	}
+}
+
+@media (max-width: 650px) {
+	.swiper-container {
+		display: none !important;
+	}
+
+	.form-container {
+		width: 100% !important;
+	}
+}
+
+.p-t-3 {
+	padding-top: 3px;
+}
+.p-b-20 {
+	padding-bottom: 20px;
+}
+.w-full {
+	width: 100%;
+}
+
+.hide-inputs {
+	display: flex;
+
+	dx-number-box {
+		height: 0px !important;
+		max-height: 0px !important;
+	}
+
+	input {
+		height: 0px !important;
+		border: 0px !important;
+		cursor: default !important;
+		pointer-events: none !important;
+		color: white !important;
+		background: white !important;
+	}
+
+	.dx-texteditor-input {
+		color: white !important;
+		pointer-events: none !important;
+	}
+
+	.dx-texteditor.dx-editor-filled {
+		background-color: white !important;
+		pointer-events: none !important;
+	}
+
+	.dx-texteditor.dx-editor-filled::after {
+		border: 0px !important;
+		pointer-events: none !important;
+	}
+}

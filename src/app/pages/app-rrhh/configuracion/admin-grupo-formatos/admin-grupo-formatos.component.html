@@ -1,0 +1,35 @@
+
+<div >
+  <button style="display: block;margin-left: auto;" nbButton outline status="danger" (click)="CerrarVentana()"> Salir</button>
+</div>
+
+<dx-data-grid
+  [dataSource]="grupos"
+  rowAlternationEnabled="true"
+  showColumnLines="false"
+  showRowLines="true"
+  showBorders="true"
+  wordWrapEnabled="true"
+  columnAutoWidth="true"
+  columnMinWidth="50"
+  keyExpr="id"
+  hoverStateEnabled="true"
+  (onRowUpdated)="logEventEdited($event)"
+  (onRowRemoved)="logEventRemoved($event)"
+  (onRowInserted)="logEventInserted($event.data)"
+>
+<dxo-editing
+  mode="row"
+  [allowUpdating]="true"
+  [allowDeleting]="true"
+  [allowAdding]="true"
+>
+</dxo-editing>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxi-column dataField="id" caption="ID" [visible]="false"> </dxi-column>
+  <dxi-column dataField="descripcion" caption="Grupo">
+  </dxi-column>
+</dx-data-grid>
+
+
+

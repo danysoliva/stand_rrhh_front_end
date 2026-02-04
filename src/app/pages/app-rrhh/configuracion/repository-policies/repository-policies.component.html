@@ -1,0 +1,43 @@
+<nb-card>
+    <nb-card-header>Políticas y Procedimientos</nb-card-header>
+    <nb-card-body>
+
+
+
+
+
+        <dx-data-grid [dataSource]="politicas" rowAlternationEnabled="true" showColumnLines="false" showRowLines="true"
+            showBorders="true" wordWrapEnabled="true" columnAutoWidth="true" columnMinWidth="50" keyExpr="id"
+            hoverStateEnabled="true">
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-paging [pageSize]="10"> </dxo-paging>
+
+            <dxi-column dataField="fileName" caption="Imagen" [visible]="false">
+            </dxi-column>
+            <dxi-column dataField="referenceFileName" caption="Política">
+            </dxi-column>
+
+            <dxi-column style="text-align: center !important;" cellTemplate="cellVer" width="200"
+                [formItem]="{visible: false}"></dxi-column>
+
+            <!-- <dxi-column style="text-align: center !important;" cellTemplate="cellEliminar" width="200"
+                [formItem]="{visible: false}"></dxi-column> -->
+
+            <div *dxTemplate="let data of 'cellVer'" style="text-align: center;">
+                <a [href]="data.data.fullPath" target="_blank">
+                    <button outline style="text-align: center;" nbButton status="primary" type="success">
+                        Ver
+                        <nb-icon icon="eye-outline" pack="eva"></nb-icon>
+                    </button>
+                </a>
+            </div>
+
+            <!-- <div *dxTemplate="let data of 'cellEliminar'" style="text-align: center;">
+                <button outline style="text-align: center;" nbButton status="primary" type="success"
+                    (click)="delete(data.data)">Eliminar
+                    <nb-icon icon="trash-2-outline" pack="eva"></nb-icon>
+                </button>
+            </div> -->
+        </dx-data-grid>
+    </nb-card-body>
+</nb-card>

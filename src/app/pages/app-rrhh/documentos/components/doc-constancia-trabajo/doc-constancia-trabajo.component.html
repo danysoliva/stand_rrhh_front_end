@@ -1,0 +1,467 @@
+
+<div id="documento">
+  <div id="ConstanciaTrabajo" class="page">
+
+    <br>
+    <br>
+    <div class="text-center">
+      <h5>CONSTANCIA DE TRABAJO</h5>
+    </div>
+    
+    <div class="report-section" style="display: flex;">
+      <div class="report-row">
+        <div class="report-column-100">
+          <span>Por este medio se HACE CONSTAR que el señor (a) <u>{{constanciaTrabajo.employee}}</u> es empleado
+            permanente
+            de la empresa <b>AQUAFEED S.A DE C.V.</b> desde el, <u>{{constanciaTrabajo.diaIngreso}}</u> del mes
+            <u>{{constanciaTrabajo.mesIngreso}}</u> del año <u>{{constanciaTrabajo.anioIngreso}}</u> desempeñándose
+            como:
+            <u>{{constanciaTrabajo.job}}</u> en el Departamento de <u>{{constanciaTrabajo.department}}</u>.</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- <br> -->
+    
+    <div class="report-section">
+      <div class="report-row">
+        <div class="report-column-100">
+          <span>A continuación, se detallan la información correspondiente a los ingresos del empleado:</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- <br> -->
+    <!-- <br> -->
+    
+    <div class="report-section-comment">
+      <table class="text-center">
+        <thead>
+          <tr>
+            <th scope="col">Detalle</th>
+            <th scope="col" style="width: 25%;">Mensual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of constanciaTrabajo.ingresos">
+            <td style="text-align: left;">{{i.nombre}}</td>
+            <td><span style="float: left;">{{constanciaTrabajo.moneda}} </span><span style="float: right;">{{i.monto | number : '1.2-2'}}</span></td>
+          </tr>
+          <tr>
+            <td style="text-align: left;"><b>Total, Ingresos</b></td>
+            <td><b><span style="float: left;">{{constanciaTrabajo.moneda}} </span><span style="float: right;">{{constanciaTrabajo.totalIngresos | number : '1.2-2'}}</span></b></td>
+          </tr>
+          <tr *ngFor="let d of constanciaTrabajo.deducciones">
+            <td style="text-align: left;">{{d.nombre}}</td>
+            <td><span style="float: left;">{{constanciaTrabajo.moneda}} </span><span style="float: right;">{{d.monto | number : '1.2-2'}}</span></td>
+          </tr>
+          <tr>
+            <td style="text-align: left;"><b>Total, Deducciones</b></td>
+            <td><b><span style="float: left;">{{constanciaTrabajo.moneda}} </span><span style="float: right;">{{constanciaTrabajo.totalDeducciones | number : '1.2-2'}}</span></b></td>
+          </tr>
+          <tr>
+            <td style="text-align: left;"><b>Ingresos Netos</b></td>
+            <td><b><span style="float: left;">{{constanciaTrabajo.moneda}} </span><span style="float: right;">{{constanciaTrabajo.ingresosNetos | number : '1.2-2'}}</span></b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- <br> -->
+
+    <div class="report-section">
+      <div class="report-row">
+        <div class="report-column-100">
+          <span>Para los fines que al interesado convenga se le extiende la presente en la Aldea borbotón de San Francisco
+            de Yojoa, a los <u>{{constanciaTrabajo.diaActual}}</u> días del mes de
+            <u>{{constanciaTrabajo.mesActual}}</u> del año <u>{{constanciaTrabajo.anioActual}}</u></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- <br> -->
+    <!-- <br> -->
+
+    <div class="report-section" style="margin-top: 10px;">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          _________________________________________
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center" style="display:grid;font-size: 16px;">
+          <span><strong>LUIS ALONSO LOPEZ</strong></span>
+          <span><strong>GERENTE DE RRHH</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="constanciaTrabajo.tipoConstanciaId === TipoSolicitudEnum.ConstanciaTrabajoConAnexos">
+    <div id="Anexo5" class="page">
+
+      <br>
+      <br>
+      <div class="text-center">
+        <h5>ANEXO 5</h5>
+      </div>
+
+      <br>
+
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>San Francisco de Yojoa <u>{{constanciaTrabajo.diaActual}}</u> de
+              <u>{{constanciaTrabajo.mesActual}}</u> del <u>{{constanciaTrabajo.anioActual}}</u></span>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span><b>Señores</b></span>
+          </div>
+        </div>
+        <div class="report-row">
+          <div class="report-column-100">
+            <span><b>BANCO ATLÁNTIDA, S.A.</b></span>
+          </div>
+        </div>
+        <!-- <div class="report-row">
+          <div class="report-column-100">
+            <span>Ciudad</span>
+          </div>
+        </div> -->
+      </div>
+
+      <br>
+
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>Estimados Señores:</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-section" style="display: flex;">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>Por este medio notificamos que de aprobarse la solicitud de préstamo a el señor (a)
+              <u>{{constanciaTrabajo.employee}}</u> con Tarjeta de Identidad No.
+              <u>{{constanciaTrabajo.identificationId}}</u> procederemos a deducir mediante planilla, la cantidad
+              necesaria que ustedes nos indiquen para la facilidad crediticia solicitada por nuestro empleado.</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="report-section" style="display: flex;">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>En todo caso será responsabilidad del empleado hacer el pago en caso de que el valor retenido del salario
+              y prestaciones no alcancen para hacer el pago completo de la cuota o saldo pendiente.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-section" style="display: flex;">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>Asimismo, en caso de prescindir de sus servicios, todo valor correspondiente a sus prestaciones será para
+              cancelar el saldo que tenga con <b>BANCO ATLÁNTIDA</b>, en caso de que existiera saldo pendiente a la fecha de su
+              liquidación.</span>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>Atentamente,</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="report-section" style="margin-top: 60px;">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            _________________________________________
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center" style="display:grid;font-size: 16px;">
+            <span><strong>LUIS ALONSO LOPEZ</strong></span>
+            <span><strong>GERENTE DE RRHH</strong></span>
+            <span><strong>(Firma y sello)</strong></span>
+          </div>
+        </div>
+      </div>
+
+
+    <!-- 
+      <div class="report-section" style="margin-top: 60px;">
+        <div class="row">
+          <div class="col-md-12">
+            ______________________________________________
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <span><strong>Firma y sello Gerente de Recursos Humanos</strong></span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <span>Nombre de la persona que firma: Luis Alonso Lopez</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <span>Cargo de la persona que firma: <u>Gerente de Recursos Humanos</u></span>
+          </div>
+        </div>
+      </div>-->
+    </div> 
+
+
+    <div id="AutorizacionPersonaNatural" class="page">
+
+      <br>
+      <br>
+      <div class="text-center">
+        <h5>AUTORIZACIÓN DE PERSONA NATURAL</h5>
+      </div>
+
+      <br>
+
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span><b>Señores</b></span>
+          </div>
+        </div>
+        <div class="report-row">
+          <div class="report-column-100">
+            <span><b>BANCO ATLÁNTIDA, S.A.</b></span>
+          </div>
+        </div>
+        <!-- <div class="report-row">
+          <div class="report-column-100">
+            <span>Presente</span>
+          </div>
+        </div> -->
+      </div>
+
+      <br>
+
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>Estimados Señores:</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-section" style="display: flex;">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>Yo, <u>{{constanciaTrabajo.employee}}</u> mayor de edad, numero de identidad,
+              <u>{{constanciaTrabajo.identificationId}}</u> de nacionalidad hondureña, de este vecindario, por y en
+              consideración a que BANCO ATLÁNTIDA S.A., me otorgará facilidades crediticias, por este acto los faculto
+              irrevocablemente para que en cualquier momento puedan solicitar de la <b>CENTRAL DE INFORMACIÓN CREDITICIA</b>
+              dependiente de la <b>COMISIÓN NACIONAL DE BANCOS Y SEGUROS</b>, así como de todas las Instituciones del <b>SISTEMA
+              FINANCIERO</b> en <b>HONDURAS</b> y de cualquier Institución Bancaria Extranjera, toda la información que consideren
+              necesaria respecto de créditos que se me hayan otorgado y de obligaciones que con ellos tenga pendientes, a
+              cuyo efecto autorizo a esas entidades públicas o privadas para que atiendan las solicitudes correspondientes y
+              le faciliten al <b>BANCO ATLÁNTIDA S.A.</b>, la información que requiera sobre los temas indicados.</span>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>En fe de lo cual, suscribo la presente Autorización, en la ciudad de San Francisco Yojoa, Departamento de
+              Cortes, a los <u>{{constanciaTrabajo.diaActual}}</u> días del mes de
+              <u>{{constanciaTrabajo.mesActual}}</u> del año <u>{{constanciaTrabajo.anioActual}}</u></span>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div style="display: flex;margin: 60px;"> 
+        <div class="report-section">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              _______________________________
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <span>Nombre</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <span>Identidad No.</span>
+            </div>
+          </div>
+        </div>
+        <div class="report-section">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              _______________________________
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <span>Firma</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="Anexo2" class="page">
+
+      <br>
+      <br>
+      <div class="text-center">
+        <h5>ANEXO 2</h5>
+        <h5>AUTORIZACION DE DEDUCCION POR PLANILLA</h5>
+      </div>
+
+      <br>
+
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>San Francisco de Yojoa <u>{{constanciaTrabajo.diaActual}}</u> de
+              <u>{{constanciaTrabajo.mesActual}}</u> del <u>{{constanciaTrabajo.anioActual}}</u></span>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span><b>Señores</b></span>
+          </div>
+        </div>
+        <div class="report-row">
+          <div class="report-column-100">
+            <span><b>BANCO ATLÁNTIDA, S.A.</b></span>
+          </div>
+        </div>
+        <!-- <div class="report-row">
+          <div class="report-column-100">
+            <span>Presente</span>
+          </div>
+        </div> -->
+      </div>
+
+      <br>
+
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>Estimados Señores:</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="report-section" style="display: flex;">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>Por este medio AUTORIZO a ustedes deducir mediante planilla, la cantidad necesaria para el pago de cuotas
+              de préstamo que estoy solicitando a BANCO ATLÁNTIDA, S.A., así mismo, en caso de prescindir de mis servicios
+              laborales, todo valor correspondiente a mis indemnizaciones y prestaciones de ley, como ser. Auxilio de
+              Cesantía, Preaviso, Décimo tercer y Décimo cuarto mes, Vacaciones causadas, Incapacidades, Comisiones y otros,
+              Etc., TODOS sean proporcionales o totales, sean para abonar o cancelar el saldo que tenga con BANCO ATLÁNTIDA,
+              S.A., en caso de que existiera a la fecha de mi liquidación, las cuales AUTORIZO a ustedes deducir aún y
+              cuando todos estos derechos se encontraren por alguna causa en reclamo judicial, por consiguiente los valores
+              correspondientes al pago del adeudo puedan sin ningún tipo de inconveniente continuar reteniéndose y
+              enterándose a BANCO ATLÁNTIDA, S.A., lo mismo en caso de una incapacidad total o parcial, deduciendo el valor
+              de la cantidad que como patrono les correspondiere pagar, aun cuando estas también fueren o estuvieren en
+              reclamo por la vía judicial.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-section" style="display: flex;">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>En todo caso reconozco que es mi responsabilidad hacer el pago en caso de que el valor retenido de mi
+              salario y prestaciones no alcancen para hacer el pago completo de la cuota o saldo pendiente.</span>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="report-section">
+        <div class="report-row">
+          <div class="report-column-100">
+            <span>Atentamente,</span>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="report-section" style="margin-top: 60px;display: flex;">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <span>Firma del Empleado: </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            _____________________________
+          </div>
+        </div>
+      </div>
+      <div class="report-section" style="display: flex;">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <span>Nombre del Empleado: </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            _____________________________
+          </div>
+        </div>
+      </div>
+
+      <div class="report-section" style="display: flex;">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <span>Identidad No: </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            _____________________________
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

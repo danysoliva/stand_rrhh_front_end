@@ -1,0 +1,158 @@
+<div id="documento">
+  <div class="page" style="margin: 0px;border-style: double;">
+    <div class="text-center" style="margin-left: 10px;  margin-right: 10px;margin-top: 10px;">
+      <style type="text/css">
+      </style>
+      <table class="tg-header">
+        <thead>
+          <tr>
+            <td class="tg-header-0pky" rowspan="2" style="width: 18%; text-align: center;"><img
+                src="/assets/images/aquafeed.png" width="100"></td>
+            <td class="tg-header-0pky" style="text-align: center;font-size: 16px;font-weight: bold;" colspan="3">
+              Autorización Para Deduccion por Planilla</td>
+            <td class="tg-0pky" rowspan="2" style="text-align: right;"> <br>Formato No.<br>RRHH-ADP-FOR-07 <br> Rev:
+              21/08/2021 </td>
+          </tr>
+          <tr>
+            <td class="tg-header-0pky" style="border-right-style:none">Elaborado Por<br>Asistente de RRHH<br>Razmin
+              Rodas
+            </td>
+            <td class="tg-header-0pky" style="width: 20%;border-right-style:none;border-left-style: none;"></td>
+            <td class="tg-header-dvpl" style="border-left-style: none;text-align: right;">Revisado por<br>Gerente
+              RRHH<br>Lic Luis Lopez</td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="font-size: 19px;width: 40px;padding-top: 1px;padding-bottom: 1px;">Yo </td>
+                <td
+                  style="width: 558px;font-size: 19px;border-bottom-color: black;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.nombreEmpleado}}</strong>
+                </td>
+                <td style="font-size: 19px; width: 144px;padding-top: 1px;padding-bottom: 1px;">con número de</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row row-conf">
+          <table class="tg" style="border-color:white">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="width: 95px;font-size: 19px;padding-top: 1px;padding-bottom: 1px;">identidad</td>
+                <td
+                  style="font-size: 19px;width: 304px;border-bottom-color: black;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.identidad}}</strong>
+                </td>
+                <td style="font-size: 19px;width: 347px;padding-top: 1px;padding-bottom: 1px;">Autorizo por este medio a
+                  AQUAFEED</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="font-size: 18px;width: 413px;padding-top: 1px;padding-bottom: 1px;">S.A DE C.V. deduzca de mi
+                  salario la cantidad de</td>
+                <td
+                  style="font-size: 18px;width: 201px;border-bottom-color: black;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.currency}}
+                    {{deduccionPlanillaDoc.monto | number : '1.2-2'}}</strong></td>
+                <td style="font-size: 18px;width: 129px;padding-top: 1px;padding-bottom: 1px;">por concepto:</td>
+              </tr>
+            </thead>
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td colspan="3" style="border-bottom-color: black;width: 742px;padding-top: 1px;padding-bottom: 1px;">
+                  <strong>{{deduccionPlanillaDoc.concepto}}</strong>
+                </td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>-
+
+    <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table;margin: auto;">
+                <td style="width: 184px;padding-top: 0px;padding-bottom: 1px; margin-left:0px; margin-right:0px;">A
+                  partir de la fecha:</td>
+                <td
+                  style="border-bottom-color: black;width: 561px;padding-top: 1px;padding-bottom: 1px; margin-left:0px; margin-right:0px;">
+                  <strong>{{deduccionPlanillaDoc.fechaDeduccion | date:
+                    'dd/MM/yyyy'}}</strong></td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-section margin-page" style="display: flex;padding-top: 0px; margin-left:0px; margin-right:0px;">
+      <div class="container">
+        <div class="row">
+          <table class="tg">
+            <thead>
+              <tr style="display: table; margin: auto;">
+                <td style="width: 742px;">Atentamente,</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="report-section margin-page" style="display: flex; overflow: hidden;">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6 offset-sm-3" style="font-size: 19px;border-top-style: groove;text-align: center;">
+            Firma Colaborador
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

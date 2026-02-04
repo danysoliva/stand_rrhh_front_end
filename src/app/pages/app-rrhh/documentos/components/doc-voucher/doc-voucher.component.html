@@ -1,0 +1,123 @@
+<div id="documento">
+<div class="page" style="margin-top: 30px;">
+  <div class="text-center" style="margin-left: 5px;  margin-right: 5px;margin-top: 10px;">
+    <table class="tf">
+      <colgroup>
+        <col style="width: 189px">
+        <col style="width: 858px">
+      </colgroup>
+      <thead>
+        <tr>
+          <td rowspan="4"><img src="/assets/images/aquafeed.png" width="100"></td>
+          <td style="font-family: 'Roboto';  font-weight: bold; font-size: 21px;text-align: left;padding: 0px;">
+            Aquafeed S. A. de C. V.</td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td
+            style="display: flex;font-size: 18px; font-family: 'Roboto';font-weight: bold; border-bottom-style: solid; padding: 0px;">
+            <span style="margin-right: 227px;">Recibo de pago quincenal</span> <span>Impreso el: {{now |
+              date:'dd/MM/yyyy'}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="display: flex;font-size: 18px; font-family: 'Roboto';font-weight: bold;padding: 0px;">
+            {{voucherDoc.payslipRunName}}</td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+
+
+  <div class="report-section margin-page">
+    <div class="row" style="font-family: 'Roboto';font-size: 15px;">
+      <div class="col" style="padding: 3px;">
+        <span style="display: inline-block;"><strong> Colaborador: </strong> {{voucherDoc.employeeName}}</span>
+        <span style="display: inline-block;"><strong>Cargo: </strong> {{voucherDoc.employeeJobName}}</span>
+      </div>
+      <div class="col" style="padding: 3px;">
+        <span style="display: inline-block;"><strong>Codigo: </strong>{{voucherDoc.barCode}}</span>
+        <span style="display: inline-block;"><strong>Fecha de Pago: </strong>{{voucherDoc.fechaPago}}</span>
+      </div>
+      <div class="col" style="padding: 3px;">
+        <span style="display: inline-block;"><strong>Departamento: </strong>{{voucherDoc.employeeDepartment}}</span>
+        <span style="display: inline-block;"><strong>Turno: </strong>{{voucherDoc.employeeJournal}}</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="report-section margin-page">
+    <div class="row" style="font-family: 'Roboto';font-size: 17px;">
+      <div class="col" style="padding: 3px;">
+        <table class="table-style">
+          <thead>
+            <tr style="background-color:#808080 ;">
+              <th style="font-family: 'Roboto';"> <strong>DETALLE</strong></th>
+              <th style="font-family: 'Roboto';"><strong>CANTIDAD</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let elemento of voucherDoc.beneficios">
+              <td class="table-style-0lax">{{elemento.name}}</td>
+              <td class="table-style-cantidades">{{elemento.currencyName}} {{elemento.monto | number :  '1.2-2' }}</td>
+            </tr>
+            <tr class="table-style-tot">
+              <td> <strong> Ingresos</strong></td>
+              <td class="table-style-cantidades"><strong>{{voucherDoc.moneda}} {{voucherDoc.totalIngresos | number :
+                  '1.2-2'}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col" style="padding: 3px;">
+        <table class="table-style">
+          <thead>
+            <tr style="background-color:#808080 ;">
+              <th> <strong>DETALLE</strong></th>
+              <th><strong>CANTIDAD</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of voucherDoc.deducciones">
+              <td class="table-style-0lax">{{item.name}}</td>
+              <td class="table-style-cantidades">{{voucherDoc.moneda}} {{item.monto | number: '1.1-2'}}</td>
+            </tr>
+            <tr class="table-style-tot">
+              <td class="table-style-0lax"><strong>Total Egresos</strong></td>
+              <td class="table-style-cantidades"><strong>{{voucherDoc.moneda}} {{voucherDoc.totalEgresos | number:
+                  '1.1-2'}}</strong></td>
+            </tr>
+            <tr class="table-style-tot">
+              <td class="table-style-0lax"><strong>Salario neto</strong></td>
+              <td class="table-style-cantidades"><strong>{{voucherDoc.moneda}} {{voucherDoc.salarioNeto | number:
+                  '1.1-2'}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+
+  <div class="report-section margin-page">
+    <div class="row" style="font-family: 'Roboto';font-size: 17px;">
+      <table class="tf">
+        <thead>
+          <tr>
+            <td></td>
+            <td
+              style="border-top-style: solid;border-top-color: black;width: 250px; text-align: center; font-family: 'Roboto';font-weight: bold;">
+              Firma del Colaborador</td>
+            <td></td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+</div>

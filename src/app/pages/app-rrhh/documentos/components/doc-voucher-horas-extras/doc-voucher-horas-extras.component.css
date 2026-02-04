@@ -1,0 +1,32 @@
+hr.new1 {
+    border-top: 1px solid #cbc0c0;
+  }
+
+  .sub-title{
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .margin-page{
+        margin-left: 30PX;
+    margin-right: 30px
+  }
+
+  .row-conf{
+        font-size: 19px;
+        font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .subraya{
+    border-bottom-width: 1px;
+    border-bottom-style: groove;
+  }
+
+  .tf  {border-collapse:collapse;border-spacing:0;}
+  .tf td{border-style: none;border-width:1px;}
+  .tf th{border-style: none;}
+
+ .table-style  .table-style-0lax{text-align:left;vertical-align:top;padding: 0px;}
+
+
+

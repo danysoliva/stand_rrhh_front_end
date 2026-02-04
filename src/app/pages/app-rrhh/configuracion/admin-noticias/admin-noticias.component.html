@@ -1,0 +1,89 @@
+<nb-card>
+    <nb-card-header>Administrar noticias</nb-card-header>
+    <nb-card-body>
+
+        <dx-file-uploader selectButtonText="AGREGAR ARCHIVOS" (onInitialized)="iniciarFileUploader($event)"
+            (onValueChanged)="AgregarArchivos($event)" accept=".png, .jpg, .jpeg" uploadMode="userForm" type="default"
+            multiple="true">
+        </dx-file-uploader>
+
+        <button nbButton outline status="primary" [disabled]="files_to_upload.length <= 0"
+            (click)="guardarArchivos()">Guardar
+            <nb-icon icon="save" pack="eva"></nb-icon>
+        </button>
+
+    </nb-card-body>
+</nb-card>
+
+<nb-card>
+    <nb-card-body>
+        <div class="row">
+            <span style="margin-top: 8px;"><strong>Duración entre imagenes: </strong></span>
+            <dx-number-box [value]="duracionImagenes" [min]="5" (onValueChanged)="getValue($event.value)"
+                [showSpinButtons]="true" width="110" format="#0s" [formControl]="duracionImagenForm">
+            </dx-number-box>
+            <button [disabled]="disableButton" nbButton outline status="success" class="float-r m-l-5"
+                (click)="saveDuracionImagenes()">Guardar
+                <nb-icon icon="save" pack="eva"></nb-icon>
+            </button>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<dx-data-grid [dataSource]="noticias" rowAlternationEnabled="true" showColumnLines="false" showRowLines="true"
+    showBorders="true" wordWrapEnabled="true" columnAutoWidth="true" columnMinWidth="50" keyExpr="id"
+    hoverStateEnabled="true">
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-paging [pageSize]="10"> </dxo-paging>
+
+    <!-- <dxi-column dataField="id" caption="ID" width="60">
+    </dxi-column> -->
+    <dxi-column dataField="fileName" caption="Imagen" [visible]="false">
+    </dxi-column>
+    <dxi-column dataField="referenceFileName" caption="Imagen">
+    </dxi-column>
+
+    <dxi-column style="text-align: center !important;" cellTemplate="cellVer" width="200"
+        [formItem]="{visible: false}"></dxi-column>
+
+    <dxi-column style="text-align: center !important;" cellTemplate="cellEliminar"  width="200"
+        [formItem]="{visible: false}"></dxi-column>
+
+    <div *dxTemplate="let data of 'cellVer'" style="text-align: center;">
+        <button outline style="text-align: center;" nbButton status="primary" type="success" (click)="ver(data)">Ver
+            <nb-icon icon="eye-outline" pack="eva"></nb-icon>
+        </button>
+    </div>
+
+    <div *dxTemplate="let data of 'cellEliminar'" style="text-align: center;">
+        <button outline style="text-align: center;" nbButton status="primary" type="success" (click)="delete(data.data)">Eliminar
+            <nb-icon icon="trash-2-outline" pack="eva"></nb-icon>
+        </button>
+    </div>
+</dx-data-grid>
+
+
+<dx-popup [width]="700" [height]="500" [showTitle]="true" title="Visualización de imagen" [dragEnabled]="false"
+    [showCloseButton]="true" container="body" [(visible)]="popupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="row" style="margin: auto;">
+                <img [src]="url" style="width: 100%; height: auto;">
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<dx-popup [width]="400" height="auto" [showTitle]="true" title="Confirmación" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupVisible2">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            
+            <span class="confirmation-title">¿Está completamente seguro(a) de solicitar una nueva constancia?</span>
+            <div class="container-bottom">
+                <button nbButton outline status="success" class="float-r m-l-5" (click)="confirmar()">Confirmar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5" (click)="cancelar()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>

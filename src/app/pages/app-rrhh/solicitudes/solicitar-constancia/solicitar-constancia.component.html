@@ -1,0 +1,98 @@
+<button nbButton outline status="primary" class="m-b-10" (click)="abrirPopupSolicitarConstancia()">Solicitar
+    Constancia</button>
+
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card class="inline-form-card">
+            <nb-card-header>Mis Solicitudes de Constancia</nb-card-header>
+            <nb-card-body>
+                <dx-data-grid [dataSource]="solicitudesDeConstancias" rowAlternationEnabled="true"
+                    showColumnLines="false" showRowLines="true" showBorders="true" wordWrapEnabled="true"
+                    columnAutoWidth="true" columnMinWidth="50" keyExpr="id" hoverStateEnabled="true">
+
+                    <dxo-export [enabled]="true"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-paging [pageSize]="10"> </dxo-paging>
+
+                    <dxi-column dataField="id" caption="ID" width="60">
+                    </dxi-column>
+                    <dxi-column dataField="requestType" caption="Tipo de Solicitud" width="300">
+                    </dxi-column>
+                    <dxi-column dataField="requestState" caption="Estado" width="150">
+                    </dxi-column>
+                    <dxi-column dataField="comment" caption="Comentario">
+                    </dxi-column>
+                    <dxi-column dataField="createdDate" caption="Fecha" dataType="date" format="dd/MM/yyyy HH:mm:ss"
+                        width="100">
+                    </dxi-column>
+                    <dxi-column cellTemplate="cellTemplateEliminar" caption="" width="120">
+                    </dxi-column>
+                    <div *dxTemplate="let data of 'cellTemplateEliminar'">
+                        <button style="display: block; margin: auto;"
+                            *ngIf="data.data.requestStateId === estadoSolicitudEnum.EnProceso" nbButton outline
+                            status="danger" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="abrirPopupConfirmarEliminacion(data.data.id)">
+                            <span style="font-size: 12px;">Eliminar</span>
+                            <nb-icon icon="close" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+
+                    <!-- <dxi-column style="text-align: center !important;" cellTemplate="cellTemplate" caption="Detalle"
+                    [formItem]="{visible: false}"></dxi-column>
+                <dxi-column style="text-align: center !important;" cellTemplate="cellAdjunto" caption="Adjunto"
+                    [formItem]="{visible: false}"></dxi-column>
+            
+                <div *dxTemplate="let data of 'cellTemplate'">
+                    <button style="text-align: center;" nbButton status="primary" type="success" (click)="detalle(data)">
+                        <nb-icon icon="expand-outline" pack="eva"></nb-icon>
+                    </button>
+                </div>
+                <div *dxTemplate="let data of 'cellAdjunto'">
+                    <button style="text-align: center;" nbButton status="primary" type="success" (click)="detalle2(data)">
+                        <nb-icon icon="attach-outline" pack="eva"></nb-icon>
+                    </button>
+                </div> -->
+                </dx-data-grid>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+
+<dx-popup [width]="300" height="auto" [showTitle]="true" title="Solicitud de Constancia" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupSolicitarConstanciaVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="container-control-one">
+                <div class="control-one-no-padding">
+                    <span>Tipo de Constancia<b style="color:red;">*</b></span>
+                    <dx-radio-group [formControl]="fcTipoConstanciaId" layout="horizontal" [items]="tipoConstancias"
+                        valueExpr="id" displayExpr="name">
+                    </dx-radio-group>
+                </div>
+            </div>
+
+            <div class="container-bottom p-r-26">
+                <button nbButton outline status="success" class="float-r m-l-5" [disabled]="fcTipoConstanciaId.invalid"
+                    (click)="solicitar()">Solicitar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5"
+                    (click)="cerrarPopupSolicitarConstancia()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<dx-popup [width]="520" height="auto" [showTitle]="true" title="Confirmar Eliminación" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupConfirmarEliminacionVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <span class="confirmation-title">¿Está completamente seguro(a) de eliminar la solicitud constancia?</span>
+
+            <div class="container-bottom p-r-26">
+                <button nbButton outline status="success" class="float-r m-l-5" (click)="eliminar()">Eliminar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5"
+                    (click)="cerrarPopupConfirmarEliminacion()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>

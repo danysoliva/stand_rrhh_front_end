@@ -1,0 +1,125 @@
+hr.new1 {
+    border-top: 1px solid #cbc0c0;
+  }
+
+  .sub-title{
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .margin-page{
+        margin-left: 30PX;
+    margin-right: 30px
+  }
+
+  .row-conf{
+        font-size: 19px;
+        font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* .subraya{
+    border-bottom-width: 1px;
+    border-bottom-style: groove;
+  } */
+
+
+  .tg-header {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+    .tg-header td {
+      border-color: black;
+      border-style: solid;
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+                        .tg {
+                          border-collapse: collapse;
+                          border-spacing: 0;
+                          border-color: white
+                        }
+          
+    .tg td {
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 19px;
+      overflow: hidden;
+      padding: 10px 8px;
+      word-break: normal;
+      border-color: white
+    }
+
+    .border-left{
+      border-left-width: 2px !important;
+      border-left-style: solid !important;
+      border-left-color: black !important;
+    }
+
+    .border-right{
+      border-right-width: 2px !important;
+      border-right-style: solid !important;
+      border-right-color: black !important;
+    }
+
+    .border-top{
+      border-top-width: 2px !important;
+      border-top-style: solid !important;
+      border-top-color: black !important;
+    }
+
+    .border-bottom{
+      border-bottom-width: 2px !important;
+      border-bottom-style: solid !important;
+      border-bottom-color: black !important;
+    }
+
+    .Titulos{
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .texto-regular{
+      font-size: 18px;
+    }
+
+    ::ng-deep body{
+      overflow: hidden !important;
+    }
+
+        .segmento1 {
+          height: 30px;
+          /* width: 85%; */
+          /* margin: auto; */
+          background-color: #DDEBF7;
+          font-size: 18px;
+          font-weight: bold;
+          border-top-width: 4px;
+          border-top-style: solid;
+          border-color: #8EA9DB;
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+
+        .texto-encabezado-tabla{
+          font-size: 18px;
+          font-weight: bold;
+          background-color: #E7E6E6;
+          text-align: center;
+        }
+
+        .texto-fila-tabla{
+          font-size: 18px;
+          /* font-weight: bold; */
+          /* background-color: #E7E6E6; */
+          text-align: center;
+        }
+
+        .texto-fila-tabla2{
+          font-size: 18px;
+          font-weight: bold;
+          /* background-color: #E7E6E6; */
+          /* text-align: center; */
+        }

@@ -1,0 +1,114 @@
+<div id="documento">
+    <div class="page" style="margin-top: 30px;">
+        <div class="text-center" style="margin-left: 5px;  margin-right: 5px;margin-top: 10px;">
+            <table class="tf">
+                <colgroup>
+                    <col style="width: 189px">
+                    <col style="width: 858px">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <td rowspan="4"><img src="/assets/images/aquafeed.png" width="100"></td>
+                        <td
+                            style="font-family: 'Roboto';  font-weight: bold; font-size: 22px;text-align: left;padding: 0px;">
+                            Aquafeed S. A. de C. V.</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr class="tf-0lax">
+                        <td
+                            style="display: flex;font-size: 19px; font-family: 'Roboto';font-weight: bold; border-bottom-style: solid; border-bottom-color: black;padding: 0px;">
+                            <span style="margin-right: 227px;">Recibo de pago quincenal</span> <span>Impreso el: {{now |
+                                date:'dd/MM/yyyy'}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td
+                            style="display: flex;font-size: 19px; font-family: 'Roboto';font-weight: bold;padding: 0px;">
+                            {{voucherHorasExtrasDoc.payslipName}}</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="report-section margin-page">
+            <div class="row" style="font-family: 'Roboto';font-size: 15px;">
+                <div class="col" style="padding: 3px;">
+                    <span style="display: inline-block;"><strong> Colaborador: </strong>
+                        {{voucherHorasExtrasDoc.employeeName}}</span>
+                    <span style="display: inline-block;"><strong>Cargo: </strong>
+                        {{voucherHorasExtrasDoc.employeeJobName}}</span>
+                    </div>
+                    <div class="col" style="padding: 3px;">
+                        <span style="display: inline-block;"><strong>Codigo:
+                        </strong>{{voucherHorasExtrasDoc.barCode}}</span>
+                        <span style="display: inline-block;"><strong>Fecha de Pago:
+                            </strong>{{voucherHorasExtrasDoc.fechaPago}}</span>
+                </div>
+                <div class="col" style="padding: 3px;display: inline-grid;">
+                    <span style="display: inline-block;"><strong>Departamento:
+                        </strong>{{voucherHorasExtrasDoc.employeeDepartment}}</span>
+                    <span style="display: inline-block;"><strong>Turno:
+                        </strong>{{voucherHorasExtrasDoc.employeeJournal}}</span>
+                </div>
+        
+            </div>
+        </div>
+
+        <div class="report-section margin-page">
+            <div class="row" style="font-family: 'Roboto';font-size: 17px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="font-size: 16px;font-weight: bold;">DETALLE</th>
+                            <th style="font-size: 16px;font-weight: bold;">CANTIDAD</th>
+                            <th style="font-size: 16px;font-weight: bold;">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of voucherHorasExtrasDoc.detalles">
+                            <td style="border-bottom-style: none;border-top-style:none;">{{item.detalle}}</td>
+                            <td style="border-bottom-style: none;border-top-style:none;text-align: end;">
+                                {{item.cantidadHoras | number : '1.2-2'}}</td>
+                            <td style="border-bottom-style: none;border-top-style:none;text-align: end;">
+                                {{voucherHorasExtrasDoc.moneda}} {{item.totalLinea | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr style="background-color: rgb(248, 238, 236) ;">
+                            <td><strong>Total Horas Extras</strong></td>
+                            <td style="text-align: end;"><strong>{{voucherHorasExtrasDoc.totalCantidadHoras | number :
+                                    '1.2-2'}}</strong></td>
+                            <td style="text-align: end;"><strong>{{voucherHorasExtrasDoc.moneda}}
+                                    {{voucherHorasExtrasDoc.totalHorasExtras | number : '1.2-2'}}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="report-section margin-page">
+            <div class="row" style="font-family: 'Roboto';font-size: 17px;">
+                <table class="tf">
+                    <thead>
+                        <tr>
+                            <td></td>
+                            <td
+                                style="border-top-style: solid;border-top-color: black;width: 250px; text-align: center; font-family: 'Roboto';font-weight: bold;">
+                                Firma del Colaborador</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="text-align:center; font-weight: bold;"> {{voucherHorasExtrasDoc.identificacion}}
+                            </td>
+                            <td></td>
+
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

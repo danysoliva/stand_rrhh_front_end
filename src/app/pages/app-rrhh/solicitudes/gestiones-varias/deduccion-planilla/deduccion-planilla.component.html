@@ -1,0 +1,121 @@
+<button nbButton outline status="primary" class="m-b-10" (click)="generarDeduccion()">Generar Deducción</button>
+
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card class="inline-form-card">
+            <nb-card-header>Gestión de Deducciones por Planilla</nb-card-header>
+            <nb-card-body>
+                <dx-data-grid [dataSource]="deducciones" rowAlternationEnabled="true" showColumnLines="false"
+                    showRowLines="true" showBorders="true" wordWrapEnabled="true" columnAutoWidth="true"
+                    columnMinWidth="50" keyExpr="id" hoverStateEnabled="true">
+
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-paging [pageSize]="10"> </dxo-paging>
+
+                    <dxi-column dataField="id" caption="ID" width="60">
+                    </dxi-column>
+                    <dxi-column dataField="nombreEmpleado" caption="Nombre Empleado">
+                    </dxi-column>
+                    <dxi-column dataField="barcode" caption="Código">
+                    </dxi-column>
+                    <dxi-column dataField="currency" caption="Moneda">
+                    </dxi-column>
+                    <dxi-column dataField="monto" caption="Monto Deducción" dataType="number" format=",##0.###">
+                    </dxi-column>
+                    <dxi-column dataField="estado" caption="Estado">
+                    </dxi-column>
+                    <dxi-column dataField="fechaDeduccion" caption="Fecha Deducción" dataType="date"
+                        format="dd/MM/yyyy HH:mm:ss" width="100">
+                    </dxi-column>
+                    <dxi-column dataField="fechaCreacion" caption="Fecha Creación" dataType="date"
+                        format="dd/MM/yyyy HH:mm:ss" width="100">
+                    </dxi-column>
+                    <dxi-column dataField="concepto" caption="Concepto">
+                    </dxi-column>
+                    <dxi-column style="text-align: center !important;" cellTemplate="cellPrint" 
+                        [formItem]="{visible: false}"></dxi-column>
+                    <dxi-column style="text-align: center !important;" cellTemplate="cellDelete" 
+                        [formItem]="{visible: false}"></dxi-column>
+                    <div *dxTemplate="let data of 'cellPrint'">
+                        <button style="display: block; margin: auto;" nbButton outline status="primary" type="success"
+                            (click)="print(data)"> Imprimir
+                            <nb-icon icon="printer" pack="eva"></nb-icon>
+                        </button>
+                    </div> 
+                    <div *dxTemplate="let data of 'cellDelete'">
+                        <button style="display: block; margin: auto;"
+                            nbButton outline status="primary" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="delete(data.data.id)"> Eliminar
+                            <nb-icon icon="trash" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                </dx-data-grid>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+
+<dx-popup [width]="500" [height]="480" [showTitle]="true" title="Nueva Deducción" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+
+
+            <div class="row" [formGroup]="deduccionForm" style="padding: 0px 16px 0px 16px;">
+                <div class="col-sm-12" style="text-align: right; margin-bottom: 10px;">
+                    <span class="span-fields">Empleado<span class="span-fields-asteriscos">*</span></span>
+                    <dx-select-box class="control-width" [dataSource]="empleados" placeholder="Empleado"
+                        displayExpr="name" valueExpr="id" [searchMode]="searchModeOption"
+                        [searchExpr]="searchExprOption" [searchTimeout]="searchTimeoutOption" [searchEnabled]="true"
+                        [showClearButton]="true" formControlName="empleado_id"></dx-select-box>
+                    <span class="span-fields">Monto<span class="span-fields-asteriscos">*</span></span>
+                    <dx-number-box [value]="14500.55" [(format)]="currencyFormat" [showClearButton]="true" style="margin-bottom: 15px !important ;"
+                        [showSpinButtons]="true" formControlName="monto" [min]="1">
+                        <dxi-button name="currency" location="after" [options]="currencyButton"></dxi-button>
+                        <dxi-button name="clear"></dxi-button>
+                        <dxi-button name="spins"></dxi-button>
+                    </dx-number-box>
+                    <span class="span-fields">Fecha de aplicación<span class="span-fields-asteriscos">*</span></span>
+                    <dx-date-box [value]="now" type="date" placeholder="Fecha de aplicación"
+                        formControlName="fecha_deduccion" style="margin-bottom: 15px !important ;"
+                        invalidDateMessage="La fecha debe tener el siguiente formato: yyyy/mm/dd">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="La fecha de la deduccion es requerida">
+                            </dxi-validation-rule>
+                        </dx-validator>
+                    </dx-date-box>
+                    <span class="span-fields">Concepto<span class="span-fields-asteriscos">*</span></span>
+                    <dx-text-area formControlName="concepto" [maxLength]="200" placeholde="Por concepto de" style="margin-bottom: 15px !important ;" (onKeyUp)="keyUpComentario($event)">
+                    </dx-text-area>
+                </div>
+                <div class="container-bottom p-r-26" style="width: 100%; padding: 15px;">
+                    <button nbButton outline status="success" class="float-r m-l-5"
+                        [disabled]="deduccionForm.invalid===true || comentarioValido === false" (click)="save()">Confirmar</button>
+                    <button nbButton outline status="danger" class="float-r m-r-5"
+                        (click)="cerrarPopup()">Cancelar</button>
+                </div>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<app-doc-base [isVisible]="reporteEsVisibleNewFormat" (closed)="reporteEsVisibleNewFormat = $event" [filename]="filename">
+    <doc-deduccion-planilla-new-format [reporteEsVisible]="reporteEsVisibleNewFormat" [deduccionPlanillaDoc]="formatoDeduccion">
+    </doc-deduccion-planilla-new-format>
+</app-doc-base>
+
+
+<dx-popup [width]="400" height="auto" [showTitle]="true" title="Confirmación" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupDelete">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <span class="confirmation-title">¿Está completamente seguro(a) de eliminar este registro</span>
+
+            <div class="container-bottom">
+                <button nbButton outline status="success" class="float-r m-l-5" (click)="confirmarDelete()">Confirmar</button>
+                <button nbButton outline status="danger" class="float-r m-r-5" (click)="cerrarPopupDelete()">Cancelar</button>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>

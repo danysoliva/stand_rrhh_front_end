@@ -1,0 +1,44 @@
+<nb-card class="inline-form-card">
+    <nb-card-header>Tabulación de Encuestas</nb-card-header>
+    <nb-card-body style="margin:auto;">
+        <div style="display: flex;">
+            <div style="display: grid; margin-right: 10px;">
+                <span><strong>Estado: </strong></span>
+                <dx-select-box labelMode="floating" class="control-width" [dataSource]="estados"
+                    placeholder="Seleccione un Estado" displayExpr="estado" valueExpr="id"
+                    [searchMode]="searchModeOption" [searchExpr]="searchExprOption"
+                    [searchTimeout]="searchTimeoutOption" [searchEnabled]="true" [showClearButton]="true"
+                    (onValueChanged)="cambioEstado($event)">
+                </dx-select-box>
+            </div>
+            <div style="display: grid;">
+                <span style="margin: auto 5px auto 5px;"><strong>Encuesta: </strong></span>
+                <dx-select-box labelMode="floating" class="control-width" [dataSource]="encuestas"
+                    placeholder="Seleccione una Encuesta" displayExpr="descripcion" valueExpr="id"
+                    [searchMode]="searchModeOption2" [searchExpr]="searchExprOption2"
+                    [searchTimeout]="searchTimeoutOption2" [searchEnabled]="true" [showClearButton]="true" width="300"
+                    (onValueChanged)="cambioEncuesta($event)">
+                </dx-select-box>
+            </div>
+        </div>
+        <div>
+
+            <dx-data-grid [dataSource]="pivot" rowAlternationEnabled="true" showColumnLines="false" showRowLines="true"
+                showBorders="true" wordWrapEnabled="true" columnAutoWidth="true" columnMinWidth="50" keyExpr="opcionId"
+                hoverStateEnabled="true">
+
+                <dxo-export [enabled]="true"></dxo-export>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-paging [pageSize]="10"> </dxo-paging>
+
+                <dxi-column dataField="pregunta" caption="Pregunta">
+                </dxi-column>
+                <dxi-column dataField="opcion" caption="Opción" width="300">
+                </dxi-column>
+                <dxi-column dataField="conteo" caption="Conteo" width="100">
+                </dxi-column>
+            </dx-data-grid>
+
+        </div>
+    </nb-card-body>
+</nb-card>

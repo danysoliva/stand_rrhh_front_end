@@ -1,0 +1,50 @@
+<div>
+
+
+  <div id="swiper" class="swiper-container">
+    <div class="swiper-wrapper">
+      <img class="swiper-slide" *ngFor="let img of noticias" [src]="img.fullPath" />
+    </div>
+  </div>
+
+
+  <div id="form" class="form-container">
+    <form [formGroup]="formCredencial">
+
+      <div class="hide-inputs">
+        <dx-number-box width="100%" step="0">
+        </dx-number-box>
+        <dx-number-box width="100%" step="0">
+        </dx-number-box>
+      </div>
+
+      <h4 class="text-center text-dark mb-3">LOGIN</h4>
+      <dx-text-box formControlName="barcode" placeholder="Usuario" type="text" class="mb-3" style="padding: 10px;" (keyup.enter)="login()">
+      </dx-text-box>
+
+      <dx-text-box formControlName="pin" mode="password" placeholder="Pin" style="padding: 10px;" (keyup.enter)="login()">
+      </dx-text-box>
+
+      <div class="flex-sb-m w-full p-t-3 p-b-20">
+        <!-- <div class="contact100-form-checkbox">
+            <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+            <label class="label-checkbox100" for="ckb1">
+              Remember me
+            </label>
+          </div> -->
+
+        </div>
+
+      <dx-button class="btn-login" stylingMode="contained" text="Contained" type="default" [width]="120" (click)="login()" (keyup.enter)="login()"> Iniciar Sesión
+      </dx-button>
+      <div style="margin-top: 15px;text-align: center;">
+        <i class="dx-icon dx-icon-background" style="color: forestgreen;">
+        </i>
+          <a [href]="url" class="txt1">
+            Quejas, Sugerencias y Denuncias
+          </a>
+        </div>
+       
+    </form>
+  </div>
+</div>

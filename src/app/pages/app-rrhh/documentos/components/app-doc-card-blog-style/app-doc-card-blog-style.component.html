@@ -1,0 +1,27 @@
+<div class="blog-card">
+  <div class="meta">
+    <div class="photo" [style]="styleTo"></div>
+    <ul class="details">
+      <li class="author"><a href="#">Colaborador</a></li>
+      <li class="date">Poner Fecha</li>
+      <!-- <li class="tags">
+          <ul>
+            <li><a href="#">Learn</a></li>
+            <li><a href="#">Code</a></li>
+            <li><a href="#">HTML</a></li>
+            <li><a href="#">CSS</a></li>
+          </ul>
+        </li> -->
+    </ul>
+  </div>
+  <div class="description">
+    <h1>{{title}}</h1>
+    <h2>{{subtitle}}</h2>
+    <p>{{Description}}</p>
+
+    <p class="read-more">
+      <a (click)="navigateTo()">Ver Más</a>
+    </p>
+
+  </div>
+</div>

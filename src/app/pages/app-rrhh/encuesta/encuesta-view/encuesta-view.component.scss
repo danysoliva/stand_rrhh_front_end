@@ -1,0 +1,39 @@
+.sv_main .sv_container .sv_body .sv_p_root fieldset.sv_qcbc {
+    display: flex;
+}
+
+::ng-deep .sv_header__text h5 span{
+    font-size: 15px !important;
+    color: black;
+    // margin-top: 13px !important;
+}
+
+::ng-deep .mat-typography h5 {
+
+    margin-top: 20px;
+
+}
+
+
+::ng-deep .sv_main .sv_container .sv_header h3 {
+  text-align: center !important;
+}
+
+::ng-deep .sv_main .sv_header {
+    margin: auto !important;
+    width: 535px !important;
+    text-align: justify !important;
+}
+
+::ng-deep .sv_main .sv_container .sv_body {
+    padding-left: 13em !important;
+    padding-right: 13em !important;
+}
+
+::ng-deep {
+    @media only screen and (max-width:1300px) {
+        .sv_main .sv_header {
+            width: 410px !important;
+        }
+    }
+}
