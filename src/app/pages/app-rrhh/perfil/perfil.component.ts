@@ -11,19 +11,29 @@ import { MaestroService } from '../../../servicio/maestro.service';
 import { Alerts } from '../../../_common/utils/alerts';
 import { VoucherDocDto } from '../documentos/models/voucher-doc-dto';
 import { VoucherHorasExtrasDocDto } from '../documentos/models/voucher-horas-extras-doc-dto';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: "ngx-perfil",
   templateUrl: "./perfil.component.html",
   styleUrls: ["./perfil.component.scss"],
 })
+
+
 export class PerfilComponent implements OnInit {
+
+  baseURL:string;
+
   constructor(
     private maestroService: MaestroService,
     private fb: UntypedFormBuilder,
     private datePipe: DatePipe,
     private emailService: EmailService
-  ) {}
+  ) {
+    this.baseURL = `${environment.rrhh_api}employee/`
+  }
+
+
 
   perfil: PerfilEmpleadoDto = new PerfilEmpleadoDto();
 
@@ -75,6 +85,7 @@ export class PerfilComponent implements OnInit {
       .obtenerPerfilEmpleado()
       .then((data) => {
         this.perfil = data;
+        this.perfil.pictureProfile = this.baseURL+ "picture/"+this.perfil.id;
       })
       .catch((p) => {
         Alerts.error("Error", p.message.error);
@@ -114,14 +125,7 @@ export class PerfilComponent implements OnInit {
       .then((data) => {
         Alerts.success("Exito","El mensaje se ha enviado exitosamente")
       })
-      // .catch((msj) => {
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "Oops...",
-      //     text: msj.error.message,
-      //   });
-      //   // console.log(msj.error.message);
-      // });
+      
   }
 
   filtrar() {

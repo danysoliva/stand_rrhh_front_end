@@ -1,0 +1,6 @@
+:host {
+  display: block;       /* Importante: para que respete medidas */
+  height: 100%;         /* Llena la altura del padre (el popup) */
+  width: 100%;          /* Llena el ancho */
+  overflow: hidden;     /* Opcional: para que el scroll lo maneje el dx-scroll-view interno */
+}

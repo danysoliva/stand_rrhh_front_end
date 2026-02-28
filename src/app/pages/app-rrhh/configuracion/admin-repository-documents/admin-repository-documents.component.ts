@@ -119,7 +119,7 @@ export class AdminRepositoryDocumentsComponent implements OnInit {
 
     this.seleccionGrupoNombre = this.grupos.find(f=> f.id === this.seleccionGrupo).descripcion;
 
-    console.log(this.seleccionGrupo);
+    // console.log(this.seleccionGrupo);
     
   }
 

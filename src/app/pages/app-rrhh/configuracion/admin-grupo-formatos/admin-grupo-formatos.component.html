@@ -1,6 +1,13 @@
-
-<div >
-  <button style="display: block;margin-left: auto;" nbButton outline status="danger" (click)="CerrarVentana()"> Salir</button>
+<div>
+  <button
+    style="display: block; margin-left: auto"
+    nbButton
+    outline
+    status="danger"
+    (click)="CerrarVentana()"
+  >
+    Salir
+  </button>
 </div>
 
 <dx-data-grid
@@ -18,18 +25,21 @@
   (onRowRemoved)="logEventRemoved($event)"
   (onRowInserted)="logEventInserted($event.data)"
 >
-<dxo-editing
-  mode="row"
-  [allowUpdating]="true"
-  [allowDeleting]="true"
-  [allowAdding]="true"
->
-</dxo-editing>
+  <dxo-paging [pageSize]="10"> </dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 20, 50]"
+    [showInfo]="true"
+  >
+  </dxo-pager>
+  <dxo-editing
+    mode="row"
+    [allowUpdating]="true"
+    [allowDeleting]="true"
+    [allowAdding]="true"
+  >
+  </dxo-editing>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxi-column dataField="id" caption="ID" [visible]="false"> </dxi-column>
-  <dxi-column dataField="descripcion" caption="Grupo">
-  </dxi-column>
+  <dxi-column dataField="descripcion" caption="Grupo"> </dxi-column>
 </dx-data-grid>
-
-
-

@@ -39,7 +39,7 @@ export class AdminRepositoryPoliciesComponent implements OnInit {
 
     this.uploadService.obtenerDocumentos(TipoRepositorioEnum.Politicas).then((data) => {
       this.politicas = data;
-      console.log(data);
+      // console.log(data);
       
     });
   }

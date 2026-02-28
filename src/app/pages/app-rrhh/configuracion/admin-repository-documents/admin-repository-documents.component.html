@@ -7,6 +7,7 @@
             [dataSource]="grupos"
             displayExpr="descripcion" valueExpr="id"
             placeholder="Selecciona un grupo..."
+            width="300px"
             (onValueChanged)="valorSeleccionado($event)"
           ></dx-select-box>
 
@@ -127,9 +128,8 @@
     </div>
 </dx-popup>
 
-<dx-popup [width]="600" height="auto" [showTitle]="true" title="Admin. Grupos" [dragEnabled]="false"
+<dx-popup [width]="600" height="600" [showTitle]="true" title="Admin. Grupos" [dragEnabled]="false"
     [showCloseButton]="false" container="body" [(visible)]="popupVisibleAdminGrupo">
     <ngx-admin-grupo-formatos (onSaved)="onSaveGrupo($event)">
-
     </ngx-admin-grupo-formatos>
 </dx-popup>

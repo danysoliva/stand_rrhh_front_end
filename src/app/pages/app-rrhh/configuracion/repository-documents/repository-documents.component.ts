@@ -21,7 +21,7 @@ export class RepositoryDocumentsComponent implements OnInit {
 
     this.uploadService.obtenerDocumentos(TipoRepositorioEnum.Formatos).then((data) => {
       this.formatos = data;
-      console.log(data);
+      // console.log(data);
       
     });
   }

@@ -7,7 +7,8 @@
             <!-- <nb-card-header>Inline form</nb-card-header> -->
             <nb-card-body>
                 <div class="d-flex">
-                    <img [src]="perfil.pictureProfile" style="border-radius: 52px">
+                    <img [src]="perfil.pictureProfile" style="border-radius: 52px"
+                    (error)="$event.target.src = 'assets/images/profile.png'">
                     <span class="name">{{perfil.name}}</span>
                 </div>
                 <hr>
@@ -103,11 +104,6 @@
                     <dx-button icon="check" type="success" text="Enviar Correo" style="min-width: 80px;"
                     (click)="enviarVoucher()">
                 </dx-button>
-                    <!-- <button nbButton outline type="button" status="warning" icon="email-outline" pack="eva"
-                            style="padding-left: 10px; padding-right: 10px; white-space: break-spaces;"
-                            class="float-r m-r-5" (click)="enviarVoucher()">Enviar Correo
-                            <nb-icon icon="email" pack="eva"></nb-icon>
-                        </button> -->
                 </div>
             </nb-card-body>
         </nb-card>
@@ -128,12 +124,12 @@
                         <div style="display: grid; margin-right: 10px;">
                             <span style="margin-right: 10px;line-height: 18px; text-align: left;">Fecha Inicio:</span>
                             <dx-date-box formControlName="fechai" [value]="now" type="date" displayFormat="dd/MM/yyyy"
-                                pickerType="rollers" style="max-width: 130px;"> </dx-date-box>
+                                pickerType="rollers" style="max-width: 150px;"> </dx-date-box>
                         </div>
                         <div style="display: grid;">
                             <span style="margin-right: 10px; line-height: 18px; text-align: left;">Fecha Fin:</span>
                             <dx-date-box formControlName="fechaf" [value]="now" type="date" displayFormat="dd/MM/yyyy"
-                                pickerType="rollers" style="max-width: 130px;"> </dx-date-box>
+                                pickerType="rollers" style="max-width: 150px;"> </dx-date-box>
                         </div>
                     </div>
                     <div style="display: flex;margin-top: 10px;">

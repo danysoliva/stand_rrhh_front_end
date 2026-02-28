@@ -26,7 +26,7 @@ export class DocVacacionNewFormatComponent implements OnInit {
 
     // this.cantidadVacacionesEnLetras=numeroALetras(this.vacacion.cantidadDiasVacacion);
 
-   console.log(this.vacacion.cantidadDiasVacacionEnLetras);
+//    console.log(this.vacacion.cantidadDiasVacacionEnLetras);
   }
 
   

@@ -183,9 +183,9 @@ export class SolicitarVacacionComponent implements OnInit {
   }
 
   cantidadDiasVacacionOnContentReady(e){
-    console.log(e);
+    // console.log(e);
     let inp = e.element.querySelector(".dx-texteditor-input");  
-    console.log(inp);
+    // console.log(inp);
     
     if (inp) {  
       inp.addEventListener('focus', function() {  
@@ -209,7 +209,7 @@ export class SolicitarVacacionComponent implements OnInit {
       this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd');
       this.validarVacacion.tipoVerificacion = TipoVerificacionEnum.PorDias;
 
-      console.log('validarVacacionC',this.validarVacacion);
+      // console.log('validarVacacionC',this.validarVacacion);
       
       this.solicitudService.validarFechasVacacion(this.validarVacacion)
         .then((data) => {

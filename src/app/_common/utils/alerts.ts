@@ -179,6 +179,10 @@ export module Alerts {
     }
 
     if (error.status == 500) {
+      if (error.error && error.error.message) {
+        warning(titulo, error.error.message);
+        return;
+      }
       errorEnServidor();
       return;
     }
