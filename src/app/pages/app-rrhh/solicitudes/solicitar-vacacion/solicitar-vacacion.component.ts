@@ -7,6 +7,7 @@ import { SolicitudService } from '../../../../servicio/solicitud.service';
 import { EstadoSolicitudEnum } from '../../../../_common/enums';
 import { Alerts } from '../../../../_common/utils/alerts';
 import { TipoVacacionDto } from '../../../../model/solicitud/tipo-vacacion-dto';
+import { VacacionDocNewFormatDto } from '../../documentos/models/vacacion-doc-new-format-dto';
 
 export enum Jornada {
   Ocultar = 0,
@@ -27,21 +28,25 @@ export class SolicitarVacacionComponent implements OnInit {
     { id: 2, nombre: 'Tarde' }
   ];
 
-  cantidadDiasPendientes: number;
+  cantidadDiasPendientes: number =0;
   estadoSolicitudEnum = EstadoSolicitudEnum;
-  solicitudIdSeleccionada:number;
+  solicitudIdSeleccionada:number =0;
   popupVisible: boolean = false;
   popupConfirmarEliminacionVisible: boolean = false;
   abrirPopup = () => { this.popupVisible = true; }
   cerrarPopup = () => { this.popupVisible = false; };
   abrirPopupConfirmarEliminacion = (solicitudId: number) => { this.popupConfirmarEliminacionVisible = true; this.solicitudIdSeleccionada = solicitudId; };
   cerrarPopupConfirmarEliminacion = () => { this.popupConfirmarEliminacionVisible = false };
+
   validarVacacion: ValidarVacacionDto = new ValidarVacacionDto();
   nuevaSolicitudDeVacacion: NuevaSolicitudVacacionDto = new NuevaSolicitudVacacionDto();
   solicitudesDeVacacion: Array<SolicitudVacacionDto> = new Array<SolicitudVacacionDto>();
   tipoDeVacaciones: Array<TipoVacacionDto> = new Array<TipoVacacionDto>();
   startDate: Date = new Date();
   endDate: Date = new Date();
+  reporteEsVisible: boolean = false;
+  vacacion: VacacionDocNewFormatDto = new VacacionDocNewFormatDto();
+  filename: string = "Vacación";
 
   vacacionForm = this.fb.group({
     fechaInicio: [new Date().toISOString(), Validators.required],
@@ -55,6 +60,8 @@ export class SolicitarVacacionComponent implements OnInit {
     actividadesPendientes: ['']
   });
   today = new Date().toISOString();
+
+
   constructor(private fb: UntypedFormBuilder, private solicitudService: SolicitudService, private datePipe: DatePipe) {
 
   }
@@ -92,11 +99,11 @@ export class SolicitarVacacionComponent implements OnInit {
     this.abrirPopup();
   }
 
-  fechaInicioChanged(e) {
+  fechaInicioChanged(e : any) {
     // Alerts.openLoad('');
     this.validarVacacion = this.vacacionForm.getRawValue();
-    this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd');
-    this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd');
+    this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd')!;
+    this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd')!;
 
     if (this.validarVacacion.fechaInicio > this.validarVacacion.fechaFin) {
       this.vacacionForm.patchValue({
@@ -109,9 +116,9 @@ export class SolicitarVacacionComponent implements OnInit {
     this.enProceso = true;
 
     this.validarVacacion = this.vacacionForm.getRawValue();
-    this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd');
-    this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd');
-    this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd');
+    this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd')!;
+    this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd')!;
+    this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd')!;
     this.validarVacacion.tipoVerificacion = TipoVerificacionEnum.PorFecha;
     
     this.solicitudService.validarFechasVacacion(this.validarVacacion)
@@ -128,17 +135,17 @@ export class SolicitarVacacionComponent implements OnInit {
         // Alerts.closeLoad();
       })
       .catch(() => {
-        this.vacacionForm.get('cantidadDiasVacacion').setValue(0);
+        this.vacacionForm.get('cantidadDiasVacacion')!.setValue(0);
         this.enProceso = false;
         // Alerts.closeLoad();
       });
   }
 
-  fechaFinChanged(e) {
+  fechaFinChanged(e:any) {
     // Alerts.openLoad('');
     this.validarVacacion = this.vacacionForm.getRawValue();
-    this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd');
-    this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd');
+    this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd')!;
+    this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd')!;
 
     if (this.validarVacacion.fechaFin < this.validarVacacion.fechaInicio) {
       this.vacacionForm.patchValue({
@@ -153,9 +160,9 @@ export class SolicitarVacacionComponent implements OnInit {
 
     
     this.validarVacacion = this.vacacionForm.getRawValue();
-    this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd');
-    this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd');
-    this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd');
+    this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd')!;
+    this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd')!;
+    this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd')!;
     this.validarVacacion.tipoVerificacion = TipoVerificacionEnum.PorFecha;
     
     
@@ -176,13 +183,13 @@ export class SolicitarVacacionComponent implements OnInit {
         // Alerts.closeLoad();
       })
       .catch(() => {
-        this.vacacionForm.get('cantidadDiasVacacion').setValue(0);
+        this.vacacionForm.get('cantidadDiasVacacion')!.setValue(0);
         this.enProceso = false;
         // Alerts.closeLoad();
       });
   }
 
-  cantidadDiasVacacionOnContentReady(e){
+  cantidadDiasVacacionOnContentReady(e:any){
     // console.log(e);
     let inp = e.element.querySelector(".dx-texteditor-input");  
     // console.log(inp);
@@ -194,19 +201,19 @@ export class SolicitarVacacionComponent implements OnInit {
     }  
   }
 
-  enProceso: boolean;
-  contador: number;
+  enProceso: boolean = false;
+  contador: number = 0;
   jornadaVisible: boolean = false;
-  cantidadDiasVacacionChanged(e) {
+  cantidadDiasVacacionChanged(e : any) {
  
       if (e.value < 0 || this.enProceso) return;
       this.enProceso = true;      
       
       this.contador = 1;
       this.validarVacacion = this.vacacionForm.getRawValue();
-      this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd');
-      this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd');
-      this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd');
+      this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd')!;
+      this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd')!;
+      this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd')!;
       this.validarVacacion.tipoVerificacion = TipoVerificacionEnum.PorDias;
 
       // console.log('validarVacacionC',this.validarVacacion);
@@ -230,7 +237,7 @@ export class SolicitarVacacionComponent implements OnInit {
           // Alerts.closeLoad();
         })
         .catch(() => {
-          this.vacacionForm.get('cantidadDiasVacacion').setValue(0);
+          this.vacacionForm.get('cantidadDiasVacacion')!.setValue(0);
           this.enProceso = false;
           // Alerts.closeLoad();
         });
@@ -243,9 +250,9 @@ export class SolicitarVacacionComponent implements OnInit {
     this.enProceso = true;
 
     this.validarVacacion = this.vacacionForm.getRawValue();
-    this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd');
-    this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd');
-    this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd');
+    this.validarVacacion.fechaInicio = this.datePipe.transform(this.validarVacacion.fechaInicio, 'yyyy-MM-dd')!;
+    this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd')!;
+    this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd')!;
     this.validarVacacion.tipoVerificacion = TipoVerificacionEnum.PorJornada;
 
     console.log('validarVacacionJ',this.validarVacacion);
@@ -264,7 +271,7 @@ export class SolicitarVacacionComponent implements OnInit {
         // Alerts.closeLoad();
       })
       .catch(() => {
-        this.vacacionForm.get('cantidadDiasVacacion').setValue(0);
+        this.vacacionForm.get('cantidadDiasVacacion')!.setValue(0);
         this.enProceso = false;
         // Alerts.closeLoad();
       });
@@ -313,6 +320,19 @@ export class SolicitarVacacionComponent implements OnInit {
         Alerts.closeLoad();
         this.cerrarPopupConfirmarEliminacion()
       })
+  }
+
+  imprimir(solicitudVacacionId:number){
+
+    console.log(solicitudVacacionId);
+    
+    this.solicitudService.obtenerVacacionParaImpresion(solicitudVacacionId)
+    .then((data) => {
+      this.reporteEsVisible = true;
+      this.vacacion = data;
+      this.cerrarPopup();
+    })
+    .catch(() => this.cerrarPopup())
   }
 
 }

@@ -5,15 +5,23 @@ import { EnviarDetalleHorasParamsDto } from "../model/email/enviar-detalle-horas
 
 @Injectable()
 export class EmailService {
+  constructor(private httpClient: HttpClient) {}
 
-    constructor(private httpClient: HttpClient) {
-    }
+  baseUrl = `${environment.rrhh_api}email/`;
 
-    baseUrl = `${environment.rrhh_api}email/`
+  EnviarDetalleHorasPorEmpleado(
+    horaEmpleadoParams: EnviarDetalleHorasParamsDto
+  ): Promise<boolean> {
+    const uri = `${this.baseUrl}enviarDetalleHorasPorEmpleado`;
+    return this.httpClient.post<boolean>(uri, horaEmpleadoParams).toPromise();
+  }
 
-
-    EnviarDetalleHorasPorEmpleado(horaEmpleadoParams: EnviarDetalleHorasParamsDto): Promise<boolean> {
-        const uri = `${this.baseUrl}enviarDetalleHorasPorEmpleado`
-        return this.httpClient.post<boolean>(uri,horaEmpleadoParams).toPromise()
-      }
+  ImprimirDetalleHoras(
+    horaEmpleadoParams: EnviarDetalleHorasParamsDto
+  ): Promise<Blob> {
+    const uri = `${this.baseUrl}imprimirDetalleHoras`;
+    return this.httpClient
+      .post(uri, horaEmpleadoParams, { responseType: "blob" })
+      .toPromise();
+  }
 }

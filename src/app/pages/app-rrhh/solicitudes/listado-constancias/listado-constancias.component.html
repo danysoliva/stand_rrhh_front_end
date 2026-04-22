@@ -53,7 +53,7 @@
                     </div>
                     <div *dxTemplate="let data of 'cellTemplateImprimir'">
                         <button style="display: block; margin: auto;"
-                            *ngIf="data.data.esVistaRRHHAdministrador && data.data.requestStateId === estadoSolicitudEnum.Aprobado"
+                            *ngIf="(data.data.esVistaRRHHAdministrador || data.data.esAdministrador) && data.data.requestStateId === estadoSolicitudEnum.Aprobado"
                             nbButton outline status="primary" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
                             (click)="imprimir(data.data.id)">
                             <nb-icon icon="printer" pack="eva" style="margin: auto;"></nb-icon>

@@ -132,7 +132,7 @@ export class PerfilComponent implements OnInit {
     let horaEmpleadoParams = {
       fechaInicio: this.datePipe.transform(
         this.rangoFechasForm.value.fechai,
-        "yyyy-MM-dd"
+        "yyyy/MM/dd"
       ),
       fechaFin: this.datePipe.transform(
         this.rangoFechasForm.value.fechaf,
@@ -152,11 +152,11 @@ export class PerfilComponent implements OnInit {
     let horaEmpleadoParams = {
       fechaInicio: this.datePipe.transform(
         this.rangoFechasForm.value.fechai,
-        "yyyy-MM-dd"
+        "dd-MM-yyyy"
       ),
       fechaFin: this.datePipe.transform(
         this.rangoFechasForm.value.fechaf,
-        "yyyy/MM/dd"
+         "dd-MM-yyyy"
       ),
       employeeId: 0,
     };
@@ -169,12 +169,26 @@ export class PerfilComponent implements OnInit {
   }
 
   print() {
-    if (this.detalleHorasEmpleado!=undefined &&  this.detalleHorasEmpleado.length>=1 ) {
-      this.abrirPopupDetalleHoras();
-    } else {
-      Alerts.error('Error','No hay registros qué imprimir')
-    }
-    console.log(this.detalleHorasEmpleado);
-    
+    let horaEmpleadoParams = {
+      fechaInicio: this.datePipe.transform(
+        this.rangoFechasForm.value.fechai,
+        "dd-MM-yyyy"
+      ),
+      fechaFin: this.datePipe.transform(
+        this.rangoFechasForm.value.fechaf,
+        "dd-MM-yyyy"
+      ),
+      employeeId: 0,
+    };
+
+    this.emailService
+      .ImprimirDetalleHoras(horaEmpleadoParams)
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      })
+      .catch((err) => {
+        Alerts.error("Error", "No se pudo generar el PDF para impresión");
+      });
   }
 }

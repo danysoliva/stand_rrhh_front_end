@@ -20,16 +20,16 @@ export class ListadoVacacionesComponent implements OnInit {
                     {id:EstadoSolicitudEnum.AprobadoPorJefeInmediato,nombre:'Aprobado por Jefe Inmediato'},
                     {id:EstadoSolicitudEnum.AprobadoPorRRHH,nombre:'Aprobado por RRHH'}]
   tipoAutorizacionEnum = TipoAutorizacionEnum
-  tipoAutorizacionSeleccionada:TipoAutorizacionEnum
+  tipoAutorizacionSeleccionada!:TipoAutorizacionEnum
   estadoSolicitudEnum = EstadoSolicitudEnum
   accionEnum = AccionEnum
-  accionSeleccionada:AccionEnum
-  empleadoSeleccionado:string
-  solicitudVacacionIdSeleccionado:number
+  accionSeleccionada!:AccionEnum
+  empleadoSeleccionado:string = "";
+  solicitudVacacionIdSeleccionado:number = 0;
   popupAprobarDenegarVisible:boolean = false;
   solicitudesDeVacacion: Array<SolicitudVacacionDto> = new Array<SolicitudVacacionDto>();
-  popupSubirOdoo:boolean;
-  popupEliminarOdoo:boolean;
+  popupSubirOdoo:boolean = false;
+  popupEliminarOdoo:boolean = false;
 
 abrirPopupSubirOdoo=(solicitudId: number)=>{this.popupSubirOdoo=true;this.solicitudVacacionIdSeleccionado = solicitudId;}
 abrirPopupEliminarSolicitud=(solicitudId: number)=>{this.popupEliminarOdoo=true;this.solicitudVacacionIdSeleccionado = solicitudId;}
@@ -45,14 +45,14 @@ cerrarPopupEliminarSolicitud=()=>{this.popupEliminarOdoo=false;}
   };
   cerrarPopup = () => { this.popupAprobarDenegarVisible = false };
   filename: string = "Vacación";
-  reporteEsVisible:boolean;
-  vacacion:VacacionDocNewFormatDto;
+  reporteEsVisible:boolean = false;
+  vacacion:VacacionDocNewFormatDto = new VacacionDocNewFormatDto();
 
   comentarioValido: boolean = false;
   fcComentario = new UntypedFormControl('');
   fcEstadoFiltro = new UntypedFormControl(EstadoSolicitudEnum.EnProceso);
 
-  keyUpComentario(e){
+  keyUpComentario(e:any){
     const inputValue = e.event.target.value;
     this.comentarioValido = inputValue.length > 0;
   }
@@ -61,7 +61,7 @@ cerrarPopupEliminarSolicitud=()=>{this.popupEliminarOdoo=false;}
   }
 
   async ngOnInit(){
-    const usuario = JSON.parse(localStorage.getItem('Auth')) as LoginDto;
+    const usuario = JSON.parse(localStorage.getItem('Auth') || '{}') as LoginDto;
     if (usuario.hasStaffInCharge == true && usuario.userLevelId == UserLevelEnum.Usuario) {
       this.fcEstadoFiltro.setValue(EstadoSolicitudEnum.EnProceso);
     }
@@ -72,7 +72,7 @@ cerrarPopupEliminarSolicitud=()=>{this.popupEliminarOdoo=false;}
     this.solicitudesDeVacacion = await this.solicitudService.obtenerSolicitudesDeVacacionPorEstadoIdParaRRHH(this.fcEstadoFiltro.value);
   }
 
-  async filtroValueChanged(e){
+  async filtroValueChanged(e:any){
     this.fcEstadoFiltro.setValue(e.value);
     this.solicitudesDeVacacion = await this.solicitudService.obtenerSolicitudesDeVacacionPorEstadoIdParaRRHH(this.fcEstadoFiltro.value);
   }
@@ -103,7 +103,7 @@ cerrarPopupEliminarSolicitud=()=>{this.popupEliminarOdoo=false;}
     }
 
     cambiarEstadoSolicitud.comentario = this.fcComentario.value;
-    cambiarEstadoSolicitud.estadoId = estadoId;
+    cambiarEstadoSolicitud.estadoId = estadoId ?? 0;
     cambiarEstadoSolicitud.solicitudId = this.solicitudVacacionIdSeleccionado;
 
     this.solicitudService.cambiarEstadoSolicitudDeVacacion(cambiarEstadoSolicitud)

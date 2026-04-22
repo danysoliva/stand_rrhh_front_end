@@ -9,6 +9,7 @@ export class SolicitudConstanciaDto {
     comment: string
     createdDate: Date
     esVistaRRHHAdministrador: boolean;    
+    esAdministrador: boolean;    
 }
 
 export class NuevaSolicitudConstanciaDto {

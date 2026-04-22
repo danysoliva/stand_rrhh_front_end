@@ -36,6 +36,8 @@
                     <dxi-column dataField="createdDate" caption="Fecha" dataType="date" format="dd/MM/yyyy HH:mm:ss"
                         width="100">
                     </dxi-column>
+                    <dxi-column cellTemplate="cellTemplatePrint" caption="" width="120" caption="Imprimir">
+                    </dxi-column>
                     <dxi-column cellTemplate="cellTemplateEliminar" caption="" width="120">
                     </dxi-column>
                     <div *dxTemplate="let data of 'cellTemplateEliminar'">
@@ -45,6 +47,14 @@
                             (click)="abrirPopupConfirmarEliminacion(data.data.id)">
                             <span style="font-size: 12px;">Eliminar</span>
                             <nb-icon icon="close" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                    <div *dxTemplate="let data of 'cellTemplatePrint'">
+                      <button style="display: block; margin: auto;"
+                      *ngIf="data.data.requestStateId === estadoSolicitudEnum.AprobadoPorRRHH"
+                            nbButton outline status="primary" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="imprimir(data.data.id)">
+                            <nb-icon icon="printer" pack="eva" style="margin: auto;"></nb-icon>
                         </button>
                     </div>
                 </dx-data-grid>
@@ -176,4 +186,9 @@
         </dx-scroll-view>
     </div>
 </dx-popup>
+
+<app-doc-base [isVisible]="reporteEsVisible" (closed)="reporteEsVisible = $event" [filename]="filename"
+    customMargin="3">
+    <doc-vacacion-new-format [reporteEsVisible]="reporteEsVisible" [vacacion]="vacacion"></doc-vacacion-new-format>
+</app-doc-base>
 

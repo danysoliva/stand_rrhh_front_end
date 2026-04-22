@@ -38,6 +38,7 @@ export class ListadoConstanciasComponent implements OnInit {
   solicitudesDeConstancias: Array<SolicitudConstanciaDto> = new Array<SolicitudConstanciaDto>();
   popupAprobarVisible: boolean = false;
   popupDenegarVisible: boolean = false;
+  
   abrirPopupAprobar = (constanciaId: number, employeeName: string) => { 
     this.popupAprobarVisible = true; 
     this.solicitudConstanciaIdSeleccionado = constanciaId; 
@@ -87,6 +88,7 @@ export class ListadoConstanciasComponent implements OnInit {
     this.conceptos = await this.solicitudService.obtenerConceptosConfigurables();
 
     this.solicitudesDeConstancias = await this.solicitudService.obtenerSolicitudesDeConstanciasPorEstadoIdParaRRHH(this.fcEstadoFiltro.value);
+  // console.log(this.solicitudesDeConstancias);
   }
 
   async filtroValueChanged(e){
