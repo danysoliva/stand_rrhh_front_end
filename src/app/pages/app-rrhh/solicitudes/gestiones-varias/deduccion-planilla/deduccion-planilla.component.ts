@@ -1,8 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { drawDOM, exportPDF, Group } from '@progress/kendo-drawing';
 import Swal from 'sweetalert2';
 import { DeduccionDto } from '../../../../../model/gestiones-varias/deduccion-dto';
+import { DeduccionNewFormatDto } from '../../../../../model/gestiones-varias/deduccion-new-format-dto';
 import { EmpleadoDto } from '../../../../../model/gestiones-varias/empleado-dto';
 import { GestionesVariasService } from '../../../../../servicio/gestiones-varias.service';
 import { Alerts } from '../../../../../_common/utils/alerts';
@@ -15,6 +17,8 @@ import { DeduccionPorPlanillaDocDto } from '../../../documentos/models/deduccion
   styleUrls: ['./deduccion-planilla.component.scss']
 })
 export class DeduccionPlanillaComponent implements OnInit {
+
+  @ViewChild('pdfDeduccionContainer') pdfDeduccionContainer!: ElementRef<HTMLDivElement>;
 
   popupVisible:boolean = false;
   popupVisibleNewFormat:boolean = false;
@@ -65,7 +69,12 @@ export class DeduccionPlanillaComponent implements OnInit {
   currencyFormat: string;
   
   empleados: EmpleadoDto[];
-  constructor(private fb: UntypedFormBuilder,private datePipe: DatePipe,private gestionesVariasService: GestionesVariasService) { 
+  constructor(
+    private fb: UntypedFormBuilder,
+    private datePipe: DatePipe,
+    private gestionesVariasService: GestionesVariasService,
+    private cdr: ChangeDetectorRef
+  ) { 
    
   }
 
@@ -150,21 +159,22 @@ export class DeduccionPlanillaComponent implements OnInit {
       
     }
 
+    private asignarFormatoDeduccion(data: DeduccionNewFormatDto): void {
+      this.formatoDeduccion.nombreEmpleado = data.nombreEmpleado;
+      this.formatoDeduccion.barcode = data.barcode;
+      this.formatoDeduccion.monto = data.monto;
+      this.formatoDeduccion.identidad = data.identidad;
+      this.formatoDeduccion.fechaDeduccion = data.fechaDeduccion;
+      this.formatoDeduccion.fechaCreacion = data.fechaCreacion;
+      this.formatoDeduccion.concepto = data.concepto;
+      this.formatoDeduccion.currency = data.currency;
+      this.formatoDeduccion.fechaIngreso = data.fechaIngreso;
+    }
+
     print(e){
       this.gestionesVariasService.imprimirFormatoDeduccionPlanilla(e.data.id).then((data)=>{      
-
-      this.formatoDeduccion.nombreEmpleado=data.nombreEmpleado;
-      this.formatoDeduccion.barcode=data.barcode;
-      this.formatoDeduccion.monto=data.monto;
-      this.formatoDeduccion.identidad=data.identidad;
-      this.formatoDeduccion.fechaDeduccion=data.fechaDeduccion;
-      this.formatoDeduccion.fechaCreacion=data.fechaCreacion;
-      this.formatoDeduccion.concepto=data.concepto; 
-      this.formatoDeduccion.currency=data.currency;
-      this.formatoDeduccion.fechaIngreso=data.fechaIngreso   
-      // this.reporteEsVisible=true;
-      this.reporteEsVisibleNewFormat=true;     
-      
+        this.asignarFormatoDeduccion(data);
+        this.reporteEsVisibleNewFormat=true;     
       }).catch((excep)=>{
 
         console.log(excep.error.message);
@@ -177,6 +187,87 @@ export class DeduccionPlanillaComponent implements OnInit {
         
       });
       
+    }
+
+    async printPdf(e: { data: DeduccionDto }): Promise<void> {
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Ventana bloqueada',
+          text: 'Permita ventanas emergentes para ver el PDF.'
+        });
+        return;
+      }
+
+      Alerts.openLoad();
+
+      try {
+        const data = await this.gestionesVariasService.imprimirFormatoDeduccionPlanilla(e.data.id);
+        this.asignarFormatoDeduccion(data);
+        this.cdr.detectChanges();
+        await this.waitForViewRender();
+
+        if (!this.pdfDeduccionContainer?.nativeElement) {
+          throw new Error('No se encontró el contenedor para exportar PDF.');
+        }
+
+        await this.waitForImages(this.pdfDeduccionContainer.nativeElement);
+
+        const documentElement = this.pdfDeduccionContainer.nativeElement.querySelector('#documento') as HTMLElement;
+        if (!documentElement) {
+          throw new Error('No se encontró el contenido del documento para exportar PDF.');
+        }
+
+        const group: Group = await drawDOM(documentElement, {
+          paperSize: 'Letter',
+          margin: {
+            top: '0.1cm',
+            right: '0.6cm',
+            bottom: '0.5cm',
+            left: '0.6cm'
+          },
+          scale: 0.48
+        });
+
+        const pdfDataUri = await exportPDF(group);
+        const pdfBlob = await fetch(pdfDataUri).then((response) => response.blob());
+        const objectUrl = URL.createObjectURL(pdfBlob);
+        printWindow.location.href = objectUrl;
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
+        Alerts.closeLoad();
+      } catch (err) {
+        printWindow.close();
+        Alerts.closeLoad();
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo generar el PDF.'
+        });
+      }
+    }
+
+    private waitForViewRender(): Promise<void> {
+      return new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
+    private async waitForImages(container: HTMLElement): Promise<void> {
+      const images = Array.from(container.querySelectorAll('img')) as HTMLImageElement[];
+      if (images.length === 0) {
+        return;
+      }
+
+      await Promise.all(images.map((img) => {
+        if (img.complete) {
+          return Promise.resolve();
+        }
+
+        return new Promise<void>((resolve) => {
+          const done = () => resolve();
+          img.addEventListener('load', done, { once: true });
+          img.addEventListener('error', done, { once: true });
+        });
+      }));
     }
 
     keyUpComentario(e) {

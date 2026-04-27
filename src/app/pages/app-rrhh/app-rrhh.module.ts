@@ -43,6 +43,9 @@ import { RepositoryDocumentsComponent } from './configuracion/repository-documen
 import { AdminRepositoryPoliciesComponent } from "./configuracion/admin-repository-policies/admin-repository-policies.component";
 import { RepositoryPoliciesComponent } from "./configuracion/repository-policies/repository-policies.component";
 import { AdminGrupoFormatosComponent } from './configuracion/admin-grupo-formatos/admin-grupo-formatos.component';
+import { DocVacacionNewFormatPdfComponent } from "./documentos/components/doc-vacacion-new-format-pdf/doc-vacacion-new-format-pdf.component";
+import { DocDeduccionPlanillaNewFormatPdfComponent } from "./documentos/components/doc-deduccion-planilla-new-format-pdf/doc-deduccion-planilla-new-format-pdf.component";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
     imports: [
@@ -88,7 +91,8 @@ import { AdminGrupoFormatosComponent } from './configuracion/admin-grupo-formato
       RouterModule,
       DocumentosModule,
       // SwiperModule,
-      NgxUsefulSwiperModule
+      NgxUsefulSwiperModule,
+      CommonModule
     ],
     declarations: [
       AppRRHHComponent,
@@ -117,6 +121,8 @@ import { AdminGrupoFormatosComponent } from './configuracion/admin-grupo-formato
       AdminRepositoryPoliciesComponent,
       RepositoryPoliciesComponent,
       AdminGrupoFormatosComponent,
+      DocVacacionNewFormatPdfComponent,
+      DocDeduccionPlanillaNewFormatPdfComponent,
     ],
     providers:[]
   })

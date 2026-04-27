@@ -36,7 +36,9 @@
                     <dxi-column dataField="createdDate" caption="Fecha" dataType="date" format="dd/MM/yyyy HH:mm:ss"
                         width="100">
                     </dxi-column>
-                    <dxi-column cellTemplate="cellTemplatePrint" caption="" width="120" caption="Imprimir">
+                    <!-- <dxi-column cellTemplate="cellTemplatePrint" caption="" width="120" caption="Imprimir">
+                    </dxi-column> -->
+                    <dxi-column cellTemplate="cellTemplatePrint2" caption="" width="120" caption="Imprimir">
                     </dxi-column>
                     <dxi-column cellTemplate="cellTemplateEliminar" caption="" width="120">
                     </dxi-column>
@@ -54,6 +56,14 @@
                       *ngIf="data.data.requestStateId === estadoSolicitudEnum.AprobadoPorRRHH"
                             nbButton outline status="primary" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
                             (click)="imprimir(data.data.id)">
+                            <nb-icon icon="printer" pack="eva" style="margin: auto;"></nb-icon>
+                        </button>
+                    </div>
+                    <div *dxTemplate="let data of 'cellTemplatePrint2'">
+                      <button style="display: block; margin: auto;"
+                      *ngIf="data.data.requestStateId === estadoSolicitudEnum.AprobadoPorRRHH"
+                            nbButton outline status="info" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="imprimir2(data.data.id)">
                             <nb-icon icon="printer" pack="eva" style="margin: auto;"></nb-icon>
                         </button>
                     </div>
@@ -191,4 +201,8 @@
     customMargin="3">
     <doc-vacacion-new-format [reporteEsVisible]="reporteEsVisible" [vacacion]="vacacion"></doc-vacacion-new-format>
 </app-doc-base>
+
+<div #pdfContainer style="position: fixed; left: -12000px; top: 0; width: 850px; background: white; pointer-events: none; z-index: -1;">
+    <doc-vacacion-new-format-pdf [reporteEsVisible]="true" [vacacion]="vacacion"></doc-vacacion-new-format-pdf>
+</div>
 

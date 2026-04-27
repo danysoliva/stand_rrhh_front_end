@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { drawDOM, exportPDF, Group } from '@progress/kendo-drawing';
 import { NuevaSolicitudVacacionDto, SolicitudVacacionDto } from '../../../../model/solicitud/solicitud-vacacion-dto';
 import { TipoVerificacionEnum, ValidarVacacionDto } from '../../../../model/solicitud/validar-vacacion-dto';
 import { SolicitudService } from '../../../../servicio/solicitud.service';
@@ -21,6 +22,7 @@ export enum Jornada {
   styleUrls: ['./solicitar-vacacion.component.scss']
 })
 export class SolicitarVacacionComponent implements OnInit {
+  @ViewChild('pdfContainer') pdfContainer!: ElementRef<HTMLDivElement>;
 
   // jornadas: string[];
   jornadas = [
@@ -62,7 +64,12 @@ export class SolicitarVacacionComponent implements OnInit {
   today = new Date().toISOString();
 
 
-  constructor(private fb: UntypedFormBuilder, private solicitudService: SolicitudService, private datePipe: DatePipe) {
+  constructor(
+    private fb: UntypedFormBuilder,
+    private solicitudService: SolicitudService,
+    private datePipe: DatePipe,
+    private cdr: ChangeDetectorRef
+  ) {
 
   }
 
@@ -333,6 +340,78 @@ export class SolicitarVacacionComponent implements OnInit {
       this.cerrarPopup();
     })
     .catch(() => this.cerrarPopup())
+  }
+
+  async imprimir2(solicitudVacacionId: number) {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      Alerts.warning('Advertencia', 'El navegador bloqueó la ventana emergente del PDF.');
+      return;
+    }
+
+    Alerts.openLoad();
+
+    try {
+      this.vacacion = await this.solicitudService.obtenerVacacionParaImpresion(solicitudVacacionId);
+      this.cdr.detectChanges();
+      await this.waitForViewRender();
+      await this.waitForImages(this.pdfContainer.nativeElement);
+
+      if (!this.pdfContainer?.nativeElement) {
+        throw new Error('No se encontró el contenedor para exportar PDF.');
+      }
+
+      const documentElement = this.pdfContainer.nativeElement.querySelector('#documento') as HTMLElement;
+      if (!documentElement) {
+        throw new Error('No se encontró el contenido del documento para exportar PDF.');
+      }
+
+      const group: Group = await drawDOM(documentElement, {
+        paperSize: 'Letter',
+        margin: {
+          top: '0.2cm',
+          right: '1cm',
+          bottom: '1cm',
+          left: '1cm'
+        },
+        scale: 0.6
+      });
+
+      const pdfDataUri = await exportPDF(group);
+      const pdfBlob = await fetch(pdfDataUri).then((response) => response.blob());
+      const objectUrl = URL.createObjectURL(pdfBlob);
+
+      printWindow.location.href = objectUrl;
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
+      Alerts.closeLoad();
+    } catch (error) {
+      printWindow.close();
+      Alerts.closeLoad();
+      Alerts.error('Error', 'No se pudo generar el PDF para impresión.');
+    }
+  }
+
+  private waitForViewRender(): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, 100));
+  }
+
+  private async waitForImages(container: HTMLElement): Promise<void> {
+    const images = Array.from(container.querySelectorAll('img')) as HTMLImageElement[];
+    if (images.length === 0) {
+      return;
+    }
+
+    await Promise.all(images.map((img) => {
+      if (img.complete) {
+        return Promise.resolve();
+      }
+
+      return new Promise<void>((resolve) => {
+        const done = () => resolve();
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+      });
+    }));
   }
 
 }

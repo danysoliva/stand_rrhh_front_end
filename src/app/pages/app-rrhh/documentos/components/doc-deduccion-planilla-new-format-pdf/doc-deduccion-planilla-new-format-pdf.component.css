@@ -1,0 +1,199 @@
+hr.new1 {
+    border-top: 1px solid #cbc0c0;
+  }
+
+  table {
+    border-collapse: collapse;
+    
+}
+
+  .sub-title{
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .margin-page{
+        margin-left: 30PX;
+    margin-right: 30px
+  }
+
+  .row-conf{
+        font-size: 19px;
+        font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* .subraya{
+    border-bottom-width: 1px;
+    border-bottom-style: groove;
+  } */
+                   
+     .texto-encabezado-tabla{
+       font-size: 16px;
+       font-weight: bold;
+       text-align: center;
+       background-color: #E7E6E6;
+       padding: 3px 6px;
+     }
+
+    .border-left{
+      border-left-width: 2px !important;
+      border-left-style: solid !important;
+      border-left-color: black !important;
+    }
+
+    .border-right{
+      /* border-collapse: collapse; */
+      border-right-width: 2px !important;
+      border-right-style: solid !important;
+      border-right-color: black !important;
+    }
+
+    .border-top{
+      border-top-width: 2px !important;
+      border-top-style: solid !important;
+      border-top-color: black !important;
+    }
+
+     .border-top-no-margin{
+      margin-top: 0px !important;
+    }
+
+    .border-bottom{
+      border-bottom-width: 2px !important;
+      border-bottom-style: solid !important;
+      border-bottom-color: black !important;
+    }
+
+    .Titulos{
+      font-size: 17px;
+      font-weight: bold;
+      margin: 4px 0;
+    }
+
+    .texto-regular{
+      font-size: 14px;
+    }
+
+    ::ng-deep body{
+      overflow: hidden !important;
+    }
+
+   .segmento1 {
+     height: 24px;
+     line-height: 24px;
+     background-color: #DDEBF7;
+     font-size: 16px;
+     font-weight: bold;
+     border-top-width: 4px;
+     border-top-style: solid;
+     border-color: #8EA9DB;
+   }
+
+/* Compactación para exportación PDF (dos copias en una hoja) */
+#documento .pdf-cuerpo {
+  margin-top: 4px !important;
+}
+
+#documento .pdf-formato-copia + .pdf-formato-copia {
+  margin-top: 2px !important;
+}
+
+.pdf-copia-divisor {
+  border: 0;
+  border-top: 1px dashed #888;
+  margin: 10px 12px 10px 12px;
+}
+
+.pdf-doble-hoja .segmento1 {
+  height: 22px;
+  line-height: 22px;
+  font-size: 15px;
+}
+
+.pdf-doble-hoja .Titulos {
+  font-size: 15px;
+  margin: 2px 0;
+}
+
+.pdf-doble-hoja .texto-encabezado-tabla {
+  font-size: 14px;
+  padding: 2px 5px;
+}
+
+.pdf-doble-hoja .texto-fila-tabla,
+.pdf-doble-hoja .texto-fila-tabla2 {
+  font-size: 14px;
+}
+
+.pdf-doble-hoja .texto-normal {
+  font-size: 12px;
+}
+
+.pdf-doble-hoja .pdf-firma-encabezado {
+  margin: 6px 0 2px 0 !important;
+}
+
+.pdf-doble-hoja .pdf-firma-celda {
+  min-height: 248px;
+  padding-top: 16px;
+  padding-bottom: 24px;
+  vertical-align: top;
+}
+
+.pdf-doble-hoja .pdf-firma-caja {
+  margin-top: 88px !important;
+  margin-bottom: 14px !important;
+  padding: 8px 8px !important;
+}
+
+.pdf-firma-bloque {
+  margin-top: 0;
+}
+
+.pdf-firma-encabezado {
+  margin: 6px 0 2px 0 !important;
+}
+
+.pdf-firma-celda {
+  height: auto !important;
+  min-height: 124px;
+  padding-top: 12px;
+  padding-bottom: 20px;
+  vertical-align: top;
+}
+
+.pdf-firma-caja {
+  width: 257px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 92px !important;
+  margin-bottom: 16px !important;
+  padding: 8px 10px !important;
+}
+
+
+   .texto-fila-tabla{
+     font-size: 16px;
+     text-align: center;
+     padding: 2px 4px;
+   }
+
+        .texto-fila-tabla2{
+          font-size: 16px;
+          font-weight: bold;
+          /* background-color: #E7E6E6; */
+          /* text-align: center; */
+        }
+
+/* Desde documentos.style.css (.page) para exportación coherente */
+.page {
+  margin: 0;
+  background: white;
+  color: black;
+  font-size: 12px;
+  font-family: sans-serif;
+}
+
+.texto-normal {
+  font-size: 14px;
+}

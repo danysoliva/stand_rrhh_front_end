@@ -34,6 +34,9 @@
                     </dxi-column>
                     <dxi-column style="text-align: center !important;" cellTemplate="cellPrint" 
                         [formItem]="{visible: false}"></dxi-column>
+                    <dxi-column style="text-align: center !important;" cellTemplate="cellPdf" caption="PDF"
+                        width="90"
+                        [formItem]="{visible: false}"></dxi-column>
                     <dxi-column style="text-align: center !important;" cellTemplate="cellDelete" 
                         [formItem]="{visible: false}"></dxi-column>
                     <div *dxTemplate="let data of 'cellPrint'">
@@ -41,7 +44,13 @@
                             (click)="print(data)"> Imprimir
                             <nb-icon icon="printer" pack="eva"></nb-icon>
                         </button>
-                    </div> 
+                    </div>
+                    <div *dxTemplate="let data of 'cellPdf'">
+                        <button style="display: block; margin: auto;" nbButton outline status="info" type="button"
+                            (click)="printPdf(data)"> PDF
+                            <nb-icon icon="file-text-outline" pack="eva"></nb-icon>
+                        </button>
+                    </div>
                     <div *dxTemplate="let data of 'cellDelete'">
                         <button style="display: block; margin: auto;"
                             nbButton outline status="primary" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
@@ -104,6 +113,11 @@
     <doc-deduccion-planilla-new-format [reporteEsVisible]="reporteEsVisibleNewFormat" [deduccionPlanillaDoc]="formatoDeduccion">
     </doc-deduccion-planilla-new-format>
 </app-doc-base>
+
+<div #pdfDeduccionContainer style="position: fixed; left: -12000px; top: 0; width: 850px; background: white; pointer-events: none; z-index: -1;">
+    <doc-deduccion-planilla-new-format-pdf [reporteEsVisible]="true" [deduccionPlanillaDoc]="formatoDeduccion">
+    </doc-deduccion-planilla-new-format-pdf>
+</div>
 
 
 <dx-popup [width]="400" height="auto" [showTitle]="true" title="Confirmación" [dragEnabled]="false"

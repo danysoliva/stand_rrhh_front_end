@@ -21,12 +21,10 @@ export class DocVacacionNewFormatComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.vacacion = new VacacionDocNewFormatDto();
-    this.vacacion.observaciones = "";
-
-    // this.cantidadVacacionesEnLetras=numeroALetras(this.vacacion.cantidadDiasVacacion);
-
-//    console.log(this.vacacion.cantidadDiasVacacionEnLetras);
+    if (!this.vacacion) {
+      this.vacacion = new VacacionDocNewFormatDto();
+      this.vacacion.observaciones = "";
+    }
   }
 
   
