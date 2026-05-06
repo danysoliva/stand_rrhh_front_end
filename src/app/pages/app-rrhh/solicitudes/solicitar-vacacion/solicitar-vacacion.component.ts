@@ -410,6 +410,7 @@ export class SolicitarVacacionComponent implements OnInit {
         const done = () => resolve();
         img.addEventListener('load', done, { once: true });
         img.addEventListener('error', done, { once: true });
+        setTimeout(done, 3000);
       });
     }));
   }

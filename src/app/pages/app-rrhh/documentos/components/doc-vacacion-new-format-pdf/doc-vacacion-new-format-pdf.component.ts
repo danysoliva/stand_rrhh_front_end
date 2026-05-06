@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class DocVacacionNewFormatPdfComponent implements OnInit {
   @Input() vacacion: VacacionDocNewFormatDto;
   @Input() reporteEsVisible: boolean = false;
+  logoSrc: string;
 
   now: Date = new Date();
   cantidadVacacionesEnLetras: string;
@@ -22,6 +23,7 @@ export class DocVacacionNewFormatPdfComponent implements OnInit {
     this.vacacion = new VacacionDocNewFormatDto();
     this.vacacion.observaciones = '';
     this.cantidadVacacionesEnLetras = numeroALetras(this.vacacion.cantidadDiasVacacion);
+    this.logoSrc = new URL('assets/images/aquafeed.png', document.baseURI).href;
   }
 
   ngOnInit(): void {

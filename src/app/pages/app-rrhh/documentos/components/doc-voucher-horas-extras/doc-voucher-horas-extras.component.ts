@@ -8,17 +8,24 @@ import { VoucherHorasExtrasDocDto } from '../../models/voucher-horas-extras-doc-
 })
 export class DocVoucherHorasExtrasComponent implements OnInit {
   @Input() voucherHorasExtrasDoc: VoucherHorasExtrasDocDto ;
-  @Input() reporteVoucerHorasExtrasEsVisible: boolean;
+  @Input() reporteVoucerHorasExtrasEsVisible: boolean = false;
   
+  totalHorasExtras: number = 0;
+
   constructor() { 
     this.voucherHorasExtrasDoc = new  VoucherHorasExtrasDocDto();      
   }
 
   now: Date = new Date();
   ngOnInit(): void {
-    this.voucherHorasExtrasDoc = new VoucherHorasExtrasDocDto();  
+    if (!this.voucherHorasExtrasDoc) {
+      this.voucherHorasExtrasDoc = new VoucherHorasExtrasDocDto();
+    }
 
-        
+    console.log(this.voucherHorasExtrasDoc);
+
+    this.totalHorasExtras = this.voucherHorasExtrasDoc.detalles.find(item => item.code !== 'TPHE')?.totalLinea ?? 0; 
+    
   }
 
 }

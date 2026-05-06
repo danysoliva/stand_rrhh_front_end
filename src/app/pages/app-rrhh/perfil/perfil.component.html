@@ -6,10 +6,13 @@
         <nb-card class="inline-form-card card-rounded">
             <!-- <nb-card-header>Inline form</nb-card-header> -->
             <nb-card-body>
-                <div class="d-flex">
+                <div class="d-flex profile-header">
                     <img [src]="perfil.pictureProfile" style="border-radius: 52px"
                     (error)="$event.target.src = 'assets/images/profile.png'">
-                    <span class="name">{{perfil.name}}</span>
+                    <div class="profile-name-barcode">
+                        <span class="name">{{perfil.name}}</span>
+                        <span class="barcode">{{perfil.barCode || 'N/D'}}</span>
+                    </div>
                 </div>
                 <hr>
                 <div class="info">
@@ -95,10 +98,16 @@
                         [searchMode]="searchModeOption" [searchExpr]="searchExprOption"
                         [searchTimeout]="searchTimeoutOption" [minSearchLength]="minSearchLengthOption"
                         [searchEnabled]="true" [showDataBeforeSearch]="showDataBeforeSearchOption"
-                        placeholder="Seleccione una planilla" width="500" [formControl]="planilla"></dx-select-box>
+                        placeholder="Seleccione una planilla" width="500" [formControl]="planilla"
+                        (onValueChanged)="onNominaEncabezadoChanged($event)">
+                    </dx-select-box>
 
-                    <dx-button icon="check" type="success" text="Ver" style="min-width: 80px;"
+                    <!-- <dx-button icon="check" type="success" text="Ver" style="min-width: 80px;"
                         (click)="solicitarPlanilla()">
+                    </dx-button> -->
+
+                    <dx-button icon="check" type="default" text="Ver" style="min-width: 110px;"
+                        (click)="solicitarPlanillaVoucherNew()">
                     </dx-button>
 
                     <dx-button icon="check" type="success" text="Enviar Correo" style="min-width: 80px;"
@@ -217,3 +226,12 @@
     <doc-detalle-horas-trabajadas [reporteEsVisible]="reporteDetalleHorasEsVisible" [horasTrabajadasDoc]="detalleHorasEmpleado">
     </doc-detalle-horas-trabajadas>
 </app-doc-base>
+
+<div #pdfVoucherNewContainer style="position: fixed; left: -12000px; top: 0; width: 850px; background: white; pointer-events: none; z-index: -1;">
+    <ng-container [ngSwitch]="pdfVoucherKind">
+        <doc-voucher-new *ngSwitchCase="'normal'" [reporteEsVisible]="true" [voucherDoc]="voucherNew"></doc-voucher-new>
+        <doc-voucher-DecimoTercer-Mes *ngSwitchCase="'decimo'" [reporteEsVisible]="true" [voucherDoc]="voucherDecimoTercerMes"></doc-voucher-DecimoTercer-Mes>
+        <app-voucher-he-doc *ngSwitchCase="'horasExtras'" [reporteVoucerHorasExtrasEsVisible]="true"
+            [voucherHorasExtrasDoc]="voucherHorasExtras"></app-voucher-he-doc>
+    </ng-container>
+</div>

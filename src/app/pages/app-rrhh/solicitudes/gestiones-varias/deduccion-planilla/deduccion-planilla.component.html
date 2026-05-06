@@ -32,22 +32,24 @@
                     </dxi-column>
                     <dxi-column dataField="concepto" caption="Concepto">
                     </dxi-column>
-                    <dxi-column style="text-align: center !important;" cellTemplate="cellPrint" 
-                        [formItem]="{visible: false}"></dxi-column>
-                    <dxi-column style="text-align: center !important;" cellTemplate="cellPdf" caption="PDF"
-                        width="90"
+                    <!-- <dxi-column style="text-align: center !important;" cellTemplate="cellPrint" 
+                        [formItem]="{visible: false}">
+                    </dxi-column> -->
+                    <dxi-column style="text-align: center !important;" cellTemplate="cellPdf" caption="Imprimir PDF"
+                        width="150"
                         [formItem]="{visible: false}"></dxi-column>
                     <dxi-column style="text-align: center !important;" cellTemplate="cellDelete" 
                         [formItem]="{visible: false}"></dxi-column>
-                    <div *dxTemplate="let data of 'cellPrint'">
+                    <!-- <div *dxTemplate="let data of 'cellPrint'">
                         <button style="display: block; margin: auto;" nbButton outline status="primary" type="success"
                             (click)="print(data)"> Imprimir
                             <nb-icon icon="printer" pack="eva"></nb-icon>
                         </button>
-                    </div>
+                    </div> -->
                     <div *dxTemplate="let data of 'cellPdf'">
-                        <button style="display: block; margin: auto;" nbButton outline status="info" type="button"
-                            (click)="printPdf(data)"> PDF
+                        <button style="display: block; margin: auto;" 
+                            nbButton outline status="primary" type="button" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
+                            (click)="printPdf(data)"> Imprimir
                             <nb-icon icon="file-text-outline" pack="eva"></nb-icon>
                         </button>
                     </div>

@@ -1,0 +1,104 @@
+<div id="documento">
+  <div class="page" style="margin-top: 30px;">
+    <div class="text-center" style="margin-left: 5px; margin-right: 5px; margin-top: 10px;">
+      <table class="tf">
+        <colgroup>
+          <col style="width: 189px">
+          <col style="width: 858px">
+        </colgroup>
+        <thead>
+          <tr>
+            <td rowspan="4"><img src="/assets/images/aquafeed.png" width="100"></td>
+            <td style="font-family: 'Roboto'; font-weight: bold; font-size: 21px; text-align: left; padding: 0;">
+              Aquafeed S. A. de C. V.
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+          </tr>
+          <tr>
+            <td style="display: flex; font-size: 18px; font-family: 'Roboto'; font-weight: bold; border-bottom-style: solid; padding: 0;">
+              <span style="margin-right: 227px;">Recibo de pago del Decimo Tercer Mes</span>
+              <span>Impreso el: {{ now | date:'dd/MM/yyyy' }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="display: flex; font-size: 18px; font-family: 'Roboto'; font-weight: bold; padding: 0;">
+              {{ voucherDoc.payslipName}}
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <div class="report-section margin-page">
+      <table class="employee-data-grid">
+        <colgroup>
+          <col style="width: 38%;">
+          <col style="width: 30%;">
+          <col style="width: 32%;">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td><strong>Colaborador:</strong> {{ voucherDoc.employeeName }}</td>
+            <td><strong>Codigo:</strong> {{ voucherDoc.barCode }}</td>
+            <td><strong>Departamento:</strong> {{ voucherDoc.employeeDepartment }}</td>
+          </tr>
+          <tr>
+            <td><strong>Cargo:</strong> {{ voucherDoc.employeeJobName }}</td>
+            <td><strong>Fecha de Pago:</strong> {{ voucherDoc.fechaPago }}</td>
+            <td><strong>Turno:</strong> {{ voucherDoc.employeeJournal || 'N/D' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="report-section margin-page">
+      <div class="row" style="font-family: 'Roboto'; font-size: 17px;">
+        <div class="col" style="padding: 3px;">
+          <table class="table-style">
+            <thead>
+              <tr style="background-color:#808080;">
+                <th style="font-family: 'Roboto';"> DETALLE </th>
+                <th style="font-family: 'Roboto';"> CANTIDAD </th>
+                <th style="font-family: 'Roboto';"> TOTAL </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of voucherDoc.detalle">
+                <td class="table-style-0lax">{{ item.concepto }}</td>
+                <td class="table-style-cantidades">{{ item.cantidad | number : '1.2-2' }}</td>
+                <td class="table-style-cantidades">{{ voucherDoc.moneda }} {{ item.valor | number : '1.2-2' }}</td>
+              </tr>
+              <tr class="table-style-tot">
+                <td colspan="2"><strong>Total a Pagar</strong></td>
+                <td class="table-style-cantidades"><strong>{{ voucherDoc.moneda }} {{ totalPagar | number : '1.2-2' }}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="report-section margin-page">
+      <div class="row" style="font-family: 'Roboto'; font-size: 17px;">
+        <table class="tf">
+          <thead>
+            <tr>
+              <td></td>
+              <td style="border-top-style: solid; border-top-color: black; width: 250px; text-align: center; font-family: 'Roboto'; font-weight: bold;">
+                Firma del Colaborador
+              </td>
+              <td></td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

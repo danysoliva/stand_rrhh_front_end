@@ -11,3 +11,22 @@
     }
 
 }
+
+.profile-header {
+    align-items: center;
+}
+
+.profile-name-barcode {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.barcode {
+    font-size: 20px;
+    font-weight: 600;
+    color: #164888;
+    white-space: nowrap;
+}

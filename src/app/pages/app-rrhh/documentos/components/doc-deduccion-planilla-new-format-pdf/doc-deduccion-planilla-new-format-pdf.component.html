@@ -82,7 +82,7 @@
 
     <div class="pdf-copia-divisor" role="separator" aria-hidden="true"></div>
 
-    <div class="text-center pdf-cuerpo pdf-formato-copia" style="margin-left: 10px;  margin-right: 10px;margin-top: 10px;">
+     <div class="text-center pdf-cuerpo pdf-formato-copia" style="margin-left: 10px;  margin-right: 10px;margin-top: 10px;">
       <table class="border-right border-left border-bottom border-top" width="100%">
         <tr>
           <td class="border-right"  rowspan="4" style="width: 25%; text-align: center;border-bottom-width: 10px; border-bottom-color: #1F4E78;"><img src="/assets/images/aquafeed.png" width="100"></td>
@@ -96,7 +96,7 @@
             </td>
         </tr>
         <tr class="border-bottom">
-          <td   style="border-right-style:none">
+          <td  style="border-right-style:none">
               <p class="texto-normal" style="margin: auto;"><b>Elaborado Por:</b> Depto. RRHH</p>
             <p class="texto-normal" style="margin: auto;"><b>Autorizado Por:</b> Gerente de RRHH</p>
           </td>
@@ -126,7 +126,7 @@
       <table style="width: 100%;" class="border-bottom border-left border-top border-right">
         <tr>
           <td class="texto-encabezado-tabla border-bottom border-left">Número de identidad</td>
-          <td class="texto-encabezado-tabla border-bottom border-left border-right">Fecha de ingresó a la compañía</td>
+          <td class="texto-encabezado-tabla border-bottom border-left border-right">Fecha de ingreso a la compañía</td>
         </tr>
         <tr>
           <td class="texto-fila-tabla">{{deduccionPlanillaDoc.identidad}}</td>
@@ -136,7 +136,7 @@
       <table width="100%" class="border-left border-right border-bottom">
           <tr>
             <td class="texto-fila-tabla2 border-bottom" style="width: 586px;word-spacing: 10px;">Autorizo por este medio a Aquafeed S.A de C.V. que deduzca de mi salario la cantidad de:</td>
-            <td class="texto-fila-tabla2 border-left border-bottom" style="text-align: right; font-weight: bold;">{{deduccionPlanillaDoc.currency}}
+            <td class="texto-fila-tabla2 border-left border-bottom" style="text-align: right;font-weight: bold;"> {{deduccionPlanillaDoc.currency}}
               {{deduccionPlanillaDoc.monto | number : '1.2-2'}}
             </td>
           </tr>

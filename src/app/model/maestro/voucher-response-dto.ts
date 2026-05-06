@@ -2,7 +2,7 @@ import { VoucherDto } from "./voucher-dto";
 import { VoucherHorasExtasDto } from "./voucher-horas-extras-dto";
 
 export class VoucherResponseDto {
-    payRolTypeId: number;
-    voucher: VoucherDto;
-    voucherHorasExtas: VoucherHorasExtasDto;
+    payRolTypeId: number=0;
+    voucher: VoucherDto = new VoucherDto();
+    voucherHorasExtas: VoucherHorasExtasDto = new VoucherHorasExtasDto();
 }

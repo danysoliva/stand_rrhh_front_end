@@ -1,4 +1,4 @@
 export class CambiarPinDto {
-    employeeId: number;
-    nuevoPin: string;
+    employeeId: number=0;
+    nuevoPin: string="";
 }

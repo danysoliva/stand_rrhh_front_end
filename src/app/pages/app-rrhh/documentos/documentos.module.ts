@@ -21,6 +21,8 @@ import { DocVoucherHorasExtrasComponent } from './components/doc-voucher-horas-e
 import { DocDetalleHorasTrabajadasComponent } from './components/doc-detalle-horas-trabajadas/doc-detalle-horas-trabajadas.component';
 import { DocVacacionNewFormatComponent } from './components/doc-vacacion-new-format/doc-vacacion-new-format.component';
 import { DocDeduccionPlanillaNewFormatComponent } from './components/doc-deduccion-planilla-new-format/doc-deduccion-planilla-new-format.component';
+import { DocVoucherNewComponent } from './components/doc-voucher-new/doc-voucher-new.component';
+import { DocVoucherDecimoTercerMesComponent } from './components/doc-voucher-decimo-tercer-mes/doc-voucher-decimo-tercer-mes.component';
 
 
 
@@ -63,6 +65,8 @@ import { DocDeduccionPlanillaNewFormatComponent } from './components/doc-deducci
     DocVoucherHorasExtrasComponent,
     DocVacacionComponent,
     DocVacacionNewFormatComponent,
+    DocVoucherNewComponent,
+    DocVoucherDecimoTercerMesComponent,
     DocDetalleHorasTrabajadasComponent
     // DocumentComponent,
   ],
@@ -82,6 +86,8 @@ import { DocDeduccionPlanillaNewFormatComponent } from './components/doc-deducci
     DocVoucherHorasExtrasComponent,
     DocVacacionComponent,
     DocVacacionNewFormatComponent,
+    DocVoucherNewComponent,
+    DocVoucherDecimoTercerMesComponent,
     DocDetalleHorasTrabajadasComponent
     // DocumentComponent,
   ]

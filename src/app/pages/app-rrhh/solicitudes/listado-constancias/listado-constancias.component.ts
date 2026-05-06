@@ -33,8 +33,8 @@ export class ListadoConstanciasComponent implements OnInit {
   conceptos: any | DataSource
   conceptosSeleccionados: ConceptoDto[] = [];
   estadoSolicitudEnum = EstadoSolicitudEnum
-  empleadoSeleccionado: string
-  solicitudConstanciaIdSeleccionado: number
+  empleadoSeleccionado: string = "";
+  solicitudConstanciaIdSeleccionado: number =0;
   solicitudesDeConstancias: Array<SolicitudConstanciaDto> = new Array<SolicitudConstanciaDto>();
   popupAprobarVisible: boolean = false;
   popupDenegarVisible: boolean = false;
@@ -52,19 +52,19 @@ export class ListadoConstanciasComponent implements OnInit {
   abrirPopupDenegar = (constanciaId: number, employeeName: string) => { this.popupDenegarVisible = true; this.solicitudConstanciaIdSeleccionado = constanciaId; this.empleadoSeleccionado = employeeName };
   cerrarPopupDenegar = () => { this.popupDenegarVisible = false };
   filename: string = "Constancia de Trabajo";
-  reporteEsVisible: boolean;
-  constanciaTrabajo: ConstanciaTrabajoDocDto;
+  reporteEsVisible: boolean=false;
+  constanciaTrabajo: ConstanciaTrabajoDocDto = new ConstanciaTrabajoDocDto();
 
   comentarioValido: boolean = false;
   fcComentario = new UntypedFormControl('');
   fcEstadoFiltro = new UntypedFormControl(EstadoSolicitudEnum.EnProceso);
 
-  keyUpComentario(e) {
+  keyUpComentario(e: any) {
     const inputValue = e.event.target.value;
     this.comentarioValido = inputValue.length > 0;
   }
 
-  keyUpDepreciacion(e) {
+  keyUpDepreciacion(e: any) {
     const inputValue = e.event.target.value;
     this.depreciacionValida = this.depreciacionVisible === true && inputValue > 0;
     // if (this.depreciacionValida)
@@ -77,7 +77,7 @@ export class ListadoConstanciasComponent implements OnInit {
 
   async ngOnInit() {
 
-    const usuario = JSON.parse(localStorage.getItem('Auth')) as LoginDto;
+    const usuario = JSON.parse(localStorage.getItem('Auth')?? '{}') as LoginDto;
     if (usuario.hasStaffInCharge == true && usuario.userLevelId == UserLevelEnum.Usuario) {
       this.fcEstadoFiltro.setValue(EstadoSolicitudEnum.EnProceso);
     }
@@ -91,7 +91,7 @@ export class ListadoConstanciasComponent implements OnInit {
   // console.log(this.solicitudesDeConstancias);
   }
 
-  async filtroValueChanged(e){
+  async filtroValueChanged(e: any) {
     this.fcEstadoFiltro.setValue(e.value);
     this.solicitudesDeConstancias = await this.solicitudService.obtenerSolicitudesDeConstanciasPorEstadoIdParaRRHH(this.fcEstadoFiltro.value);
   }
@@ -150,7 +150,7 @@ export class ListadoConstanciasComponent implements OnInit {
       })
   }
 
-  onSelectAllListChanged(e) {
+  onSelectAllListChanged(e: any) {
     this.depreciacionVisible = e.value;
 
     if (this.depreciacionVisible == false){
@@ -160,7 +160,7 @@ export class ListadoConstanciasComponent implements OnInit {
     }
   }
 
-  onSelectionListChanged(e) {
+  onSelectionListChanged(e: any ) {
     let deduccionIdAgregado = (e.addedItems.length > 0) ? e.addedItems[0].id : 0;
     if (deduccionIdAgregado == Deduccion.Depreciacion) {
       this.depreciacionVisible = true;

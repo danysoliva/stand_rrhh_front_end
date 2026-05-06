@@ -13,6 +13,8 @@ import { RolUsuarioParamsDto } from '../model/maestro/rol-usuario-params-dto';
 import { DepartmentDto } from '../model/gestiones-varias/department-dto';
 import { CambiarPinDto } from '../model/maestro/cambiar-pin-dto';
 import { VoucherResponseDto } from '../model/maestro/voucher-response-dto';
+import { VoucherDecimoTercerMesRequestDto } from '../model/maestro/VoucherDecimoTercerMesRequestDto';
+import { VoucherDecimoTercerMesResponseDto } from '../model/maestro/VoucherDecimoTercerMesResponseDto';
 
 
 @Injectable()
@@ -39,6 +41,12 @@ export class MaestroService {
   obtenerVoucher(payslipRunId:number):Promise<VoucherResponseDto>{
     const uri = `${this.baseUrl}getVoucher?payslipRunId=${payslipRunId}`
     return this.httpClient.get<VoucherResponseDto>(uri).toPromise();
+  }
+
+  /** El endpoint debe ser POST con cuerpo JSON; con HttpGet el POST del cliente recibe 405. */
+  obtenerVoucherDecimoTercerMes(voucherRequest: VoucherDecimoTercerMesRequestDto): Promise<VoucherDecimoTercerMesResponseDto> {
+    const uri = `${this.baseUrl}getVoucherDecimoTercerMes`;
+    return this.httpClient.post<VoucherDecimoTercerMesResponseDto>(uri, voucherRequest).toPromise();
   }
 
 
