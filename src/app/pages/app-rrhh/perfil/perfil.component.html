@@ -8,7 +8,7 @@
             <nb-card-body>
                 <div class="d-flex profile-header">
                     <img [src]="perfil.pictureProfile" style="border-radius: 52px"
-                    (error)="$event.target.src = 'assets/images/profile.png'">
+                    (error)="$event.target.src  = 'assets/images/profile.png'">
                     <div class="profile-name-barcode">
                         <span class="name">{{perfil.name}}</span>
                         <span class="barcode">{{perfil.barCode || 'N/D'}}</span>

@@ -15,6 +15,8 @@ import { QuejaSugerenciaDenunciaTypeDto } from "../model/gestiones-varias/queja-
 import { NominaEncabezadoDto } from "../model/maestro/nomina-encabezado-dto";
 import { ParamsChangeStateDto } from "../model/gestiones-varias/paramsChangeState-dto";
 import { DeduccionNewFormatDto } from "../model/gestiones-varias/deduccion-new-format-dto";
+import { QuejaSugerenciaDenunciaLogCreateDto } from "../model/gestiones-varias/queja-sugerencia-denuncia-log-create-dto";
+import { QuejaSugerenciaDenunciaLogDto } from "../model/gestiones-varias/queja-sugerencia-denuncia-log-dto";
 
 @Injectable()
 export class GestionesVariasService {
@@ -127,5 +129,15 @@ export class GestionesVariasService {
   CambiarEstadoQuejasSugerenciasDenunciaManual(idQuejaDenunciaSugerencia:number,estadoId:number): Promise<boolean> {
     return this.httpClient.get<boolean>(`${this.baseUrl}cambiarEstadoQuejaSugerenciaDenunciaManual/${idQuejaDenunciaSugerencia}/${estadoId}`).toPromise();
   }
-  
+
+  obtenerQuejasSugerenciasDenunciasLog(quejaSugerenciaDenunciaId: number): Promise<QuejaSugerenciaDenunciaLogDto[]> {
+    const uri = `${this.baseUrl}obtenerQuejasSugerenciasDenunciasLog/${quejaSugerenciaDenunciaId}`;
+    return this.httpClient.get<QuejaSugerenciaDenunciaLogDto[]>(uri).toPromise();
+  }
+
+  registrarQuejaSugerenciaDenunciaLog(payload: QuejaSugerenciaDenunciaLogCreateDto): Promise<boolean> {
+    const uri = `${this.baseUrl}registrarQuejaSugerenciaDenunciaLog`;
+    return this.httpClient.post<boolean>(uri, payload).toPromise();
+  }
+
 }

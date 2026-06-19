@@ -20,6 +20,8 @@ import {
   VoucherDecimoTercerMesResponseDto,
 } from '../../../model/maestro/VoucherDecimoTercerMesResponseDto';
 import { VoucherResponseDto } from '../../../model/maestro/voucher-response-dto';
+import { Router } from '@angular/router';
+import { LoginDto } from '../../../model/login/login-dto';
 
 /** Tipo de plantilla oculta usada al exportar el PDF del voucher. */
 type PdfVoucherKind = 'normal' | 'decimo' | 'horasExtras';
@@ -41,12 +43,14 @@ export class PerfilComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private datePipe: DatePipe,
     private emailService: EmailService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+     private router: Router,
   ) {
     this.baseURL = `${environment.rrhh_api}employee/`
   }
-
-
+  
+  
+  datosUsuario: LoginDto = new LoginDto();
 
   perfil: PerfilEmpleadoDto = new PerfilEmpleadoDto();
 
@@ -103,6 +107,13 @@ export class PerfilComponent implements OnInit {
   });
 
   ngOnInit(): void {
+
+    this.datosUsuario = JSON.parse(localStorage.getItem('Auth' ) || '{}') as LoginDto;
+
+    if (this.datosUsuario == undefined) {
+      this.router.navigate(['/auth']);
+    }
+    
     this.maestroService
       .obtenerPerfilEmpleado()
       .then((data) => {
@@ -181,24 +192,30 @@ export class PerfilComponent implements OnInit {
         this.nominasEncabezado.find((n) => n.id === this.planilla.value) ??
         null;
 
+        console.log('Nomina seleccionada:', nominaFila);
+
       const payrollFromNomina = nominaFila?.payrollTypeId ?? 0;
       /** Décimo 4/5: solo `getVoucherDecimoTercerMes`, sin `getVoucher`. */
-      const esDecimoPorNomina = payrollFromNomina === 4 || payrollFromNomina === 5;
+      
+      const esDecimoPorNomina = payrollFromNomina === 4 || payrollFromNomina === 5 || payrollFromNomina === 6;
 
       let meta: VoucherResponseDto | undefined;
       if (!esDecimoPorNomina) {
         meta = await this.maestroService.obtenerVoucher(this.planilla.value);
       }
 
+  
       const payRolTypeId = esDecimoPorNomina
         ? payrollFromNomina
         : (meta?.payRolTypeId ?? payrollFromNomina);
+
+        console.log('payRolTypeId resuelto:', payRolTypeId);
 
       if (payRolTypeId === 3) {
         this.pdfVoucherKind = 'horasExtras';
         this.voucherHorasExtras = meta!.voucherHorasExtas as unknown as VoucherHorasExtrasDocDto;
       } 
-      else if (payRolTypeId === 4 || payRolTypeId === 5) {
+      else if (payRolTypeId === 4 || payRolTypeId === 5 || payRolTypeId === 6) {
         let paySlipId = this.resolvePaySlipIdParaDecimo(nominaFila, meta);
         if (!paySlipId) {
           const metaSlip = meta ?? (await this.maestroService.obtenerVoucher(this.planilla.value));
@@ -213,7 +230,6 @@ export class PerfilComponent implements OnInit {
 
         const decimo = await this.maestroService.obtenerVoucherDecimoTercerMes(req);
         this.voucherDecimoTercerMes = this.assignDecimoTercerMesResponse(decimo);
-        console.log(decimo);
         
         this.pdfVoucherKind = 'decimo';
       } 

@@ -1,10 +1,13 @@
-<nb-card class="inline-form-card">
+<nb-card class="inline-form-card"
+    [nbSpinner]="cargandoContenido"
+    nbSpinnerStatus="primary"
+    nbSpinnerMessage="Cargando datos…">
     <nb-card-header>Quejas, Sugerencias, Denuncias</nb-card-header>
     <nb-card-body>
         <!-- <span>Presione sobre la </span> -->
-        <dx-data-grid [dataSource]="datos" rowAlternationEnabled="true"
+        <dx-data-grid class="quejas-admin-grid" [dataSource]="datos" rowAlternationEnabled="true"
         showColumnLines="false" showRowLines="true" showBorders="true" wordWrapEnabled="true"
-        columnAutoWidth="true" columnMinWidth="50" keyExpr="id" hoverStateEnabled="true">
+        [columnAutoWidth]="false" columnMinWidth="50" keyExpr="id" hoverStateEnabled="true" width="100%">
 
         <dxo-export [enabled]="true"></dxo-export>
         <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -14,23 +17,53 @@
         </dxi-column> -->
         <dxi-column dataField="createDate" caption="Fecha de Creación" dataType="date" format="dd/MM/yyyy HH:mm:ss" width="150">
         </dxi-column> 
-        <dxi-column dataField="lastModification" caption="Última Modificacion" dataType="date" format="dd/MM/yyyy HH:mm:ss" width="150">
+        <dxi-column dataField="lastModification" caption="Última Modificación" dataType="date" format="dd/MM/yyyy HH:mm:ss" width="150">
         </dxi-column>
-        <dxi-column dataField="descripcion" caption="Descripción">
-       </dxi-column>
-         <dxi-column dataField="tipo" caption="Tipo" width="100">
+        <dxi-column dataField="descripcion" caption="Descripción" width="*" [minWidth]="260" [allowFiltering]="true" cellTemplate="celdaDescripcionResumida">
         </dxi-column>
-         <dxi-column dataField="estado" caption="Estado" width="100">
+        <div *dxTemplate="let data of 'celdaDescripcionResumida'" class="descripcion-celda-grid">
+            <span class="descripcion-truncada" [attr.title]="data.data.descripcion">{{ truncarDescripcion(data.data.descripcion) }}</span>
+            <button outline nbButton size="tiny" status="basic" type="button" class="btn-ver-detalle"
+                title="Ver detalle e historial"
+                (click)="abrirDetalle(data.data, $event)">
+                Ver detalle
+            </button>
+        </div>
+         <dxi-column dataField="tipo" caption="Tipo" width="132" cellTemplate="celdaTipoConIcono">
         </dxi-column>
+        <div *dxTemplate="let data of 'celdaTipoConIcono'" class="tipo-celda-grid">
+            <nb-icon class="tipo-celda-grid__icon" pack="eva"
+                [icon]="iconoTipoQueja(data.data).icon"
+                [status]="iconoTipoQueja(data.data).status"></nb-icon>
+            <span>{{ data.data.tipo }}</span>
+        </div>
+         <dxi-column dataField="estado" caption="Estado" width="148" cellTemplate="celdaEstadoConIcono">
+        </dxi-column>
+        <div *dxTemplate="let data of 'celdaEstadoConIcono'" class="estado-celda-grid">
+            <nb-icon class="estado-celda-grid__icon" pack="eva"
+                [icon]="iconoEstadoQueja(data.data).icon"
+                [status]="iconoEstadoQueja(data.data).status"></nb-icon>
+            <span>{{ data.data.estado }}</span>
+        </div>
         <!-- <dxi-column dataField="estado" caption="Estado" width="100">
         </dxi-column> -->
-         <dxi-column style="text-align: center !important;" cellTemplate="cellCambiarEstado" caption="" width="140">
+         <dxi-column style="text-align: center !important;" cellTemplate="cellCambiarEstado" caption="Acciones" width="168">
         </dxi-column> 
 
-        <div *dxTemplate="let data of 'cellCambiarEstado'">
-            <button outline style="text-align: center;" nbButton status="primary" type="success"
+        <div *dxTemplate="let data of 'cellCambiarEstado'" class="acciones-celda">
+            <span class="btn-accion-queja__wrap"
+                [attr.title]="data.data.stateId !== 1 ? 'Solo disponible mientras el registro está pendiente de lectura (estado inicial).' : 'Marcar como leído'">
+            <button outline nbButton size="tiny" status="info" type="button" class="btn-accion-queja"
+                [disabled]="data.data.stateId !== 1"
+                (click)="marcarComoLeido(data.data)">
+                <span class="btn-accion-queja__texto">Leído</span>
+                <nb-icon icon="book-open-outline" pack="eva"></nb-icon>
+            </button>
+            </span>
+            <button outline nbButton size="tiny" status="primary" type="button" class="btn-accion-queja"
+                title="Cambiar estado"
                 (click)="abrirPopupCambiarEstado(data.data)">
-                <span style="font-size: 12px; text-wrap: balance;">Cambiar Estado</span>
+                <span class="btn-accion-queja__texto">Estado</span>
                 <nb-icon icon="shield-outline" pack="eva"></nb-icon>
             </button>
         </div>
@@ -47,15 +80,18 @@
 </dx-popup>
 
 
-<dx-popup [width]="400" height="auto" [showTitle]="true" title="Cambiar Estado" [dragEnabled]="false"
+<dx-popup [width]="440" height="auto" [showTitle]="true" title="Cambiar Estado" [dragEnabled]="false"
     [showCloseButton]="false" container="body" [(visible)]="popupVisibleCambiarEstado">
 
+    <p class="contexto-cambio-estado">{{ textoContextoCambioEstado }}</p>
+
     <div class="dx-field">
-        <div class="dx-field-label">Estado</div>
+        <div class="dx-field-label">Nuevo estado</div>
         <div class="dx-field-value">
           <dx-select-box
           [dataSource]="estados"
           displayExpr="state" valueExpr="id"
+          [value]="idEstadoSeleccionado"
             placeholder="Seleccione un estado..."
             (onValueChanged)="estadoSeleccionado($event)"
           ></dx-select-box>
@@ -65,5 +101,176 @@
       <div class="container-bottom">
         <button nbButton outline status="success" class="float-r m-l-5" (click)="confirmar()">Confirmar</button>
         <button nbButton outline status="danger" class="float-r m-r-5" (click)="cancelar()">Cancelar</button>
+    </div>
+</dx-popup>
+
+
+<dx-popup [width]="560" height="auto" [showTitle]="true" title="Acción correctiva" [dragEnabled]="false"
+    [showCloseButton]="false" container="body" [(visible)]="popupAccionCorrectivaVisible"
+    (onHidden)="onAccionCorrectivaPopupHidden()">
+
+    <div *ngIf="popupAccionCorrectivaVisible" class="accion-correctiva-modal">
+    <p class="contexto-cambio-estado">{{ textoContextoCambioEstado }}</p>
+    <p class="accion-correctiva-ayuda">
+        Para marcar el registro como <strong>Completado</strong> debe describir la acción correctiva implementada.
+        Puede adjuntar evidencias (PDF, imágenes u otros documentos).
+    </p>
+
+    <div class="dx-field">
+        <div class="dx-field-label">Acción correctiva</div>
+        <div class="dx-field-value">
+            <dx-text-area
+                [(value)]="descripcionAccionCorrectiva"
+                [height]="110"
+                placeholder="Describa la acción correctiva implementada…">
+            </dx-text-area>
+        </div>
+    </div>
+
+    <div class="dx-field">
+        <div class="dx-field-label">Fecha de implementación</div>
+        <div class="dx-field-value">
+            <dx-date-box
+                [(value)]="fechaImplementacionAccion"
+                type="date"
+                displayFormat="dd/MM/yyyy">
+            </dx-date-box>
+        </div>
+    </div>
+
+    <div class="dx-field">
+        <div class="dx-field-label">Evidencias (opcional)</div>
+        <div class="dx-field-value">
+            <dx-file-uploader
+                selectButtonText="Adjuntar archivos"
+                labelText="o arrastre archivos aquí"
+                (onInitialized)="iniciarFileUploaderEvidencia($event)"
+                (onValueChanged)="onArchivosEvidenciaCambiados($event)"
+                accept="*"
+                uploadMode="useForm"
+                [multiple]="true"
+                [showFileList]="true">
+            </dx-file-uploader>
+            <button *ngIf="archivosEvidenciaAccion.length > 0" nbButton size="tiny" outline status="warning"
+                type="button" class="btn-quitar-adjuntos"
+                (click)="limpiarAdjuntosEvidencia()">
+                <nb-icon icon="trash-2-outline" pack="eva"></nb-icon>
+                Quitar todos los adjuntos
+            </button>
+        </div>
+    </div>
+
+    <div class="container-bottom">
+        <button nbButton outline status="success" class="float-r m-l-5"
+            [disabled]="guardandoAccionCorrectiva"
+            (click)="confirmarAccionCorrectiva()">Completar registro</button>
+        <button nbButton outline status="danger" class="float-r m-r-5"
+            [disabled]="guardandoAccionCorrectiva"
+            (click)="cancelarAccionCorrectiva()">Cancelar</button>
+    </div>
+    </div>
+</dx-popup>
+
+
+<dx-popup [width]="900"  [maxHeight]="'90vh'" [showTitle]="true" title="Detalle del registro" [dragEnabled]="false"
+    [showCloseButton]="true" container="body" [(visible)]="popupDetalleVisible" (onHidden)="onDetallePopupHidden()"
+    [animation]="detallePopupSinAnimacion">
+
+    <div class="detalle-popup detalle-popup--detalle" *ngIf="registroDetalle">
+        <p class="detalle-popup__meta">
+            <strong>#{{ registroDetalle.id }}</strong>
+            · <span class="detalle-popup__tipo-con-icono">
+                <nb-icon class="detalle-popup__tipo-icon" pack="eva"
+                    [icon]="iconoTipoQueja(registroDetalle).icon"
+                    [status]="iconoTipoQueja(registroDetalle).status"></nb-icon>
+                {{ registroDetalle.tipo }}
+            </span>
+            · <span class="detalle-popup__estado-con-icono">
+                <nb-icon class="detalle-popup__estado-icon" pack="eva"
+                    [icon]="iconoEstadoQueja(registroDetalle).icon"
+                    [status]="iconoEstadoQueja(registroDetalle).status"></nb-icon>
+                {{ registroDetalle.estado }}
+            </span>
+            · Creado: {{ registroDetalle.createDate | date:'dd/MM/yyyy HH:mm' }}
+        </p>
+
+        <h6 class="detalle-popup__titulo-seccion">Descripción</h6>
+        <dx-scroll-view [height]="160" showScrollbar="always">
+            <div class="detalle-popup__texto-completo">{{ registroDetalle.descripcion }}</div>
+        </dx-scroll-view>
+
+        <h6 class="detalle-popup__titulo-seccion">Acciones correctivas</h6>
+        <div class="detalle-popup__acciones-wrap" [nbSpinner]="cargandoAccionesCorrectivas" nbSpinnerStatus="primary" nbSpinnerMessage="Cargando acciones…">
+            <div *ngIf="!cargandoAccionesCorrectivas && accionesCorrectivasDetalle.length > 0" class="acciones-correctivas-lista">
+                <div *ngFor="let accion of accionesCorrectivasDetalle" class="accion-correctiva-item">
+                    <p class="accion-correctiva-item__fecha">
+                        {{ accion.fechaImplementacion | date:'dd/MM/yyyy' }}
+                        <span *ngIf="accion.idUsuarioResponsable"> · Responsable #{{ accion.idUsuarioResponsable }}</span>
+                    </p>
+                    <p class="accion-correctiva-item__descripcion">{{ accion.descripcionAccion }}</p>
+                    <ul *ngIf="accion.evidencias?.length" class="accion-correctiva-item__evidencias">
+                        <li *ngFor="let ev of accion.evidencias">
+                            <button nbButton size="tiny" outline status="info" type="button"
+                                (click)="descargarEvidencia(ev.id, ev.nombreOriginal)">
+                                <nb-icon icon="download-outline" pack="eva"></nb-icon>
+                                {{ ev.nombreOriginal || ev.nombreUnico }}
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <p *ngIf="!cargandoAccionesCorrectivas && accionesCorrectivasDetalle.length === 0" class="detalle-popup__sin-historial">
+                No hay acciones correctivas registradas.
+            </p>
+        </div>
+
+        <h6 class="detalle-popup__titulo-seccion">Historial de eventos</h6>
+        <div class="detalle-popup__historial-wrap" [nbSpinner]="cargandoLogDetalle" nbSpinnerStatus="primary" nbSpinnerMessage="Cargando historial…">
+            <dx-data-grid *ngIf="!cargandoLogDetalle && historialLog.length > 0" class="historial-log-grid" [dataSource]="historialLog" keyExpr="id"
+                [showBorders]="true" [rowAlternationEnabled]="true" [columnAutoWidth]="false" [hoverStateEnabled]="true"
+                width="100%" height="340" [wordWrapEnabled]="true">
+
+                <dxo-export [enabled]="true"></dxo-export>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-paging [pageSize]="10"></dxo-paging>
+
+                
+                <dxi-column dataField="fechaHora" caption="Fecha (hora local)" dataType="datetime" format="dd/MM/yyyy HH:mm:ss" width="168"></dxi-column>
+                <dxi-column caption="Acción" width="200" cellTemplate="celdaAccionHistorial"></dxi-column>
+                <dxi-column caption="Estado ant." width="160" cellTemplate="celdaEstadoAntHistorial"></dxi-column>
+                <dxi-column caption="Estado nuevo" width="170" cellTemplate="celdaEstadoNuevoHistorial"></dxi-column>
+                <dxi-column caption="Usuario" width="160" cellTemplate="celdaUsuarioHistorial"></dxi-column>
+                <dxi-column caption="Detalle" [minWidth]="140" cellTemplate="celdaDetalleHistorial"></dxi-column>
+                <div *dxTemplate="let data of 'celdaAccionHistorial'">
+                    {{ etiquetaAccionLog(data.data.accion) }}
+                </div>
+                <div *dxTemplate="let data of 'celdaEstadoAntHistorial'">
+                    {{ descripcionEstadoQueja(data.data.estadoAnteriorId) }}
+                </div>
+                <div *dxTemplate="let data of 'celdaEstadoNuevoHistorial'">
+                    {{ descripcionEstadoQueja(data.data.estadoNuevoId) }}
+                </div>
+                <div *dxTemplate="let data of 'celdaUsuarioHistorial'">
+                    {{ textoUsuarioHistorial(data.data) }}
+                </div>
+                <div *dxTemplate="let data of 'celdaDetalleHistorial'">
+                    {{ textoDetalleLog(data.data.detalle) }}
+                </div>
+            </dx-data-grid>
+            <p *ngIf="!cargandoLogDetalle && historialLog.length === 0" class="detalle-popup__sin-historial">
+                No hay eventos registrados en el historial.
+            </p>
+        </div>
+
+        <!-- <h6 class="detalle-popup__titulo-seccion">Registrar nota en historial</h6>
+        <p class="detalle-popup__nota-ayuda">Opcional: queda guardada como evento <strong>NOTA_INTERNA</strong> (visible en la tabla superior).</p>
+        <textarea nbInput fullWidth rows="2" [(ngModel)]="notaHistorialTexto" placeholder="Escriba una nota interna…"></textarea>
+        <div class="detalle-popup__nota-acciones">
+            <button nbButton size="small" status="primary" type="button"
+                [disabled]="registrandoNotaHistorial || !notaHistorialTexto?.trim()"
+                (click)="registrarNotaHistorial()">
+                Registrar nota
+            </button>
+        </div> -->
     </div>
 </dx-popup>

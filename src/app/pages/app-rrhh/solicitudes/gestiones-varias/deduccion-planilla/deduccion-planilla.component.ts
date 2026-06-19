@@ -222,12 +222,12 @@ export class DeduccionPlanillaComponent implements OnInit {
         const group: Group = await drawDOM(documentElement, {
           paperSize: 'Letter',
           margin: {
-            top: '0.1cm',
-            right: '0.6cm',
-            bottom: '0.5cm',
-            left: '0.6cm'
+            top: '0.35cm',
+            right: '0.5cm',
+            bottom: '0.35cm',
+            left: '0.5cm'
           },
-          scale: 0.48
+          scale: 0.56
         });
 
         const pdfDataUri = await exportPDF(group);

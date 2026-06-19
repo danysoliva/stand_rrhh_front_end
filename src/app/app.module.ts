@@ -39,6 +39,7 @@ import { AuthInterceptor } from "./_auth/auth.interceptor";
 import { SolicitudService } from "./servicio/solicitud.service";
 import { ErrorInterceptor } from "./_common/interceptors/error-interceptor";
 import { GestionesVariasService } from "./servicio/gestiones-varias.service";
+import { QuejasDenunciasSugerenciasService } from "./servicio/quejas-denuncias-sugerencias.service";
 import { EmailService } from "./servicio/email.service";
 import { EncuestaService } from "./servicio/encuesta.service";
 import dxRadioGroup from "devextreme/ui/radio_group";
@@ -79,6 +80,7 @@ import dxRadioGroup from "devextreme/ui/radio_group";
     MaestroService,
     SolicitudService,
     GestionesVariasService,
+    QuejasDenunciasSugerenciasService,
     EmailService,
     EncuestaService,
     {

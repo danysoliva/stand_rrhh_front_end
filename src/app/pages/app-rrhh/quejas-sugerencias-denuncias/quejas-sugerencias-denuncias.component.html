@@ -1,34 +1,64 @@
-<div class="row">
+<div class="row quejas-registro-page">
     <div class="col-lg-8 offset-lg-2">
-        <nb-card class="inline-form-card">
-            <nb-card-header>Quejas, Sugerencias, Denuncias</nb-card-header>
+        <nb-card class="inline-form-card quejas-registro-card"
+            [nbSpinner]="cargandoTipos || enviando"
+            [nbSpinnerStatus]="enviando ? 'success' : 'primary'"
+            [nbSpinnerMessage]="enviando ? 'Enviando…' : 'Cargando opciones…'">
+            <nb-card-header>Quejas, sugerencias y denuncias</nb-card-header>
             <nb-card-body>
-                <div style="display: grid;"
-                    [formGroup]="QuejasDenunciasSugerenciasForm">
-                    <span style="font-size: 18px;"><strong>Tipo:</strong> </span>
-                    <dx-select-box labelMode="floating" class="control-width" [dataSource]="tipos"
-                        displayExpr="descripcion" valueExpr="id" [searchMode]="searchModeOption"
-                        [searchExpr]="searchExprOption" [searchTimeout]="searchTimeoutOption" [searchEnabled]="true"
-                        [showClearButton]="true" formControlName="tipo">
+                <p class="quejas-registro__intro">
+                    Sus comentarios son anónimos respecto a otros colaboradores y ayudan a mejorar el ambiente laboral.
+                    Indique el tipo de registro y describa el hecho con el mayor detalle posible.
+                </p>
+
+                <form [formGroup]="QuejasDenunciasSugerenciasForm" class="quejas-registro-form" (ngSubmit)="guardar()">
+                    <label class="quejas-registro__label" for="qsd-tipo">Tipo</label>
+                    <dx-select-box
+                        [inputAttr]="{ id: 'qsd-tipo' }"
+                        labelMode="floating"
+                        class="control-width quejas-registro__control"
+                        [dataSource]="tipos"
+                        displayExpr="descripcion"
+                        valueExpr="id"
+                        [searchMode]="searchModeOption"
+                        [searchExpr]="searchExprOption"
+                        [searchTimeout]="searchTimeoutOption"
+                        [searchEnabled]="true"
+                        [showClearButton]="true"
+                        [readOnly]="enviando"
+                        placeholder="Seleccione queja, sugerencia o denuncia…"
+                        formControlName="tipo">
                     </dx-select-box>
-                    <br>
-                    <br>
-                    <br>
-                    <span style="font-size: 18px;"><strong>Escriba su comentario</strong> </span>
-                    <dx-text-area [height]="90" formControlName="descripcion" (onKeyUp)="keyUpComentario($event)">
+
+                    <label class="quejas-registro__label" for="qsd-comentario">Comentario</label>
+                    <dx-text-area
+                        [inputAttr]="inputAttrComentario"
+                        class="quejas-registro__control"
+                        [height]="120"
+                        [readOnly]="enviando"
+                        placeholder="Describa la situación. Evite datos personales de terceros salvo que sean indispensables."
+                        formControlName="descripcion"
+                        (onValueChanged)="onComentarioValueChanged()">
                     </dx-text-area>
-                    <br>
-                    <button style="width: 200px"
-                        [disabled]="QuejasDenunciasSugerenciasForm.invalid===true || comentarioValido === false"
-                        nbButton status="success" outline (click)="guardar()">
-                        Guardar
-                        <nb-icon icon="save" pack="eva"></nb-icon>
-                    </button>
-                </div>
+                    <div class="quejas-registro__meta">
+                        <span class="quejas-registro__contador" [class.quejas-registro__contador--limite]="longitudComentario >= maxCaracteresComentario">
+                            {{ longitudComentario }} / {{ maxCaracteresComentario }}
+                        </span>
+                    </div>
+
+                    <div class="quejas-registro__acciones">
+                        <button type="submit"
+                            class="quejas-registro__btn-guardar"
+                            nbButton
+                            status="success"
+                            outline
+                            [disabled]="QuejasDenunciasSugerenciasForm.invalid || comentarioValido === false || enviando || cargandoTipos">
+                            Enviar
+                            <nb-icon icon="paper-plane-outline" pack="eva"></nb-icon>
+                        </button>
+                    </div>
+                </form>
             </nb-card-body>
         </nb-card>
     </div>
 </div>
-
-
-

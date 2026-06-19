@@ -30,23 +30,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   fcPIN = new UntypedFormControl(null, Validators.required);
   fcConfirmarPIN = new UntypedFormControl(null, Validators.required);
-  pinValido: boolean = null;
-  pinConfirmado: boolean = null;
+  pinValido: boolean = false;
+  pinConfirmado: boolean = false;
   popupVisible: boolean = false;
-  pinNoEsNumero: boolean;
-  pinMenorACuatro: boolean;
-  pinTresDigitosConsecutivos: boolean;
-  pinTresIgualesConsecutivos: boolean;
-  pinNoCoincide: boolean;
+  pinNoEsNumero: boolean = false;
+  pinMenorACuatro: boolean = false;
+  pinTresDigitosConsecutivos: boolean = false;
+  pinTresIgualesConsecutivos: boolean = false;
+  pinNoCoincide: boolean = false;
 
-  keyUpPIN(e) {
+  keyUpPIN(e: any) {
     const inputValue = e.event.target.value;
     this.pinValido = this.esPinValido(inputValue, false);
     if (this.fcConfirmarPIN.value != null)
       this.pinConfirmado = this.esPinConfirmado(inputValue, this.fcConfirmarPIN.value, false);
   }
 
-  keyUpConfirmarPIN(e) {
+  keyUpConfirmarPIN(e: any) {
     const inputValue = e.event.target.value;
     this.pinConfirmado = this.esPinConfirmado(this.fcPIN.value, inputValue, false);
   }
@@ -117,9 +117,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: any;
-  datosUsuario: LoginDto;
-  nombre: string;
+  datosUsuario: LoginDto = new LoginDto();
+  nombre: string="";
 
+  
   themes = [
     {
       value: 'default',
@@ -141,7 +142,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [];
+  // userMenu = [];
+  userMenu: { title: string; icon: string }[] = [];
+
   tag = 'my-context-menu';
 
   constructor(private sidebarService: NbSidebarService,
@@ -157,15 +160,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
 
-    this.datosUsuario = JSON.parse(localStorage.getItem('Auth'));
+    this.datosUsuario = JSON.parse(localStorage.getItem('Auth' ) || '{}') as LoginDto;
 
     if (this.datosUsuario == undefined) {
       this.router.navigate(['/auth']);
     }
 
     this.nombre = this.datosUsuario.name;
-
-    // console.log(this.datosUsuario);
     
     this.userMenu.push({ title: this.nombre.toUpperCase(), icon: '' }, { title: 'Cambiar pin', icon: 'shield' }, { title: 'Log out', icon: 'log-out-outline' });
 
@@ -201,8 +202,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.pinTresDigitosConsecutivos = false;
         this.pinTresIgualesConsecutivos = false;
         this.pinNoCoincide = false;
-        this.pinConfirmado = null;
-        this.pinValido = null;
+        this.pinConfirmado = false;
+        this.pinValido = false;
         this.fcPIN.reset();
         this.fcConfirmarPIN.reset();
         this.popupVisible = true;
@@ -262,10 +263,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   sonConsecutivosEIguales(arr: number[]) {
-    const prev = {
-      element: null,
-      count: 0
-    };
+  const prev: { element: number | null, count: number } = {
+    element: null,
+    count: 0
+  };
+  
     for (let i = 0; i < arr.length; i++) {
       const { count, element } = prev;
       if (count === 1 && element === arr[i]) {
@@ -277,7 +279,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return false;
   };
 
-  sonConsecutivos(arr, n) {
+  sonConsecutivos(arr: number[], n: number) {
     // arr.sort();
     for (var i = 1; i < n; i++)
       if (arr[i] != arr[i - 1] + 1)

@@ -1,14 +1,75 @@
-::ng-deep{
-    .dx-dropdowneditor-overlay .dx-list-group-header, .dx-dropdowneditor-overlay .dx-list-item-content  {  
-        font-size: 16px !important;  
-    }  
+.quejas-registro-page {
+    margin-bottom: 1.5rem;
+}
+
+.quejas-registro-card {
+    max-width: 100%;
+}
+
+.quejas-registro__intro {
+    margin: 0 0 1rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-hint-color, #8f9bb3);
+}
+
+.quejas-registro-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.quejas-registro__label {
+    margin: 0.5rem 0 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text-basic-color, #222b45);
+}
+
+.quejas-registro__control {
+    width: 100%;
+    max-width: 100%;
+}
+
+.quejas-registro__meta {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.15rem;
+}
+
+.quejas-registro__contador {
+    font-size: 0.75rem;
+    color: var(--text-hint-color, #8f9bb3);
+}
+
+.quejas-registro__contador--limite {
+    color: var(--color-danger-default, #ff3d71);
+    font-weight: 600;
+}
+
+.quejas-registro__acciones {
+    margin-top: 0.75rem;
+}
+
+.quejas-registro__btn-guardar {
+    min-width: 200px;
+    max-width: 100%;
+}
+
+::ng-deep {
+    .dx-dropdowneditor-overlay .dx-list-group-header,
+    .dx-dropdowneditor-overlay .dx-list-item-content {
+        font-size: 16px !important;
+    }
 
     .dx-textarea .dx-texteditor-input {
-       
-        font-size: 20px !important;
+        font-size: 1rem !important;
+        line-height: 1.45 !important;
     }
-    
+
     .dx-selectbox .dx-texteditor-input {
-        font-size: 20px !important;
+        font-size: 1rem !important;
     }
 }

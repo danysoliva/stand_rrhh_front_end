@@ -222,8 +222,7 @@ export class SolicitarVacacionComponent implements OnInit {
       this.validarVacacion.fechaFin = this.datePipe.transform(this.validarVacacion.fechaFin, 'yyyy-MM-dd')!;
       this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd')!;
       this.validarVacacion.tipoVerificacion = TipoVerificacionEnum.PorDias;
-
-      // console.log('validarVacacionC',this.validarVacacion);
+ 
       
       this.solicitudService.validarFechasVacacion(this.validarVacacion)
         .then((data) => {
@@ -262,7 +261,7 @@ export class SolicitarVacacionComponent implements OnInit {
     this.validarVacacion.fechaReintegro = this.datePipe.transform(this.validarVacacion.fechaReintegro, 'yyyy-MM-dd')!;
     this.validarVacacion.tipoVerificacion = TipoVerificacionEnum.PorJornada;
 
-    console.log('validarVacacionJ',this.validarVacacion);
+ 
     this.solicitudService.validarFechasVacacion(this.validarVacacion)
       .then((data) => {
         this.validarVacacion = data;
@@ -310,7 +309,6 @@ export class SolicitarVacacionComponent implements OnInit {
         Alerts.closeLoad();
         this.cerrarPopup()
       })
-    console.log(this.nuevaSolicitudDeVacacion);
     
   }
 
@@ -331,7 +329,6 @@ export class SolicitarVacacionComponent implements OnInit {
 
   imprimir(solicitudVacacionId:number){
 
-    console.log(solicitudVacacionId);
     
     this.solicitudService.obtenerVacacionParaImpresion(solicitudVacacionId)
     .then((data) => {

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { NuevaSolicitudConstanciaDto, SolicitudConstanciaDto, TipoSolicitudEnum } from '../model/solicitud/solicitud-constancia-dto';
+import { SolicitudConstanciaLogDto } from '../model/solicitud/solicitud-constancia-log-dto';
+import { SolicitudVacacionLogDto } from '../model/solicitud/solicitud-vacacion-log-dto';
 import { CambioEstadoSolicitudDto } from '../model/solicitud/cambio-estado-solicitud-dto';
 import { NuevaSolicitudVacacionDto, SolicitudVacacionDto } from '../model/solicitud/solicitud-vacacion-dto';
 import { ConstanciaTrabajoDocDto } from '../pages/app-rrhh/documentos/models/constancia-trabajo-doc-dto';
@@ -40,8 +42,8 @@ export class SolicitudService {
     return this.httpClient.post<SolicitudConstanciaDto[]>(uri, solicitudId).toPromise();
   }
 
-  obtenerSolicitudesDeConstanciasPorEstadoIdParaRRHH(estadoId:number): Promise<SolicitudConstanciaDto[]> {
-    const uri = `${this.baseUrl}obtenerSolicitudesDeConstanciasPorEstadoIdParaRRHH?estadoId=${estadoId}`;
+  obtenerSolicitudesDeConstanciasPorEstadoIdParaRRHH(estadoId: number, incluirDenegadas = false): Promise<SolicitudConstanciaDto[]> {
+    const uri = `${this.baseUrl}obtenerSolicitudesDeConstanciasPorEstadoIdParaRRHH?estadoId=${estadoId}&incluirDenegadas=${incluirDenegadas}`;
     return this.httpClient.get<SolicitudConstanciaDto[]>(uri).toPromise();
   }
 
@@ -53,6 +55,11 @@ export class SolicitudService {
   obtenerConstanciaParaImpresion(solicitudConstanciaId: number): Promise<ConstanciaTrabajoDocDto>{
     const uri = `${this.baseUrl}obtenerConstanciaParaImpresion?solicitudConstanciaId=${solicitudConstanciaId}`;
     return this.httpClient.get<ConstanciaTrabajoDocDto>(uri).toPromise();
+  }
+
+  obtenerHistorialSolicitudConstancia(solicitudConstanciaId: number): Promise<SolicitudConstanciaLogDto[]> {
+    const uri = `${this.baseUrl}obtenerHistorialSolicitudConstancia?solicitudConstanciaId=${solicitudConstanciaId}`;
+    return this.httpClient.get<SolicitudConstanciaLogDto[]>(uri).toPromise();
   }
 
 
@@ -77,8 +84,8 @@ export class SolicitudService {
     return this.httpClient.post<SolicitudVacacionDto[]>(uri, solicitudId).toPromise();
   }
 
-  obtenerSolicitudesDeVacacionPorEstadoIdParaRRHH(estadoId:number): Promise<SolicitudVacacionDto[]> {
-    const uri = `${this.baseUrl}obtenerSolicitudesDeVacacionPorEstadoIdParaRRHH?estadoId=${estadoId}`;
+  obtenerSolicitudesDeVacacionPorEstadoIdParaRRHH(estadoId: number, incluirRechazadas = false): Promise<SolicitudVacacionDto[]> {
+    const uri = `${this.baseUrl}obtenerSolicitudesDeVacacionPorEstadoIdParaRRHH?estadoId=${estadoId}&incluirRechazadas=${incluirRechazadas}`;
     return this.httpClient.get<SolicitudVacacionDto[]>(uri).toPromise();
   }
 
@@ -90,6 +97,11 @@ export class SolicitudService {
   obtenerVacacionParaImpresion(solicitudVacacionId: number): Promise<VacacionDocNewFormatDto>{
     const uri = `${this.baseUrl}obtenerVacacionParaImpresion?solicitudVacacionId=${solicitudVacacionId}`;
     return this.httpClient.get<VacacionDocNewFormatDto>(uri).toPromise();
+  }
+
+  obtenerHistorialSolicitudVacacion(solicitudVacacionId: number): Promise<SolicitudVacacionLogDto[]> {
+    const uri = `${this.baseUrl}obtenerHistorialSolicitudVacacion?solicitudVacacionId=${solicitudVacacionId}`;
+    return this.httpClient.get<SolicitudVacacionLogDto[]>(uri).toPromise();
   }
 
   sincronizarVacacionEnOdoo(solicitudId: number): Promise<SolicitudVacacionDto[]> {

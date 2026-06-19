@@ -5,6 +5,8 @@ declare var $: any;
 import SwiperCore, { EffectFlip, Pagination, Navigation, Autoplay, EffectFade, SwiperOptions, Swiper } from "swiper";
 import { RepositorioImagenesDto } from '../../../model/maestro/repositorio-imagenes-dto';
 import { NoticiasConConfiguracionDto } from '../../../model/uploads/noticias-con-configuracion-dto';
+import { LoginDto } from '../../../model/login/login-dto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "ngx-home",
@@ -12,15 +14,23 @@ import { NoticiasConConfiguracionDto } from '../../../model/uploads/noticias-con
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-  constructor(private uploadService: UploadService) { }
+  constructor(private uploadService: UploadService, private router: Router,) { }
 
   // noticiasConConfiguracion: NoticiasConConfiguracionDto;
 
-  noticias: RepositorioImagenesDto[];
-  duracionImagenes: number;
+  noticias: RepositorioImagenesDto[] = [];
+  duracionImagenes: number =0;
+  datosUsuario: LoginDto = new LoginDto();
 
   ngOnInit(): void {
     SwiperCore.use([Autoplay, Pagination, Navigation, EffectFade]);
+
+    this.datosUsuario = JSON.parse(localStorage.getItem('Auth' ) || '{}') as LoginDto;
+    
+        if (this.datosUsuario == undefined) {
+          this.router.navigate(['/auth']);
+        }
+
 
     this.uploadService.obtenerImagenesNoticias().then((data) => {
       this.noticias = data.repositorioImagenes;

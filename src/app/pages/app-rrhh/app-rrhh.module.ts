@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { NbActionsModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule, NbInputModule, NbRadioModule, NbSelectModule, NbUserModule, NbWindowModule } from "@nebular/theme";
+import { NbActionsModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule, NbInputModule, NbRadioModule, NbSelectModule, NbSpinnerModule, NbUserModule, NbWindowModule } from "@nebular/theme";
 import { DxButtonModule, DxCheckBoxModule, DxDataGridModule, DxDateBoxModule, DxFileUploaderModule, DxGalleryModule, DxHtmlEditorModule, DxListModule, DxLookupModule, DxNumberBoxModule, DxPivotGridModule, DxPopupModule, DxRadioGroupModule, DxScrollViewModule, DxSelectBoxModule, DxSwitchModule, DxTextAreaModule, DxTextBoxModule, DxValidatorModule } from "devextreme-angular";
 import { ThemeModule } from "../../@theme/theme.module";
 import { AppRRHHRoutingModule } from "./app-rrhh-routing.module";
@@ -52,6 +52,7 @@ import { CommonModule } from "@angular/common";
       ThemeModule,
       NbInputModule,
       NbCardModule,
+      NbSpinnerModule,
       NbButtonModule,
       NbActionsModule,
       NbUserModule,

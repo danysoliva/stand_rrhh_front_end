@@ -1,5 +1,29 @@
-::ng-deep{
-    .dx-list-item-content {
-        padding: 5px 11px 5px !important;
-    }
+.estado-celda-grid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.estado-celda-grid__icon {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.usuario-celda-grid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.usuario-celda-grid__icon {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+::ng-deep {
+  .dx-list-item-content {
+    padding: 5px 11px 5px !important;
+  }
 }

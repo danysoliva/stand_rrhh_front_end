@@ -3,9 +3,11 @@ import { UntypedFormControl } from '@angular/forms';
 import { LoginDto } from '../../../../model/login/login-dto';
 import { CambioEstadoSolicitudDto } from '../../../../model/solicitud/cambio-estado-solicitud-dto';
 import { SolicitudVacacionDto } from '../../../../model/solicitud/solicitud-vacacion-dto';
+import { SolicitudVacacionLogDto } from '../../../../model/solicitud/solicitud-vacacion-log-dto';
 import { SolicitudService } from '../../../../servicio/solicitud.service';
 import { AccionEnum, EstadoSolicitudEnum, TipoAutorizacionEnum, UserLevelEnum } from '../../../../_common/enums';
 import { Alerts } from '../../../../_common/utils/alerts';
+import { iconoEstadoSolicitud, textoEstadoSolicitud } from '../../../../_common/utils/solicitud-estado-labels';
 import { VacacionDocNewFormatDto } from '../../documentos/models/vacacion-doc-new-format-dto';
 
 @Component({
@@ -28,6 +30,9 @@ export class ListadoVacacionesComponent implements OnInit {
   solicitudVacacionIdSeleccionado:number = 0;
   popupAprobarDenegarVisible:boolean = false;
   solicitudesDeVacacion: Array<SolicitudVacacionDto> = new Array<SolicitudVacacionDto>();
+  popupHistorialVisible = false;
+  solicitudHistorialId = 0;
+  historialItems: SolicitudVacacionLogDto[] = [];
   popupSubirOdoo:boolean = false;
   popupEliminarOdoo:boolean = false;
 
@@ -51,6 +56,8 @@ cerrarPopupEliminarSolicitud=()=>{this.popupEliminarOdoo=false;}
   comentarioValido: boolean = false;
   fcComentario = new UntypedFormControl('');
   fcEstadoFiltro = new UntypedFormControl(EstadoSolicitudEnum.EnProceso);
+  /** Por defecto ocultas; el checkbox «Mostrar las rechazadas» las incluye en el listado. */
+  mostrarRechazadas = false;
 
   keyUpComentario(e:any){
     const inputValue = e.event.target.value;
@@ -69,12 +76,68 @@ cerrarPopupEliminarSolicitud=()=>{this.popupEliminarOdoo=false;}
       this.fcEstadoFiltro.setValue(0);
     }
 
-    this.solicitudesDeVacacion = await this.solicitudService.obtenerSolicitudesDeVacacionPorEstadoIdParaRRHH(this.fcEstadoFiltro.value);
+    await this.cargarSolicitudes();
   }
 
-  async filtroValueChanged(e:any){
+  async cargarSolicitudes() {
+    this.solicitudesDeVacacion = await this.solicitudService.obtenerSolicitudesDeVacacionPorEstadoIdParaRRHH(
+      this.fcEstadoFiltro.value,
+      this.mostrarRechazadas
+    );
+  }
+
+  async filtroValueChanged(e: any) {
     this.fcEstadoFiltro.setValue(e.value);
-    this.solicitudesDeVacacion = await this.solicitudService.obtenerSolicitudesDeVacacionPorEstadoIdParaRRHH(this.fcEstadoFiltro.value);
+    await this.cargarSolicitudes();
+  }
+
+  async mostrarRechazadasChanged(e: { value?: boolean }) {
+    this.mostrarRechazadas = !!e.value;
+    await this.cargarSolicitudes();
+  }
+
+  iconoEstadoSolicitud = iconoEstadoSolicitud;
+
+  textoUsuarioHistorial(log: SolicitudVacacionLogDto): string {
+    const nombre = (log.usuarioNombre || '').trim();
+    if (nombre) {
+      return nombre;
+    }
+    if (log.usuarioId != null) {
+      return `Usuario #${log.usuarioId}`;
+    }
+    return '';
+  }
+
+  cerrarPopupHistorial = () => { this.popupHistorialVisible = false; };
+
+  async abrirHistorial(solicitudId: number) {
+    Alerts.openLoad();
+    try {
+      const data = await this.solicitudService.obtenerHistorialSolicitudVacacion(solicitudId);
+      this.historialItems = (data || []).map((raw) => {
+        const r = raw as SolicitudVacacionLogDto & Record<string, unknown>;
+        return {
+          ...r,
+          fechaHora: r.fechaHora != null ? new Date(r.fechaHora as string | Date) : r.fechaHora,
+          estadoAnteriorNombre: textoEstadoSolicitud(
+            r.estadoAnteriorId ?? (r['estadoAnteriorId'] as unknown as number) ?? (r['EstadoAnteriorId'] as number),
+            r.estadoAnteriorNombre ?? (r['estadoAnteriorNombre'] as unknown as string) ?? (r['EstadoAnteriorNombre'] as string)
+          ),
+          estadoNuevoNombre: textoEstadoSolicitud(
+            r.estadoNuevoId ?? (r['estadoNuevoId'] as unknown as number) ?? (r['EstadoNuevoId'] as number),
+            r.estadoNuevoNombre ?? (r['estadoNuevoNombre'] as unknown as string) ?? (r['EstadoNuevoNombre'] as string)
+          ),
+        };
+      });
+      this.solicitudHistorialId = solicitudId;
+      this.popupHistorialVisible = true;
+    } catch (e: any) {
+      const msg = e?.error?.message ?? e?.message ?? 'No se pudo cargar el historial.';
+      Alerts.error('Historial', msg);
+    } finally {
+      Alerts.closeLoad();
+    }
   }
 
   imprimir(solicitudVacacionId:number){
@@ -125,9 +188,8 @@ cerrarPopupEliminarSolicitud=()=>{this.popupEliminarOdoo=false;}
 
 
   confirmarOdoo(){
-    this.solicitudService.sincronizarVacacionEnOdoo(this.solicitudVacacionIdSeleccionado).then((data)=>{
-      this.solicitudesDeVacacion=data;
-
+    this.solicitudService.sincronizarVacacionEnOdoo(this.solicitudVacacionIdSeleccionado).then(async () => {
+      await this.cargarSolicitudes();
       Alerts.success('¡Éxito!','Se han sincronizado el dato');
       this.cerrarPopupSubirOdoo();
     })
@@ -135,9 +197,8 @@ cerrarPopupEliminarSolicitud=()=>{this.popupEliminarOdoo=false;}
   }
 
   confirmarEliminarSolicitud(){
-    this.solicitudService.eliminarSolicitudComoAdministrador(this.solicitudVacacionIdSeleccionado).then((data)=>{
-      this.solicitudesDeVacacion=data;
-
+    this.solicitudService.eliminarSolicitudComoAdministrador(this.solicitudVacacionIdSeleccionado).then(async () => {
+      await this.cargarSolicitudes();
       Alerts.success('¡Éxito!','Se han eliminado el registro');
       this.cerrarPopupEliminarSolicitud();
     })

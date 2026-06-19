@@ -6,10 +6,13 @@ import { LoginDto } from '../../../../model/login/login-dto';
 import { CambioEstadoSolicitudDto } from '../../../../model/solicitud/cambio-estado-solicitud-dto';
 import { ConceptoDto } from '../../../../model/solicitud/concepto-dto';
 import { SolicitudConstanciaDto } from '../../../../model/solicitud/solicitud-constancia-dto';
+import { SolicitudConstanciaLogDto } from '../../../../model/solicitud/solicitud-constancia-log-dto';
 import { SolicitudService } from '../../../../servicio/solicitud.service';
 import { EstadoSolicitudEnum, UserLevelEnum } from '../../../../_common/enums';
 import { Alerts } from '../../../../_common/utils/alerts';
+import { iconoEstadoSolicitud, textoEstadoSolicitud } from '../../../../_common/utils/solicitud-estado-labels';
 import { ConstanciaTrabajoDocDto } from '../../documentos/models/constancia-trabajo-doc-dto';
+import { Router } from '@angular/router';
 
 export enum Deduccion {
   Depreciacion = 9876
@@ -36,6 +39,9 @@ export class ListadoConstanciasComponent implements OnInit {
   empleadoSeleccionado: string = "";
   solicitudConstanciaIdSeleccionado: number =0;
   solicitudesDeConstancias: Array<SolicitudConstanciaDto> = new Array<SolicitudConstanciaDto>();
+  popupHistorialVisible = false;
+  solicitudHistorialId = 0;
+  historialItems: SolicitudConstanciaLogDto[] = [];
   popupAprobarVisible: boolean = false;
   popupDenegarVisible: boolean = false;
   
@@ -58,6 +64,8 @@ export class ListadoConstanciasComponent implements OnInit {
   comentarioValido: boolean = false;
   fcComentario = new UntypedFormControl('');
   fcEstadoFiltro = new UntypedFormControl(EstadoSolicitudEnum.EnProceso);
+  /** Por defecto ocultas; el checkbox «Mostrar las denegadas» las incluye en el listado. */
+  mostrarDenegadas = false;
 
   keyUpComentario(e: any) {
     const inputValue = e.event.target.value;
@@ -72,12 +80,18 @@ export class ListadoConstanciasComponent implements OnInit {
     //     c.valor = (c.id == Deduccion.Depreciacion) ? +inputValue : c.valor;
     //   });
   }
-  constructor(private solicitudService: SolicitudService, private menuService: NbMenuService) {
+  constructor(private solicitudService: SolicitudService,  private router: Router,private menuService: NbMenuService) {
   }
 
   async ngOnInit() {
 
     const usuario = JSON.parse(localStorage.getItem('Auth')?? '{}') as LoginDto;
+
+    if (!usuario || !usuario.empleadoId) {
+      Alerts.error('Error', 'No se pudo obtener la información del usuario. Por favor, vuelva a iniciar sesión.');
+       this.router.navigate(['/auth']);
+    }
+
     if (usuario.hasStaffInCharge == true && usuario.userLevelId == UserLevelEnum.Usuario) {
       this.fcEstadoFiltro.setValue(EstadoSolicitudEnum.EnProceso);
     }
@@ -87,13 +101,24 @@ export class ListadoConstanciasComponent implements OnInit {
 
     this.conceptos = await this.solicitudService.obtenerConceptosConfigurables();
 
-    this.solicitudesDeConstancias = await this.solicitudService.obtenerSolicitudesDeConstanciasPorEstadoIdParaRRHH(this.fcEstadoFiltro.value);
-  // console.log(this.solicitudesDeConstancias);
+    await this.cargarSolicitudes();
+  }
+
+  async cargarSolicitudes() {
+    this.solicitudesDeConstancias = await this.solicitudService.obtenerSolicitudesDeConstanciasPorEstadoIdParaRRHH(
+      this.fcEstadoFiltro.value,
+      this.mostrarDenegadas
+    );
   }
 
   async filtroValueChanged(e: any) {
     this.fcEstadoFiltro.setValue(e.value);
-    this.solicitudesDeConstancias = await this.solicitudService.obtenerSolicitudesDeConstanciasPorEstadoIdParaRRHH(this.fcEstadoFiltro.value);
+    await this.cargarSolicitudes();
+  }
+
+  async mostrarDenegadasChanged(e: { value?: boolean }) {
+    this.mostrarDenegadas = !!e.value;
+    await this.cargarSolicitudes();
   }
 
   imprimir(solicitudConstanciaId: number) {
@@ -102,6 +127,51 @@ export class ListadoConstanciasComponent implements OnInit {
         this.reporteEsVisible = true;
         this.constanciaTrabajo = data;
       })
+  }
+
+  iconoEstadoSolicitud = iconoEstadoSolicitud;
+
+  textoUsuarioHistorial(log: SolicitudConstanciaLogDto): string {
+    const nombre = (log.usuarioNombre || '').trim();
+    if (nombre) {
+      return nombre;
+    }
+    if (log.usuarioId != null) {
+      return `Usuario #${log.usuarioId}`;
+    }
+    return '';
+  }
+
+  cerrarPopupHistorial = () => { this.popupHistorialVisible = false; };
+
+
+  async abrirHistorial(solicitudId: number) {
+    Alerts.openLoad();
+    try {
+      const data = await this.solicitudService.obtenerHistorialSolicitudConstancia(solicitudId);
+      this.historialItems = (data || []).map((raw) => {
+        const r = raw as SolicitudConstanciaLogDto & Record<string, unknown>;
+        return {
+          ...r,
+          fechaHora: r.fechaHora != null ? new Date(r.fechaHora as string | Date) : r.fechaHora,
+          estadoAnteriorNombre: textoEstadoSolicitud(
+            r.estadoAnteriorId ?? (r['estadoAnteriorId'] as unknown as number) ?? (r['EstadoAnteriorId'] as number),
+            r.estadoAnteriorNombre ?? (r['estadoAnteriorNombre'] as unknown  as string) ?? (r['EstadoAnteriorNombre'] as string)
+          ),
+          estadoNuevoNombre: textoEstadoSolicitud(
+            r.estadoNuevoId ?? (r['estadoNuevoId'] as unknown  as number) ?? (r['EstadoNuevoId'] as number),
+            r.estadoNuevoNombre ?? (r['estadoNuevoNombre'] as unknown  as string) ?? (r['EstadoNuevoNombre'] as string)
+          ),
+        };
+      });
+      this.solicitudHistorialId = solicitudId;
+      this.popupHistorialVisible = true;
+    } catch (e: any) {
+      const msg = e?.error?.message ?? e?.message ?? 'No se pudo cargar el historial.';
+      Alerts.error('Historial', msg);
+    } finally {
+      Alerts.closeLoad();
+    }
   }
 
 
@@ -139,8 +209,8 @@ export class ListadoConstanciasComponent implements OnInit {
     cambiarEstadoSolicitud.solicitudId = this.solicitudConstanciaIdSeleccionado;
 
     this.solicitudService.cambiarEstadoSolicitudConstancia(cambiarEstadoSolicitud)
-      .then((data) => {
-        this.solicitudesDeConstancias = data;
+      .then(async () => {
+        await this.cargarSolicitudes();
         Alerts.success('Éxito', 'El proceso finalizó correctamente.');
         this.cerrarPopupDenegar();
       })

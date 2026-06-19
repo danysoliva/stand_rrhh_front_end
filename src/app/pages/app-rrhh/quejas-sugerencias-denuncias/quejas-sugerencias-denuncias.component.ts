@@ -1,8 +1,8 @@
-// import { invalid } from '@angular/compiler/src/render3/view/util';
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { NbComponentShape, NbComponentSize, NbComponentStatus } from '@nebular/theme';
-import { QuejaSugerenciaDenunciaStateDto } from '../../../model/gestiones-varias/queja-sugerencia-denuncia-state-dto';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 import { QuejaSugerenciaDenunciaTypeDto } from '../../../model/gestiones-varias/queja-sugerencia-denuncia-type-dto';
 import { GestionesVariasService } from '../../../servicio/gestiones-varias.service';
 import { Alerts } from '../../../_common/utils/alerts';
@@ -12,81 +12,133 @@ import { Alerts } from '../../../_common/utils/alerts';
   templateUrl: './quejas-sugerencias-denuncias.component.html',
   styleUrls: ['./quejas-sugerencias-denuncias.component.scss']
 })
-export class QuejasSugerenciasDenunciasComponent implements OnInit {
+export class QuejasSugerenciasDenunciasComponent implements OnInit, OnDestroy {
 
-  
+  readonly maxCaracteresComentario = 4000;
 
-  quejasSugerenciasDenunciasStates: QuejaSugerenciaDenunciaStateDto[];
-  
+  get inputAttrComentario(): { id: string; maxlength: string } {
+    return { id: 'qsd-comentario', maxlength: String(this.maxCaracteresComentario) };
+  }
+
   searchTimeoutOption = 200;
   searchModeOption = 'contains';
-  searchExprOption: any = 'descripcion';
-  popUpVisible:boolean;
-  
-  abrirPopup = () => { this.popUpVisible = true };
-  cerrarPopup = () => { this.popUpVisible = false };
+  searchExprOption: 'descripcion' = 'descripcion';
 
-
-  statuses: NbComponentStatus[] = ['primary', 'success', 'info', 'warning', 'danger'];
-  shapes: NbComponentShape[] = ['rectangle', 'semi-round', 'round'];
-  sizes: NbComponentSize[] = ['tiny', 'small', 'medium', 'large', 'giant'];
-
-  tipos: QuejaSugerenciaDenunciaTypeDto[];
-
+  tipos: QuejaSugerenciaDenunciaTypeDto[] = [];
+  cargandoTipos = true;
+  enviando = false;
 
   QuejasDenunciasSugerenciasForm = new UntypedFormGroup({
     tipo: new UntypedFormControl(null, Validators.required),
-    descripcion: new UntypedFormControl('')
-  })
+    descripcion: new UntypedFormControl('', [Validators.maxLength(this.maxCaracteresComentario)]),
+  });
 
-  comentarioValido:boolean = false;
-  keyUpComentario(e) {
-    const inputValue = e.event.target.value;
-    this.comentarioValido = inputValue.length > 0;    
+  /** Texto con contenido real (trim); actualizado también al pegar desde el portapapeles. */
+  comentarioValido = false;
+
+  private readonly subs = new Subscription();
+
+  constructor(private gestionesVariasService: GestionesVariasService) { }
+
+  get longitudComentario(): number {
+    const v = this.QuejasDenunciasSugerenciasForm.get('descripcion')?.value;
+    return (v ?? '').toString().length;
   }
-
-  constructor(private gestionesVariasService: GestionesVariasService, private fb: UntypedFormBuilder) { }
-
-
 
   ngOnInit(): void {
+    const ctrlDesc = this.QuejasDenunciasSugerenciasForm.get('descripcion');
+    if (ctrlDesc) {
+      this.subs.add(
+        ctrlDesc.valueChanges.pipe(startWith(ctrlDesc.value)).subscribe(() => {
+          this.actualizarValidezComentario();
+        }),
+      );
+    }
 
-    this.gestionesVariasService.obtenerQuejasSugerenciasDenunciasType().then((data) => {
-
-      this.tipos = data;
-
-    })
-
+    this.gestionesVariasService.obtenerQuejasSugerenciasDenunciasType()
+      .then((data) => {
+        this.tipos = data ?? [];
+      })
+      .catch((err) => {
+        this.tipos = [];
+        Alerts.error('No se pudieron cargar los tipos', this.mensajeErrorHttp(err));
+      })
+      .finally(() => {
+        this.cargandoTipos = false;
+      });
   }
 
-  guardar() {
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
 
-    let dto = {
+  onComentarioValueChanged(): void {
+    this.actualizarValidezComentario();
+  }
+
+  private actualizarValidezComentario(): void {
+    const raw = this.QuejasDenunciasSugerenciasForm.get('descripcion')?.value;
+    this.comentarioValido = (raw ?? '').toString().trim().length > 0;
+  }
+
+  guardar(): void {
+    if (this.enviando || this.cargandoTipos) {
+      return;
+    }
+
+    const tipo = this.QuejasDenunciasSugerenciasForm.get('tipo')?.value;
+    const descripcion = (this.QuejasDenunciasSugerenciasForm.get('descripcion')?.value ?? '').toString().trim();
+
+    if (tipo == null || tipo === '' || Number.isNaN(Number(tipo))) {
+      Alerts.warning('Tipo requerido', 'Seleccione si su registro es una queja, una sugerencia o una denuncia.');
+      this.QuejasDenunciasSugerenciasForm.get('tipo')?.markAsTouched();
+      return;
+    }
+
+    if (!descripcion) {
+      Alerts.warning('Comentario requerido', 'Escriba su comentario antes de enviar.');
+      this.QuejasDenunciasSugerenciasForm.get('descripcion')?.markAsTouched();
+      return;
+    }
+
+    this.enviando = true;
+
+    const dto = {
       id: 0,
       stateId: 1,
-      descripcion: this.QuejasDenunciasSugerenciasForm.value.descripcion,
-      typeId: Number(this.QuejasDenunciasSugerenciasForm.value.tipo),
+      descripcion,
+      typeId: Number(tipo),
       createDate: '',
       estado: '',
       tipo: ''
+    };
+
+    this.gestionesVariasService.guardarQuejaSugerenciaDenuncia(dto)
+      .then((ok) => {
+        if (ok === true) {
+          Alerts.success('Gracias', 'Su opinión fue registrada correctamente.');
+          this.QuejasDenunciasSugerenciasForm.reset({ tipo: null, descripcion: '' });
+          this.comentarioValido = false;
+        } else {
+          Alerts.warning('Atención', 'No se pudo confirmar el registro. Intente de nuevo o contacte a TI.');
+        }
+      })
+      .catch((err) => {
+        Alerts.error('Error al enviar', this.mensajeErrorHttp(err));
+      })
+      .finally(() => {
+        this.enviando = false;
+      });
+  }
+
+  private mensajeErrorHttp(err: unknown): string {
+    if (err instanceof HttpErrorResponse) {
+      const body = err.error;
+      if (body && typeof body === 'object' && 'message' in body && typeof (body as { message: unknown }).message === 'string') {
+        return (body as { message: string }).message;
+      }
+      return err.message || `Error de red (${err.status}).`;
     }
-
-    this.gestionesVariasService.guardarQuejaSugerenciaDenuncia(dto).then((data) => {
-
-      Alerts.success('Éxito', '¡Gracias por brindarnos su opinión!')
-      this.QuejasDenunciasSugerenciasForm.reset();
-
-    })
-
-    // console.log(dto);
-
-
+    return 'No se pudo completar el envío. Verifique su conexión e intente de nuevo.';
   }
-
-  abrir(){
-    console.log('Hola');
-    this.abrirPopup();
-    
-  }
-  
 }

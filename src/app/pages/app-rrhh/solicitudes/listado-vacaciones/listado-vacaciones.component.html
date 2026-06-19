@@ -4,10 +4,16 @@
             <nb-card-header>Solicitudes de Vacación</nb-card-header>
             <nb-card-body>
 
-                <span><strong>Estado:</strong> </span>
-                <dx-select-box labelMode="floating" [dataSource]="estadosFiltro" width="250px" (onValueChanged)="filtroValueChanged($event)"
-                    displayExpr="nombre" valueExpr="id" placeholder="Seleccione una opción" [formControl]="fcEstadoFiltro">
-                </dx-select-box>
+                <div class="filtros-vacaciones m-b-10">
+                    <span><strong>Estado:</strong> </span>
+                    <dx-select-box labelMode="floating" [dataSource]="estadosFiltro" width="250px"
+                        (onValueChanged)="filtroValueChanged($event)" displayExpr="nombre" valueExpr="id"
+                        placeholder="Seleccione una opción" [formControl]="fcEstadoFiltro">
+                    </dx-select-box>
+                    <dx-check-box class="filtros-vacaciones__rechazadas m-l-15" text="Mostrar las rechazadas"
+                        [value]="mostrarRechazadas" (onValueChanged)="mostrarRechazadasChanged($event)">
+                    </dx-check-box>
+                </div>
 
                 <dx-data-grid [dataSource]="solicitudesDeVacacion" rowAlternationEnabled="true" showColumnLines="false"
                     showRowLines="true" showBorders="true" wordWrapEnabled="true" columnAutoWidth="true"
@@ -21,8 +27,17 @@
                     </dxi-column>
                     <dxi-column dataField="employee" caption="Empleado">
                     </dxi-column>
-                    <dxi-column dataField="requestState" caption="Estado" width="150">
+                    <dxi-column dataField="requestState" caption="Estado" width="200"
+                        cellTemplate="cellTemplateEstado">
                     </dxi-column>
+                    <div *dxTemplate="let data of 'cellTemplateEstado'" class="estado-celda-grid">
+                        <ng-container
+                            *ngIf="iconoEstadoSolicitud(data.data.requestStateId, data.data.requestState) as ic">
+                            <nb-icon class="estado-celda-grid__icon" pack="eva" [icon]="ic.icon"
+                                [status]="ic.status"></nb-icon>
+                        </ng-container>
+                        <span>{{ data.data.requestState }}</span>
+                    </div>
                     <dxi-column dataField="fechaInicio" caption="Fecha Inicio" dataType="date" format="dd/MM/yyyy"
                         width="100">
                     </dxi-column>
@@ -37,9 +52,18 @@
                     <dxi-column dataField="cubreVacaciones" caption="Cubre Vacaciones">
                     </dxi-column>
                     <dxi-column dataField="createdDate" caption="Fecha" dataType="date" format="dd/MM/yyyy HH:mm:ss"
-                        width="100">
+                        width="150">
                     </dxi-column>
-                   
+                    <dxi-column cellTemplate="cellTemplateHistorial" caption="Historial" width="88">
+                    </dxi-column>
+
+                    <div *dxTemplate="let data of 'cellTemplateHistorial'">
+                        <button style="display: block; margin: auto;" nbButton outline status="info"
+                            class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13" title="Historial"
+                            (click)="abrirHistorial(data.data.id)">
+                            <nb-icon icon="list-outline" pack="eva"></nb-icon>
+                        </button>
+                    </div>
 
                     <dxi-column cellTemplate="cellTemplateAprobar" caption="Aprobar" width="72">
                     </dxi-column>
@@ -51,12 +75,11 @@
                     </dxi-column>
                     <dxi-column cellTemplate="cellTemplateDelete" caption="Eliminar" width="72">
                     </dxi-column>
-                    <!-- *ngIf="data.data.esVistaJefatura && data.data.requestStateId === estadoSolicitudEnum.EnProceso" -->
                     <div *dxTemplate="let data of 'cellTemplateAprobar'">
                         <button style="display: block; margin: auto;"
+                            *ngIf="data.data.esVistaJefatura && data.data.requestStateId === estadoSolicitudEnum.EnProceso"
                             nbButton outline status="success" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
                             (click)="abrirPopup(tipoAutorizacionEnum.Jefatura, accionEnum.Aprobar, data.data.id, data.data.employee)">
-                            <!-- <span style="font-size: 12px;">Aprobar</span> -->
                             <nb-icon icon="checkmark-circle" pack="eva" style="margin: auto;"></nb-icon>
                         </button>
                         <button style="display: block; margin: auto;"
@@ -67,10 +90,10 @@
                             <nb-icon icon="checkmark-circle" pack="eva" style="margin: auto;"></nb-icon>
                         </button>
                     </div>
-                    <!-- *ngIf="data.data.esVistaJefatura && data.data.requestStateId === estadoSolicitudEnum.EnProceso" -->
-                    
+
                     <div *dxTemplate="let data of 'cellTemplateDenegar'">
                         <button style="display: block; margin: auto;"
+                            *ngIf="data.data.esVistaJefatura && data.data.requestStateId === estadoSolicitudEnum.EnProceso"
                             nbButton outline status="danger" class="p-t-5 p-b-5 p-l-8 p-r-8 fs-13"
                             (click)="abrirPopup(tipoAutorizacionEnum.Jefatura, accionEnum.Denegar, data.data.id, data.data.employee)">
                             <!-- <span style="font-size: 12px;">Denegar</span> -->
@@ -171,5 +194,52 @@
                 <button nbButton outline status="danger" class="float-r m-r-5" (click)="cerrarPopupEliminarSolicitud()">Cancelar</button>
             </div>
         </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<dx-popup [width]="880" [height]="460" [showTitle]="true"
+    [title]="'Historial — solicitud #' + solicitudHistorialId" [dragEnabled]="false" [showCloseButton]="true"
+    container="body" [(visible)]="popupHistorialVisible" (onHiding)="cerrarPopupHistorial()">
+    <div *dxTemplate="let data of 'content'">
+        <dx-data-grid [dataSource]="historialItems" [height]="360" [showBorders]="true" [rowAlternationEnabled]="true"
+            [columnAutoWidth]="true">
+            
+            <dxo-paging [pageSize]="10"></dxo-paging>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+            <dxi-column dataField="fechaHora" caption="Fecha" dataType="datetime"
+                format="dd/MM/yyyy HH:mm:ss" width="168"></dxi-column>
+            <dxi-column dataField="accion" caption="Acción" width="180"></dxi-column>
+            <dxi-column dataField="estadoAnteriorNombre" caption="Estado anterior" width="200"
+                cellTemplate="cellTemplateEstadoAnteriorHistorial"></dxi-column>
+            <dxi-column dataField="estadoNuevoNombre" caption="Estado nuevo" width="200"
+                cellTemplate="cellTemplateEstadoNuevoHistorial"></dxi-column>
+            <dxi-column dataField="usuarioNombre" caption="Usuario" width="200"
+                cellTemplate="cellTemplateUsuarioHistorial"></dxi-column>
+
+            <div *dxTemplate="let data of 'cellTemplateUsuarioHistorial'" class="usuario-celda-grid">
+                <ng-container *ngIf="textoUsuarioHistorial(data.data) as usuarioTexto">
+                    <nb-icon class="usuario-celda-grid__icon" pack="eva" icon="person-outline"
+                        status="info"></nb-icon>
+                    <span>{{ usuarioTexto }}</span>
+                </ng-container>
+            </div>
+            <div *dxTemplate="let data of 'cellTemplateEstadoAnteriorHistorial'" class="estado-celda-grid">
+                <ng-container
+                    *ngIf="iconoEstadoSolicitud(data.data.estadoAnteriorId, data.data.estadoAnteriorNombre) as ic">
+                    <nb-icon class="estado-celda-grid__icon" pack="eva" [icon]="ic.icon"
+                        [status]="ic.status"></nb-icon>
+                </ng-container>
+                <span>{{ data.data.estadoAnteriorNombre }}</span>
+            </div>
+            <div *dxTemplate="let data of 'cellTemplateEstadoNuevoHistorial'" class="estado-celda-grid">
+                <ng-container
+                    *ngIf="iconoEstadoSolicitud(data.data.estadoNuevoId, data.data.estadoNuevoNombre) as ic">
+                    <nb-icon class="estado-celda-grid__icon" pack="eva" [icon]="ic.icon"
+                        [status]="ic.status"></nb-icon>
+                </ng-container>
+                <span>{{ data.data.estadoNuevoNombre }}</span>
+            </div>
+        </dx-data-grid>
     </div>
 </dx-popup>
